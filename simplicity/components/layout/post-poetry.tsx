@@ -5,9 +5,36 @@ import { Input } from "../aceternity/input";
 import { Label } from "../aceternity/label";
 import { useUser } from "@clerk/clerk-react";
 import { Textarea } from "../ui/textarea";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+const FormSchema = z.object({
+  username: z.string(),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  content: z.string(),
+});
 
 export function SignupFormDemo() {
   const { user } = useUser();
+  const post = useMutation(api.poetry.poetry);
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+  });
+
+  // function onSubmit(data: z.infer<typeof FormSchema>) {
+  //   post({
+  //     username: data.username,
+  //     title: data.title,
+  //     description: data.description,
+  //     content: data.content,
+  //   });
+  // }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -19,6 +46,7 @@ export function SignupFormDemo() {
     };
 
     console.log("Form Data:", formData);
+    // post(formData)
   };
   return (
     <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input mt-20">
