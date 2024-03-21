@@ -3,13 +3,24 @@
 import React from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import { useUser } from "@clerk/clerk-react";
+
+interface Poetry {
+  id: Id;
+  username: string;
+  title: string | null;
+  description: string | null;
+  content: string;
+}
 
 const SignedInContent = () => {
-  const poetries = useQuery(api.poetry.getPoetry) as any[];
+  const { user } = useUser();
+  const poetries = useQuery(api.poetry.getPoetry) as Poetry[];
   return (
     <div className="">
       <div className="flex flex-col gap-2">
-        {poetries?.map((poetry) => (
+        {poetries.map((poetry) => (
           <>
             <div
               key={poetry.id}
