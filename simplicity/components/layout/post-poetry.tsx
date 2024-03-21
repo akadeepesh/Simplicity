@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Input } from "../aceternity/input";
 import { Label } from "../aceternity/label";
@@ -10,6 +10,13 @@ import { api } from "@/convex/_generated/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 
 const FormSchema = z.object({
   username: z.string(),
@@ -18,81 +25,126 @@ const FormSchema = z.object({
   content: z.string(),
 });
 
-export function SignupFormDemo() {
+const Post = () => {
   const { user } = useUser();
-  const post = useMutation(api.poetry.poetry);
+  const post = useMutation(api.poetry.AddPoetry);
 
   const form = useForm<z.infer<typeof FormSchema>>({
+    defaultValues: {
+      username: user?.username || "Invalid User",
+    },
     resolver: zodResolver(FormSchema),
   });
 
-  // function onSubmit(data: z.infer<typeof FormSchema>) {
-  //   post({
-  //     username: data.username,
-  //     title: data.title,
-  //     description: data.description,
-  //     content: data.content,
-  //   });
-  // }
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    post({
+      username: data.username,
+      title: data.title,
+      description: data.description,
+      content: data.content,
+    });
+  }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [isInvalid, setIsInvalid] = useState(false);
+
+  const handleInvalid = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    const formData = {
-      username: e.currentTarget.username.value,
-      title: e.currentTarget.firstname.value,
-      description: e.currentTarget.lastname.value,
-      poetry: e.currentTarget.content.value,
-    };
-
-    console.log("Form Data:", formData);
-    // post(formData)
+    setIsInvalid(true);
   };
+
   return (
     <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input mt-20">
       <h2 className="font-bold text-xl">Welcome to Simplicity</h2>
       <p className="text-muted-foreground text-sm max-w-sm mt-2">
         Add your poetry collection to the world of Simplicity
       </p>
-
-      <form className="my-8" onSubmit={handleSubmit}>
-        <div className="flex flex-col space-y-6">
-          <LabelInputContainer>
-            <Label htmlFor="username">Username</Label>
-            <Input
-              id="username"
-              type="text"
-              value={
-                user?.username || "Something went wrong while fetching username"
-              }
-              disabled
-            />
-          </LabelInputContainer>
-          <LabelInputContainer>
-            <Label htmlFor="firstname">Title</Label>
-            <Input
-              id="firstname"
-              placeholder="You would like to address it as"
-              type="text"
-            />
-          </LabelInputContainer>
-          <LabelInputContainer>
-            <Label htmlFor="lastname">Description</Label>
-            <Input
-              id="lastname"
-              placeholder="Wanna share any special memory about this?"
-              type="text"
-            />
-          </LabelInputContainer>
-          <LabelInputContainer className="">
-            <Label htmlFor="content">Poetry</Label>
-            <Textarea
-              id="content"
-              className="h-20 text-left align-top"
-              placeholder="Write Your Poetry Here..."
-              required
-            />
-          </LabelInputContainer>
+      <Form {...form}>
+        <form
+          className="my-8 flex flex-col space-y-6"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  <Label>Username</Label>
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} disabled />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  <Label htmlFor="title">Title</Label>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    id="title"
+                    placeholder="You would like to address your poetry as"
+                    type="text"
+                    {...field}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  <Label htmlFor="description">Description</Label>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    id="description"
+                    placeholder="Wanna share any special memory about this?"
+                    type="text"
+                    {...field}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="content"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  <div className="flex flex-row gap-2">
+                    <Label htmlFor="content">Poetry</Label>
+                    <div
+                      className={`text-xs transition-all duration-300 ${
+                        isInvalid ? "text-destructive" : "text-muted-foreground"
+                      }`}
+                    >
+                      (Required)
+                    </div>
+                  </div>
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    className="h-20 text-left align-top"
+                    {...field}
+                    placeholder="Write Your Poetry Here..."
+                    required
+                    onInvalid={handleInvalid}
+                    onFocus={() => setIsInvalid(false)}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
           <button
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="submit"
@@ -100,13 +152,12 @@ export function SignupFormDemo() {
             Post &rarr;
             <BottomGradient />
           </button>
-        </div>
-
-        <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-      </form>
+          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+        </form>
+      </Form>
     </div>
   );
-}
+};
 
 const BottomGradient = () => {
   return (
@@ -131,12 +182,4 @@ const LabelInputContainer = ({
   );
 };
 
-const AddPoetry = () => {
-  return (
-    <div className="flex justify-center items-center h-[calc(100vh-2rem)]">
-      <SignupFormDemo />
-    </div>
-  );
-};
-
-export default AddPoetry;
+export default Post;

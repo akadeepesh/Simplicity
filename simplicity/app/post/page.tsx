@@ -1,10 +1,10 @@
-import AddPoetry from "@/components/layout/post-poetry";
+import Post from "@/components/layout/post-poetry";
 import React from "react";
 
 const PostPoetry = () => {
   return (
-    <div>
-      <AddPoetry />
+    <div className="flex justify-center items-center h-[calc(100vh-2rem)]">
+      <Post />
     </div>
   );
 };
