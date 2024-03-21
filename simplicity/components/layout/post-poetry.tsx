@@ -17,6 +17,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   username: z.string(),
@@ -26,6 +27,7 @@ const FormSchema = z.object({
 });
 
 const Post = () => {
+  const router = useRouter();
   const { user } = useUser();
   const post = useMutation(api.poetry.AddPoetry);
 
@@ -43,6 +45,7 @@ const Post = () => {
       description: data.description,
       content: data.content,
     });
+    router.push("/");
   }
 
   const [isInvalid, setIsInvalid] = useState(false);
