@@ -4,7 +4,7 @@ import React from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useUser } from "@clerk/clerk-react";
+import { Copy, Flag, Heart } from "lucide-react";
 
 interface Poetry {
   id: Id;
@@ -15,7 +15,6 @@ interface Poetry {
 }
 
 const SignedInContent = () => {
-  const { user } = useUser();
   const poetries = useQuery(api.poetry.getPoetry) as Poetry[];
   return (
     <div className="">
@@ -24,15 +23,24 @@ const SignedInContent = () => {
           <>
             <div
               key={poetry.id}
-              className="rounded-lg flex flex-col h-[70vh] justify-center items-center hover:bg-secondary/30 gap-8"
+              className="rounded-lg flex flex-col h-[70vh] hover:bg-secondary/30 gap-8 p-6 group"
             >
-              <div className="">
-                <div className="text-xl font-bold">{poetry.title}</div>
-                <div className="text-base text-muted-foreground">
-                  {poetry.description}
+              <div
+                className={`flex flex-row border-blue-500 justify-between items-center ${
+                  poetry.title || poetry.description ? "border-b pb-2" : ""
+                }`}
+              >
+                <div className="flex flex-col">
+                  <div className="text-xl font-bold">{poetry.title}</div>
+                  <div className="text-base text-muted-foreground">
+                    {poetry.description}
+                  </div>
+                </div>
+                <div className="group-hover:flex hidden">
+                  <Copy />
                 </div>
               </div>
-              <div className="whitespace-pre-wrap leading-8 font-Alkatra">
+              <div className="flex whitespace-pre-wrap leading-8 font-Alkatra h-full justify-center items-center">
                 {poetry.content}
               </div>
             </div>
