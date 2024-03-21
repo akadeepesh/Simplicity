@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "../aceternity/input";
 import { Label } from "../aceternity/label";
 import { useUser } from "@clerk/clerk-react";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "../aceternity/textarea";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { zodResolver } from "@hookform/resolvers/zod";
