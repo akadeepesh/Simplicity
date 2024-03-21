@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 
 export const AddPoetry = mutation({
   args: {
@@ -15,5 +15,12 @@ export const AddPoetry = mutation({
       description: args.description,
       content: args.content,
     });
+  },
+});
+
+export const getPoetry = query({
+  args: {},
+  async handler(ctx, args) {
+    return ctx.db.query("poetry").order("desc").collect();
   },
 });

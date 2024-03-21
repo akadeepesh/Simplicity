@@ -68,12 +68,14 @@ const Post = () => {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  <Label>Username</Label>
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} disabled />
-                </FormControl>
+                <LabelInputContainer>
+                  <FormLabel>
+                    <Label>Username</Label>
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled />
+                  </FormControl>
+                </LabelInputContainer>
               </FormItem>
             )}
           />
@@ -82,17 +84,19 @@ const Post = () => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  <Label htmlFor="title">Title</Label>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    id="title"
-                    placeholder="You would like to address your poetry as"
-                    type="text"
-                    {...field}
-                  />
-                </FormControl>
+                <LabelInputContainer>
+                  <FormLabel>
+                    <Label htmlFor="title">Title</Label>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      id="title"
+                      placeholder="You would like to address your poetry as"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                </LabelInputContainer>
               </FormItem>
             )}
           />
@@ -101,17 +105,19 @@ const Post = () => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  <Label htmlFor="description">Description</Label>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    id="description"
-                    placeholder="Wanna share any special memory about this?"
-                    type="text"
-                    {...field}
-                  />
-                </FormControl>
+                <LabelInputContainer>
+                  <FormLabel>
+                    <Label htmlFor="description">Description</Label>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      id="description"
+                      placeholder="Wanna share any special memory about this?"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                </LabelInputContainer>
               </FormItem>
             )}
           />
@@ -120,28 +126,32 @@ const Post = () => {
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  <div className="flex flex-row gap-2">
-                    <Label htmlFor="content">Poetry</Label>
-                    <div
-                      className={`text-xs transition-all duration-300 ${
-                        isInvalid ? "text-destructive" : "text-muted-foreground"
-                      }`}
-                    >
-                      (Required)
+                <LabelInputContainer>
+                  <FormLabel>
+                    <div className="flex flex-row gap-2">
+                      <Label htmlFor="content">Poetry</Label>
+                      <div
+                        className={`text-xs transition-all duration-300 ${
+                          isInvalid
+                            ? "text-destructive"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        (Required)
+                      </div>
                     </div>
-                  </div>
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    className="h-20 text-left align-top"
-                    {...field}
-                    placeholder="Write Your Poetry Here..."
-                    required
-                    onInvalid={handleInvalid}
-                    onFocus={() => setIsInvalid(false)}
-                  />
-                </FormControl>
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="h-20 text-left align-top"
+                      {...field}
+                      placeholder="Write Your Poetry Here..."
+                      required
+                      onInvalid={handleInvalid}
+                      onFocus={() => setIsInvalid(false)}
+                    />
+                  </FormControl>
+                </LabelInputContainer>
               </FormItem>
             )}
           />
