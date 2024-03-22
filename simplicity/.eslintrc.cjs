@@ -38,6 +38,11 @@ module.exports = {
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-return": "off",
     // END: Allow implicit `any`s
+    "@typescript-eslint/no-misused-promises": [2, {
+      "checksVoidReturn": {
+        "attributes": false
+      }
+    }],
 
     // Allow async functions without await
     // for consistency (esp. Convex `handler`s)

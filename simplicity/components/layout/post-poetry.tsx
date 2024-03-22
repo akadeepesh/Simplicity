@@ -38,18 +38,14 @@ const Post = () => {
     resolver: zodResolver(FormSchema),
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    try {
-      await post({
-        username: data.username,
-        title: data.title,
-        description: data.description,
-        content: data.content,
-      });
-      router.push("/");
-    } catch (error) {
-      console.error("Error posting poetry:", error);
-    }
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    post({
+      username: data.username,
+      title: data.title,
+      description: data.description,
+      content: data.content,
+    });
+    router.push("/");
   }
 
   const [isInvalid, setIsInvalid] = useState(false);
@@ -68,13 +64,7 @@ const Post = () => {
       <Form {...form}>
         <form
           className="my-8 flex flex-col space-y-6"
-          onSubmit={async () => {
-            try {
-              await form.handleSubmit(onSubmit)();
-            } catch (error) {
-              console.error("Error in form submission:", error);
-            }
-          }}
+          onSubmit={form.handleSubmit(onSubmit)}
         >
           <FormField
             control={form.control}

@@ -13,38 +13,30 @@ const PoetriesCollection = () => {
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const unlikePoetry = useMutation(api.likes.UnlikePoetry);
 
-  const handleLikeClick = async (poetryId: Id<"poetry">) => {
+  const handleLikeClick = (poetryId: Id<"poetry">) => {
     const isLiked = likesData?.some(
       (like) => like.poetryId === poetryId && like.userId === viewer?.subject
     );
 
-    try {
-      if (isLiked) {
-        await unlikePoetry({
-          poetryId: poetryId,
-          userId: viewer?.subject ?? "",
-        });
-      } else {
-        await likePoetry({
-          poetryId: poetryId,
-          userId: viewer?.subject ?? "",
-        });
-      }
-    } catch (error) {
-      console.error("Error liking/unliking poetry:", error);
+    if (isLiked) {
+      unlikePoetry({
+        poetryId: poetryId,
+        userId: viewer?.subject ?? "",
+      });
+    } else {
+      likePoetry({
+        poetryId: poetryId,
+        userId: viewer?.subject ?? "",
+      });
     }
   };
 
-  const handleCopyClick = async (content: string) => {
-    try {
-      await navigator.clipboard.writeText(content);
-      setCopiedText(content);
-      setTimeout(() => {
-        setCopiedText(null);
-      }, 2000);
-    } catch (error) {
-      console.error("Error copying text:", error);
-    }
+  const handleCopyClick = (content: string) => {
+    navigator.clipboard.writeText(content);
+    setCopiedText(content);
+    setTimeout(() => {
+      setCopiedText(null);
+    }, 2000);
   };
 
   if (viewer === undefined || poetries === undefined) {
@@ -103,13 +95,7 @@ const PoetriesCollection = () => {
                 <div className="flex flex-row justify-between items-center">
                   <div className="flex flex-row gap-2 group-hover:opacity-100 opacity-0 text-muted-foreground transition-all duration-300">
                     <div
-                      onClick={async () => {
-                        try {
-                          await handleLikeClick(poetry._id);
-                        } catch (error) {
-                          console.error("Error in onClick handler:", error);
-                        }
-                      }}
+                      onClick={() => handleLikeClick(poetry._id)}
                       className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer"
                     >
                       <Heart
