@@ -68,7 +68,10 @@ const Post = () => {
       <Form {...form}>
         <form
           className="my-8 flex flex-col space-y-6"
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={(e) => {
+            e.preventDefault();
+            form.handleSubmit(onSubmit)();
+          }}
         >
           <FormField
             control={form.control}
