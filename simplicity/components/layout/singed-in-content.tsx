@@ -66,7 +66,7 @@ const SignedInContent = () => {
                     </div>
                     <div
                       onClick={() => handleCopyClick(poetry.content)}
-                      className="group-hover:flex hidden text-muted-foreground p-3 rounded-2xl hover:bg-muted cursor-pointer"
+                      className="group-hover:opacity-80 opacity-0 flex text-muted-foreground p-3 rounded-2xl hover:bg-muted cursor-pointer"
                     >
                       {copiedText === poetry.content ? (
                         <CircleCheck size={20} className="text-green-500" />
@@ -82,14 +82,16 @@ const SignedInContent = () => {
                 </div>
                 <div className="bg-secondary my-2 h-[1px] w-full" />
                 <div className="flex flex-row justify-between items-center">
-                  <div className="flex flex-row gap-2">
+                  <div className="flex flex-row gap-2 group-hover:opacity-100 opacity-0 text-muted-foreground">
                     <div
                       onClick={() => handleLikeClick(poetry._id)}
                       className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer"
                     >
                       <Heart
                         size={20}
-                        className={isLiked === true ? "fill-red-500" : ""}
+                        className={
+                          isLiked === true ? "fill-blue-500 text-blue-500" : ""
+                        }
                       />
                       <div>{numLikes}</div>
                     </div>

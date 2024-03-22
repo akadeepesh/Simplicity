@@ -29,11 +29,8 @@ export const UnlikePoetry = mutation({
   async handler(ctx, args) {
     const like = await ctx.db
       .query("likes")
-      .filter(
-        (q) =>
-          q.eq(q.field("poetryId"), args.poetryId) &&
-          q.eq(q.field("userId"), args.userId)
-      )
+      .filter((q) => q.eq(q.field("poetryId"), args.poetryId))
+      .filter((q) => q.eq(q.field("userId"), args.userId))
       .first();
 
     if (like) {
