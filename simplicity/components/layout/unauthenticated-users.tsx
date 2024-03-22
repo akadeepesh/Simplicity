@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const UnauthenticatedUserPage = ({
@@ -8,10 +9,10 @@ const UnauthenticatedUserPage = ({
   return (
     <div className="flex justify-center items-center h-[calc(100vh-2rem)]">
       <div className="flex flex-col justify-center items-center gap-4">
-        <img
+        <Image
           src="/leaves.png"
-          height={"150rem"}
-          width={"150rem"}
+          height={200}
+          width={200}
           alt="UnAuthenticated Error Image"
         />
         {ErrorMessage}

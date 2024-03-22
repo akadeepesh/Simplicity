@@ -13,29 +13,38 @@ const PoetriesCollection = () => {
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const unlikePoetry = useMutation(api.likes.UnlikePoetry);
 
-  const handleLikeClick = (poetryId: Id<"poetry">) => {
+  const handleLikeClick = async (poetryId: Id<"poetry">) => {
     const isLiked = likesData?.some(
       (like) => like.poetryId === poetryId && like.userId === viewer?.subject
     );
 
-    if (isLiked) {
-      unlikePoetry({
-        poetryId: poetryId,
-        userId: viewer?.subject ?? "",
-      });
-    } else {
-      likePoetry({
-        poetryId: poetryId,
-        userId: viewer?.subject ?? "",
-      });
+    try {
+      if (isLiked) {
+        await unlikePoetry({
+          poetryId: poetryId,
+          userId: viewer?.subject ?? "",
+        });
+      } else {
+        await likePoetry({
+          poetryId: poetryId,
+          userId: viewer?.subject ?? "",
+        });
+      }
+    } catch (error) {
+      console.error("Error liking/unliking poetry:", error);
     }
   };
-  const handleCopyClick = (content: string) => {
-    navigator.clipboard.writeText(content);
-    setCopiedText(content);
-    setTimeout(() => {
-      setCopiedText(null);
-    }, 2000);
+
+  const handleCopyClick = async (content: string) => {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopiedText(content);
+      setTimeout(() => {
+        setCopiedText(null);
+      }, 2000);
+    } catch (error) {
+      console.error("Error copying text:", error);
+    }
   };
 
   if (viewer === undefined || poetries === undefined) {

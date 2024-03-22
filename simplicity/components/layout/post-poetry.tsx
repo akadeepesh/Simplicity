@@ -38,19 +38,23 @@ const Post = () => {
     resolver: zodResolver(FormSchema),
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    post({
-      username: data.username,
-      title: data.title,
-      description: data.description,
-      content: data.content,
-    });
-    router.push("/");
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      await post({
+        username: data.username,
+        title: data.title,
+        description: data.description,
+        content: data.content,
+      });
+      router.push("/");
+    } catch (error) {
+      console.error("Error posting poetry:", error);
+    }
   }
 
   const [isInvalid, setIsInvalid] = useState(false);
 
-  const handleInvalid = (e: { preventDefault: () => void }) => {
+  const handleInvalid = (e: React.InvalidEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     setIsInvalid(true);
   };
