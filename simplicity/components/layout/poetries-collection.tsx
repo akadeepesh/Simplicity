@@ -1,12 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import { useMutation, useQuery } from "convex/react";
+import { Authenticated, useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Clipboard, Flag, Heart, CircleCheck } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
+import { useUser } from "@clerk/clerk-react";
 
 const PoetriesCollection = () => {
+  const user = useUser();
   const { viewer, poetries } = useQuery(api.poetry.getPoetry) ?? {};
   const likePoetry = useMutation(api.likes.LikePoetry);
   const likesData = useQuery(api.likes.NumberOfLikes, {});
@@ -92,24 +94,32 @@ const PoetriesCollection = () => {
                   {poetry.content}
                 </div>
                 <div className="bg-secondary mt-2 h-[1px] w-full" />
-                <div className="flex flex-row justify-between items-center">
-                  <div className="flex flex-row gap-2 group-hover:opacity-100 opacity-0 text-muted-foreground transition-all duration-300">
-                    <div
-                      onClick={() => handleLikeClick(poetry._id)}
-                      className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer"
-                    >
-                      <Heart
-                        size={20}
-                        className={
-                          isLiked === true ? "fill-blue-500 text-blue-500" : ""
-                        }
-                      />
-                      <div>{numLikes}</div>
+                <div
+                  className={`flex flex-row ${
+                    user.isSignedIn ? "justify-between" : "justify-end"
+                  }  items-center`}
+                >
+                  <Authenticated>
+                    <div className="flex flex-row gap-2 group-hover:opacity-100 opacity-0 text-muted-foreground transition-all duration-300">
+                      <div
+                        onClick={() => handleLikeClick(poetry._id)}
+                        className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer"
+                      >
+                        <Heart
+                          size={20}
+                          className={
+                            isLiked === true
+                              ? "fill-blue-500 text-blue-500"
+                              : ""
+                          }
+                        />
+                        <div>{numLikes}</div>
+                      </div>
+                      <div className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer">
+                        <Flag size={20} />
+                      </div>
                     </div>
-                    <div className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer">
-                      <Flag size={20} />
-                    </div>
-                  </div>
+                  </Authenticated>
                   <div className="text-muted-foreground">
                     ~{poetry.username}
                   </div>
