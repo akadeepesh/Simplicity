@@ -1,22 +1,26 @@
 "use client";
-
 import React, { useState } from "react";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Clipboard, Flag, Heart, CircleCheck } from "lucide-react";
 
-interface Poetry {
-  id: Id;
-  username: string;
-  title: string | null;
-  description: string | null;
-  content: string;
-}
-
 const SignedInContent = () => {
-  const poetries = useQuery(api.poetry.getPoetry) as Poetry[];
+  const { viewer, poetries } = useQuery(api.poetry.getPoetry) ?? {};
+  const likePoetry = useMutation(api.poetry.likePoetry);
   const [copiedText, setCopiedText] = useState<string | null>(null);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+
+  const handleLikeClick = async (id: Id<"poetry">, likes: number) => {
+    console.log(viewer);
+    if (!isLiked) {
+      await likePoetry({ id: id, likes: likes + 1 });
+      setIsLiked(true);
+    } else {
+      likePoetry({ id, likes: likes - 1 });
+      setIsLiked(false);
+    }
+  };
 
   const handleCopyClick = (content: string) => {
     navigator.clipboard.writeText(content);
@@ -25,6 +29,7 @@ const SignedInContent = () => {
       setCopiedText(null);
     }, 2000);
   };
+
   return (
     <div className="">
       <div className="flex flex-col gap-2">
@@ -63,9 +68,15 @@ const SignedInContent = () => {
               <div className="bg-secondary my-2 h-[1px] w-full" />
               <div className="flex flex-row justify-between items-center">
                 <div className="flex flex-row gap-2">
-                  <div className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer">
-                    <Heart size={20} />
-                    <div>0</div>
+                  <div
+                    onClick={() => handleLikeClick(poetry._id, poetry.likes)}
+                    className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer"
+                  >
+                    <Heart
+                      size={20}
+                      className={isLiked === true ? "fill-red-500" : ""}
+                    />
+                    <div>{poetry.likes}</div>
                   </div>
                   <div className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer">
                     <Flag size={20} />

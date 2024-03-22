@@ -14,6 +14,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as liked from "../liked.js";
 import type * as poetry from "../poetry.js";
 
 /**
@@ -25,6 +26,7 @@ import type * as poetry from "../poetry.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  liked: typeof liked;
   poetry: typeof poetry;
 }>;
 export declare const api: FilterApi<

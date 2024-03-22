@@ -44,6 +44,7 @@ const Post = () => {
       title: data.title,
       description: data.description,
       content: data.content,
+      likes: 0,
     });
     router.push("/");
   }
