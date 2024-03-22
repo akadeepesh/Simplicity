@@ -13,26 +13,26 @@ const PoetriesCollection = () => {
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const unlikePoetry = useMutation(api.likes.UnlikePoetry);
 
-  const handleLikeClick = (poetryId: Id<"poetry">) => {
+  const handleLikeClick = async (poetryId: Id<"poetry">) => {
     const isLiked = likesData?.some(
       (like) => like.poetryId === poetryId && like.userId === viewer?.subject
     );
 
     if (isLiked) {
-      unlikePoetry({
+      await unlikePoetry({
         poetryId: poetryId,
         userId: viewer?.subject ?? "",
       });
     } else {
-      likePoetry({
+      await likePoetry({
         poetryId: poetryId,
         userId: viewer?.subject ?? "",
       });
     }
   };
 
-  const handleCopyClick = (content: string) => {
-    navigator.clipboard.writeText(content);
+  const handleCopyClick = async (content: string) => {
+    await navigator.clipboard.writeText(content);
     setCopiedText(content);
     setTimeout(() => {
       setCopiedText(null);

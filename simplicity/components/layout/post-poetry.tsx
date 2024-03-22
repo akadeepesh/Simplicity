@@ -38,8 +38,8 @@ const Post = () => {
     resolver: zodResolver(FormSchema),
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    post({
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    await post({
       username: data.username,
       title: data.title,
       description: data.description,
