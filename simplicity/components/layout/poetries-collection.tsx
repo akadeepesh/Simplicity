@@ -103,9 +103,12 @@ const PoetriesCollection = () => {
                 <div className="flex flex-row justify-between items-center">
                   <div className="flex flex-row gap-2 group-hover:opacity-100 opacity-0 text-muted-foreground transition-all duration-300">
                     <div
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleLikeClick(poetry._id);
+                      onClick={async () => {
+                        try {
+                          await handleLikeClick(poetry._id);
+                        } catch (error) {
+                          console.error("Error in onClick handler:", error);
+                        }
                       }}
                       className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer"
                     >

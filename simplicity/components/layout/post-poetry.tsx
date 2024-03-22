@@ -68,9 +68,12 @@ const Post = () => {
       <Form {...form}>
         <form
           className="my-8 flex flex-col space-y-6"
-          onSubmit={(e) => {
-            e.preventDefault();
-            form.handleSubmit(onSubmit)();
+          onSubmit={async () => {
+            try {
+              await form.handleSubmit(onSubmit)();
+            } catch (error) {
+              console.error("Error in form submission:", error);
+            }
           }}
         >
           <FormField
