@@ -1,6 +1,10 @@
 import React from "react";
 
-const UnauthenticatedUserPage = ({ need }: { need: string }) => {
+const UnauthenticatedUserPage = ({
+  ErrorMessage,
+}: {
+  ErrorMessage: string;
+}) => {
   return (
     <div className="flex justify-center items-center h-[calc(100vh-2rem)]">
       <div className="flex flex-col justify-center items-center gap-4">
@@ -8,9 +12,9 @@ const UnauthenticatedUserPage = ({ need }: { need: string }) => {
           src="/leaves.png"
           height={"150rem"}
           width={"150rem"}
-          alt="Authentication"
+          alt="UnAuthenticated Error Image"
         />
-        Only Authenticated Users Can {need}
+        {ErrorMessage}
       </div>
     </div>
   );

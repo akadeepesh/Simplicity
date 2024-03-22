@@ -9,7 +9,7 @@ const YourPosts = () => {
   const { user } = useUser();
   const poetries = useQuery(api.poetry.getPoetry);
   return (
-    <div className="">
+    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 mt-20">
       <div className="flex flex-col gap-2">
         {poetries?.poetries
           .filter(
@@ -20,7 +20,7 @@ const YourPosts = () => {
             <>
               <div
                 key={poetry.id}
-                className="rounded-lg flex flex-col h-[70vh] justify-center items-center hover:bg-secondary/30 gap-8"
+                className="rounded-lg flex flex-col h-[70vh] justify-center items-center gap-8"
               >
                 <div className="">
                   <div className="text-xl font-bold">{poetry.title}</div>

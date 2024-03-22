@@ -14,7 +14,7 @@ const PostPoetry = () => {
         </div>
       </Authenticated>
       <Unauthenticated>
-        <UnauthenticatedUserPage need="Post A Poetry" />
+        <UnauthenticatedUserPage ErrorMessage="Only Authenticated Users Can Post A Poetry" />
       </Unauthenticated>
     </>
   );

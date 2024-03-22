@@ -40,13 +40,13 @@ const UserNavigation = () => {
           <DropdownMenuItem
             className="cursor-pointer gap-2"
             onClick={() => {
-              router.push(`/dashboard/${user?.username}`);
+              router.push(`/my-posts/${user?.username}`);
             }}
           >
             <span>
               <User size={"1.2rem"} />
             </span>
-            <span>My Profile</span>
+            <span>My Posts</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer gap-2"
