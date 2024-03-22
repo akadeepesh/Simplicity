@@ -44,7 +44,6 @@ const Post = () => {
       title: data.title,
       description: data.description,
       content: data.content,
-      likes: 0,
     });
     router.push("/");
   }
@@ -166,7 +165,7 @@ const Post = () => {
             Post &rarr;
             <BottomGradient />
           </button>
-          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+          <div className="bg-gradient-to-r from-transparent via-blue-500 to-transparent my-8 h-[1px] w-full" />
         </form>
       </Form>
     </div>

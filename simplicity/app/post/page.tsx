@@ -1,11 +1,22 @@
+"use client";
+
 import Post from "@/components/layout/post-poetry";
+import UnauthenticatedUserPage from "@/components/layout/unauthenticated-users";
+import { Authenticated, Unauthenticated } from "convex/react";
 import React from "react";
 
 const PostPoetry = () => {
   return (
-    <div className="flex justify-center items-center h-[calc(100vh-2rem)]">
-      <Post />
-    </div>
+    <>
+      <Authenticated>
+        <div className="flex justify-center items-center h-[calc(100vh-2rem)]">
+          <Post />
+        </div>
+      </Authenticated>
+      <Unauthenticated>
+        <UnauthenticatedUserPage need="Post A Poetry" />
+      </Unauthenticated>
+    </>
   );
 };
 

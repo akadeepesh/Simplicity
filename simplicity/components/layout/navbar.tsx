@@ -31,11 +31,11 @@ const Navbar = () => {
   // 3.5rem/56px is the height of the navbar mt-14 can be the margin top of the main content to touch the navbar
   return (
     <div>
-      <div className="fixed top-0 left-0 right-0 flex backdrop-blur-sm justify-center py-[10px] border-b items-center font-serif font-bold">
+      <div className="fixed top-0 left-0 right-0 flex backdrop-blur-sm justify-center py-[10px] border-b items-center font-bold">
         <div className="flex w-full max-w-4xl justify-between items-center">
           <div
             onClick={() => router.push("/")}
-            className="text-xl cursor-pointer"
+            className="text-xl cursor-pointer font-serif"
           >
             Simplicity
           </div>
