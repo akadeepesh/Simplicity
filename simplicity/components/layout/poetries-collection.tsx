@@ -12,6 +12,15 @@ import {
 } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+
 const PoetriesCollection = () => {
   const { viewer, poetries } = useQuery(api.poetry.getPoetry) ?? {};
   const likePoetry = useMutation(api.likes.LikePoetry);
@@ -82,13 +91,30 @@ const PoetriesCollection = () => {
                       </div>
                     </div>
                     <Authenticated>
-                      <div className="group-hover:opacity-80 opacity-0 flex text-muted-foreground p-3 rounded-2xl hover:bg-muted cursor-pointer transition-all duration-300">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger className="rounded-md">
+                          <div className="group-hover:opacity-80 opacity-0 flex text-muted-foreground p-3 rounded-2xl hover:bg-muted cursor-pointer transition-all duration-300">
+                            <EllipsisVertical size={20} />
+                          </div>
+                        </DropdownMenuTrigger>
                         {poetry.username === viewer?.nickname ? (
-                          <EllipsisVertical size={20} />
+                          <DropdownMenuContent>
+                            <DropdownMenuItem className="cursor-pointer">
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem className="cursor-pointer">
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
                         ) : (
-                          <Flag size={20} />
+                          <DropdownMenuContent>
+                            <DropdownMenuItem>
+                              <Flag size={20} />
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
                         )}
-                      </div>
+                      </DropdownMenu>
                     </Authenticated>
                   </div>
                   <div className="bg-gradient-to-r from-blue-500 to-transparent my-2 h-[1px] w-full" />
