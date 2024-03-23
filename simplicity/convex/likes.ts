@@ -14,7 +14,7 @@ export const LikePoetry = mutation({
   },
 });
 
-export const NumberOfLikes = query({
+export const LikesData = query({
   args: {},
   async handler(ctx, args) {
     return ctx.db.query("likes").collect();

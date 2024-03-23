@@ -45,7 +45,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
               focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-muted-foreground
                disabled:cursor-not-allowed disabled:opacity-50
                dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
-               group-hover/textarea:shadow-none transition duration-400
+               group-hover/textarea:shadow-none transition duration-400 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent
                `,
             className
           )}
