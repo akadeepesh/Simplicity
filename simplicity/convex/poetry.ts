@@ -27,3 +27,29 @@ export const getPoetry = query({
     };
   },
 });
+
+export const updatePoetry = mutation({
+  args: {
+    id: v.id("poetry"),
+    title: v.optional(v.string()),
+    description: v.optional(v.string()),
+    content: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, {
+      title: args.title,
+      description: args.description,
+      content: args.content,
+    });
+  },
+});
+
+export const getPoetryById = query({
+  args: {
+    id: v.id("poetry"),
+  },
+  async handler(ctx, args) {
+    const poetry = await ctx.db.get(args.id);
+    return poetry;
+  },
+});
