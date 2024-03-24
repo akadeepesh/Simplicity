@@ -26,25 +26,32 @@ const FormSchema = z.object({
   content: z.string(),
 });
 
-const EditPoetry = ({ poetryId }: { poetryId: Id<"poetry"> }) => {
+const EditPoetry = ({
+  poetryId,
+  title,
+  description,
+  content,
+}: {
+  poetryId: Id<"poetry">;
+  title: string | null;
+  description: string | null;
+  content: string | null;
+}) => {
   const update = useMutation(api.poetry.updatePoetry);
-  const { poetry, viewer } =
-    useQuery(api.poetry.getPoetryById, { id: poetryId }) ?? {};
-
-  console.log(poetry);
-  console.log(viewer?.nickname);
+  const { user } = useUser();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
       id: poetryId,
-      title: poetry?.title ?? "",
-      description: poetry?.description ?? "",
-      content: poetry?.content ?? "",
+      title: title ?? "",
+      description: description ?? "",
+      content: content ?? "",
     },
     resolver: zodResolver(FormSchema),
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log("works ? ", data);
     await update({
       id: poetryId,
       title: data.title,
@@ -98,7 +105,7 @@ const EditPoetry = ({ poetryId }: { poetryId: Id<"poetry"> }) => {
                       <Label>Username</Label>
                     </FormLabel>
                     <FormControl>
-                      <Input value={viewer?.nickname} disabled />
+                      <Input value={user?.username ?? ""} disabled />
                     </FormControl>
                   </LabelInputContainer>
                 </FormItem>

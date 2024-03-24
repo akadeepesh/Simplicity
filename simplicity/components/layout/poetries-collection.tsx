@@ -30,6 +30,9 @@ const PoetriesCollection = () => {
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const unlikePoetry = useMutation(api.likes.UnlikePoetry);
   const [editPoetryId, setEditPoetryId] = useState<Id<"poetry"> | null>(null);
+  const [passTitle, setPassTitle] = useState<string | null>(null);
+  const [passDescription, setPassDescription] = useState<string | null>(null);
+  const [passContent, setPassContent] = useState<string | null>(null);
 
   const handleLikeClick = async (poetryId: Id<"poetry">) => {
     const isLiked = likesData?.some(
@@ -71,10 +74,27 @@ const PoetriesCollection = () => {
     await dellikesbypoetry({ poetryId: poetryId });
   };
 
+  const handleEdit = (
+    poetryId: Id<"poetry">,
+    title: string,
+    description: string,
+    content: string
+  ) => {
+    setEditPoetryId(poetryId);
+    setPassTitle(title);
+    setPassDescription(description);
+    setPassContent(content);
+  };
+
   return (
     <>
       {editPoetryId ? (
-        <EditPoetry poetryId={editPoetryId} />
+        <EditPoetry
+          poetryId={editPoetryId}
+          title={passTitle}
+          description={passDescription}
+          content={passContent}
+        />
       ) : (
         <div className="">
           <div className="flex flex-col gap-2">
@@ -115,7 +135,14 @@ const PoetriesCollection = () => {
                             {poetry.username === viewer?.nickname ? (
                               <DropdownMenuContent>
                                 <DropdownMenuItem
-                                  onClick={() => setEditPoetryId(poetry._id)}
+                                  onClick={() =>
+                                    handleEdit(
+                                      poetry._id,
+                                      poetry.title,
+                                      poetry.description,
+                                      poetry.content
+                                    )
+                                  }
                                   className="cursor-pointer"
                                 >
                                   Edit
