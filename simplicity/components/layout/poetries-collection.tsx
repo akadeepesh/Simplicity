@@ -227,7 +227,9 @@ const LabelInputContainer = ({
 
 const PoetriesCollection = () => {
   const { viewer, poetries } = useQuery(api.poetry.getPoetry) ?? {};
+  const delPoetry = useMutation(api.poetry.deletePoetry);
   const likePoetry = useMutation(api.likes.LikePoetry);
+  const dellikesbypoetry = useMutation(api.likes.DeleteAllLikesByPoetryId);
   const likesData = useQuery(api.likes.LikesData, {});
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const unlikePoetry = useMutation(api.likes.UnlikePoetry);
@@ -266,6 +268,11 @@ const PoetriesCollection = () => {
       </div>
     );
   }
+
+  const DeletePoetryAndLikes = async (poetryId: Id<"poetry">) => {
+    await delPoetry({ id: poetryId });
+    await dellikesbypoetry({ poetryId: poetryId });
+  };
 
   return (
     <div className="">
@@ -317,7 +324,10 @@ const PoetriesCollection = () => {
                               Edit
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem className="cursor-pointer">
+                            <DropdownMenuItem
+                              onClick={() => DeletePoetryAndLikes(poetry._id)}
+                              className="cursor-pointer"
+                            >
                               Delete
                             </DropdownMenuItem>
                           </DropdownMenuContent>

@@ -38,3 +38,23 @@ export const UnlikePoetry = mutation({
     }
   },
 });
+
+export const DeleteAllLikesByPoetryId = mutation({
+  args: {
+    poetryId: v.id("poetry"),
+  },
+  async handler(ctx, args) {
+    let like = await ctx.db
+      .query("likes")
+      .filter((q) => q.eq(q.field("poetryId"), args.poetryId))
+      .first();
+
+    while (like) {
+      await ctx.db.delete(like._id);
+      like = await ctx.db
+        .query("likes")
+        .filter((q) => q.eq(q.field("poetryId"), args.poetryId))
+        .first();
+    }
+  },
+});

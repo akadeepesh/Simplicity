@@ -53,3 +53,10 @@ export const getPoetryById = query({
     return poetry;
   },
 });
+
+export const deletePoetry = mutation({
+  args: { id: v.id("poetry") },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.id);
+  },
+});
