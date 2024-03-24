@@ -49,8 +49,10 @@ export const getPoetryById = query({
     id: v.id("poetry"),
   },
   async handler(ctx, args) {
-    const poetry = await ctx.db.get(args.id);
-    return poetry;
+    return {
+      viewer: (await ctx.auth.getUserIdentity()) ?? null,
+      poetry: await ctx.db.get(args.id),
+    };
   },
 });
 
