@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation, useQuery } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,7 +18,6 @@ import { Textarea } from "../aceternity/textarea";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/clerk-react";
 import { useToast } from "@/components/ui/use-toast";
-import { CircleX } from "lucide-react";
 
 const FormSchema = z.object({
   id: z.any(),
@@ -129,13 +128,13 @@ const EditPoetry = ({
     <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input">
       <h2 className="font-bold text-xl">Welcome to Simplicity</h2>
       <p className="text-muted-foreground text-sm max-w-sm mt-2">
-        Edit Your Poetry "
+        Edit Your Poetry &quot;
         {title
           ? `${title.split(" ").slice(0, 7).join(" ").substring(0, 50)}${
               title.split(" ").length > 7 || title.length > 50 ? "..." : ""
             }`
           : title}
-        "
+        &quot;
       </p>
 
       <Form {...form}>

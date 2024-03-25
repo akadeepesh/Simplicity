@@ -1,5 +1,3 @@
-"use client";
-
 import Footer from "@/components/layout/footer";
 import PoetriesCollection from "@/components/layout/poetries-collection";
 

@@ -18,8 +18,9 @@ import {
   Cookie,
   AlertCircle,
   ShieldCheck,
+  LogOut,
 } from "lucide-react";
-import { SignOutButton, UserButton, useUser } from "@clerk/clerk-react";
+import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
 
 const UserNavigation = () => {
   const { user } = useUser();
@@ -27,7 +28,7 @@ const UserNavigation = () => {
   return (
     <div>
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger className="rounded-full">
           <div className="border-transparent focus:border-transparent rounded-full">
             <UserButton />
           </div>
@@ -117,9 +118,11 @@ const UserNavigation = () => {
             <span>Home Page</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer bg-destructive">
-            <SignOutButton />
-          </DropdownMenuItem>
+          <SignOutButton>
+            <DropdownMenuItem className="cursor-pointer items-center justify-center flex flex-row gap-2 bg-destructive">
+              Sign Out <LogOut size={"1rem"} />
+            </DropdownMenuItem>
+          </SignOutButton>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
