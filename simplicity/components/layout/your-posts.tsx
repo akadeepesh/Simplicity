@@ -7,34 +7,31 @@ import { useUser } from "@clerk/clerk-react";
 
 const YourPosts = () => {
   const { user } = useUser();
-  const poetries = useQuery(api.poetry.getPoetry);
+  const userPoetries = useQuery(api.poetry.getPoetryByUser, {
+    username: user?.username || "",
+  });
   return (
-    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 mt-20">
+    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 mt-20 z-10">
       <div className="flex flex-col gap-2">
-        {poetries?.poetries
-          .filter(
-            (poetry: { username: string | null | undefined }) =>
-              poetry.username === user?.username
-          )
-          .map((poetry) => (
-            <>
-              <div
-                key={poetry.id}
-                className="rounded-lg flex flex-col h-[70vh] justify-center items-center gap-8"
-              >
-                <div className="">
-                  <div className="text-xl font-bold">{poetry.title}</div>
-                  <div className="text-base text-muted-foreground">
-                    {poetry.description}
-                  </div>
-                </div>
-                <div className="whitespace-pre-wrap leading-8 font-Alkatra">
-                  {poetry.content}
+        {userPoetries?.poetries.map((poetry) => (
+          <>
+            <div
+              key={poetry.id}
+              className="rounded-lg flex flex-col h-[70vh] justify-center items-center gap-8"
+            >
+              <div className="">
+                <div className="text-xl font-bold">{poetry.title}</div>
+                <div className="text-base text-muted-foreground">
+                  {poetry.description}
                 </div>
               </div>
-              <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-12 h-[1px] w-full" />
-            </>
-          ))}
+              <div className="whitespace-pre-wrap leading-8 font-Alkatra">
+                {poetry.content}
+              </div>
+            </div>
+            <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-12 h-[1px] w-full" />
+          </>
+        ))}
       </div>
     </div>
   );

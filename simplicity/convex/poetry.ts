@@ -56,6 +56,22 @@ export const getPoetryById = query({
   },
 });
 
+export const getPoetryByUser = query({
+  args: {
+    username: v.string(),
+  },
+  async handler(ctx, args) {
+    return {
+      viewer: (await ctx.auth.getUserIdentity()) ?? null,
+      poetries: await ctx.db
+        .query("poetry")
+        .filter((q) => q.eq(q.field("username"), args.username))
+        .order("desc")
+        .collect(),
+    };
+  },
+});
+
 export const deletePoetry = mutation({
   args: { id: v.id("poetry") },
   handler: async (ctx, args) => {

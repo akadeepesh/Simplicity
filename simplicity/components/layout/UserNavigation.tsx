@@ -46,7 +46,7 @@ const UserNavigation = () => {
             <span>
               <User size={"1.2rem"} />
             </span>
-            <span>Edit Profile</span>
+            <span>My Posts</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer gap-2"
@@ -57,7 +57,7 @@ const UserNavigation = () => {
             <span>
               <User size={"1.2rem"} />
             </span>
-            <span>My Posts</span>
+            <span>Edit Profile</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer gap-2"
