@@ -129,143 +129,146 @@ const EditPoetry = ({
     <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input">
       <h2 className="font-bold text-xl">Welcome to Simplicity</h2>
       <p className="text-muted-foreground text-sm max-w-sm mt-2">
-        Add your poetry collection to the world of Simplicity
+        Edit Your Poetry "
+        {title
+          ? `${title.split(" ").slice(0, 7).join(" ").substring(0, 50)}${
+              title.split(" ").length > 7 || title.length > 50 ? "..." : ""
+            }`
+          : title}
+        "
       </p>
 
-      {useUser().isLoaded && (
-        <Form {...form}>
-          <form
-            className="my-8 flex flex-col space-y-6"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
-            <FormField
-              control={form.control}
-              name="id"
-              render={({ field }) => (
-                <FormItem>
-                  <LabelInputContainer>
-                    <FormLabel>
-                      <Label>ID</Label>
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} disabled />
-                    </FormControl>
-                  </LabelInputContainer>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <LabelInputContainer>
-                    <FormLabel>
-                      <Label>Username</Label>
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} disabled />
-                    </FormControl>
-                  </LabelInputContainer>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <LabelInputContainer>
-                    <FormLabel>
-                      <Label htmlFor="title">Title</Label>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        id="title"
-                        placeholder="You would like to address your poetry as"
-                        type="text"
-                        {...field}
-                      />
-                    </FormControl>
-                  </LabelInputContainer>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <LabelInputContainer>
-                    <FormLabel>
-                      <Label htmlFor="description">Description</Label>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        id="description"
-                        placeholder="Wanna share any special memory about this?"
-                        type="text"
-                        {...field}
-                      />
-                    </FormControl>
-                  </LabelInputContainer>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <LabelInputContainer>
-                    <FormLabel>
-                      <div className="flex flex-row gap-2">
-                        <Label htmlFor="content">Poetry</Label>
-                        <div
-                          className={`text-xs transition-all duration-300 ${
-                            isInvalid
-                              ? "text-destructive"
-                              : "text-muted-foreground"
-                          }`}
-                        >
-                          (Required)
-                        </div>
+      <Form {...form}>
+        <form
+          className="my-8 flex flex-col space-y-6"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="id"
+            render={({ field }) => (
+              <FormItem>
+                <LabelInputContainer>
+                  <FormLabel>
+                    <Label>ID</Label>
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled />
+                  </FormControl>
+                </LabelInputContainer>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <LabelInputContainer>
+                  <FormLabel>
+                    <Label>Username</Label>
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled />
+                  </FormControl>
+                </LabelInputContainer>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <LabelInputContainer>
+                  <FormLabel>
+                    <Label htmlFor="title">Title</Label>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      id="title"
+                      placeholder="You would like to address your poetry as"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                </LabelInputContainer>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <LabelInputContainer>
+                  <FormLabel>
+                    <Label htmlFor="description">Description</Label>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      id="description"
+                      placeholder="Wanna share any special memory about this?"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                </LabelInputContainer>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="content"
+            render={({ field }) => (
+              <FormItem>
+                <LabelInputContainer>
+                  <FormLabel>
+                    <div className="flex flex-row gap-2">
+                      <Label htmlFor="content">Poetry</Label>
+                      <div
+                        className={`text-xs transition-all duration-300 ${
+                          isInvalid
+                            ? "text-destructive"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        (Required)
                       </div>
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="h-20 text-left align-top"
-                        {...field}
-                        placeholder="Write Your Poetry Here..."
-                        required
-                        onInvalid={handleInvalid}
-                        onFocus={() => setIsInvalid(false)}
-                      />
-                    </FormControl>
-                  </LabelInputContainer>
-                </FormItem>
-              )}
-            />
-            <div className="flex gap-4 flex-row-reverse">
-              <button
-                className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-                type="submit"
-              >
-                Update &rarr;
-                <BottomGradient />
-              </button>
-              <button
-                className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] items-center"
-                onClick={onCloseEdit}
-              >
-                Close <CircleX size={16} className="inline-block" />
-                <BottomGradient />
-              </button>
-            </div>
-            <div className="bg-gradient-to-r from-transparent via-blue-500 to-transparent my-8 h-[1px] w-full" />
-          </form>
-        </Form>
-      )}
+                    </div>
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="h-20 text-left align-top"
+                      {...field}
+                      placeholder="Write Your Poetry Here..."
+                      onInvalid={handleInvalid}
+                      onFocus={() => setIsInvalid(false)}
+                      required
+                    />
+                  </FormControl>
+                </LabelInputContainer>
+              </FormItem>
+            )}
+          />
+          <div className="flex gap-4 flex-row-reverse">
+            <button
+              className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+              type="submit"
+            >
+              Update &rarr;
+              <BottomGradient />
+            </button>
+            <button
+              className="bg-gradient-to-br relative group/btn bg-destructive w-full text-primary rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] items-center"
+              onClick={onCloseEdit}
+            >
+              Close &times;
+            </button>
+          </div>
+          <div className="bg-gradient-to-r from-transparent via-blue-500 to-transparent my-8 h-[1px] w-full" />
+        </form>
+      </Form>
     </div>
   );
 };

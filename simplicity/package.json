@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^4.25.2",
+    "@clerk/nextjs": "^4.29.9",
+    "@clerk/themes": "^1.7.10",
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -57,6 +59,7 @@
     "jabber": "^1.5.3",
     "lucide-react": "^0.359.0",
     "next": "13.4.19",
+    "next-seo": "^6.5.0",
     "next-themes": "^0.3.0",
     "postcss": "8.4.29",
     "react": "18.2.0",

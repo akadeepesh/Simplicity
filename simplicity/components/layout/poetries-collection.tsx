@@ -9,6 +9,8 @@ import {
   Heart,
   CircleCheck,
   EllipsisVertical,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 
@@ -150,7 +152,10 @@ const PoetriesCollection = () => {
                                   }
                                   className="cursor-pointer"
                                 >
-                                  Edit
+                                  <div className="flex flex-row items-center justify-center gap-2">
+                                    <Pencil size={15} />
+                                    Edit
+                                  </div>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
@@ -159,13 +164,19 @@ const PoetriesCollection = () => {
                                   }
                                   className="cursor-pointer"
                                 >
-                                  Delete
+                                  <div className="flex flex-row items-center justify-center gap-2">
+                                    <Trash2 size={15} />
+                                    Delete
+                                  </div>
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
                             ) : (
                               <DropdownMenuContent>
-                                <DropdownMenuItem>
-                                  <Flag size={20} />
+                                <DropdownMenuItem className="cursor-pointer">
+                                  <div className="flex flex-row items-center justify-center gap-2">
+                                    <Flag size={15} />
+                                    Report
+                                  </div>
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
                             )}
