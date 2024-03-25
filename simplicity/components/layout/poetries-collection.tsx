@@ -74,6 +74,10 @@ const PoetriesCollection = () => {
     await dellikesbypoetry({ poetryId: poetryId });
   };
 
+  const handleCloseEdit = () => {
+    setEditPoetryId(null);
+  };
+
   const handleEdit = (
     poetryId: Id<"poetry">,
     title: string,
@@ -94,6 +98,7 @@ const PoetriesCollection = () => {
           title={passTitle}
           description={passDescription}
           content={passContent}
+          onCloseEdit={handleCloseEdit}
         />
       ) : (
         <div className="">

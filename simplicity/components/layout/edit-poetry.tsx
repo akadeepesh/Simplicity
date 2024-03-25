@@ -18,6 +18,7 @@ import { Textarea } from "../aceternity/textarea";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/clerk-react";
 import { useToast } from "@/components/ui/use-toast";
+import { CircleX } from "lucide-react";
 
 const FormSchema = z.object({
   id: z.any(),
@@ -32,11 +33,13 @@ const EditPoetry = ({
   title,
   description,
   content,
+  onCloseEdit,
 }: {
   poetryId: Id<"poetry">;
   title: string | null;
   description: string | null;
   content: string | null;
+  onCloseEdit: () => void;
 }) => {
   const update = useMutation(api.poetry.updatePoetry);
   const { user } = useUser();
@@ -55,27 +58,65 @@ const EditPoetry = ({
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     title ??= "";
     description ??= "";
+    content ??= "";
+
+    let caseNumber = 1;
     if (
-      title === data.title &&
-      description === data.description &&
-      content === data.content
+      title !== data.title &&
+      description !== data.description &&
+      content !== data.content
     ) {
+      caseNumber = 5;
+    } else if (content !== data.content) {
+      caseNumber = 4;
+    } else if (description !== data.description) {
+      caseNumber = 3;
+    } else if (title !== data.title) {
+      caseNumber = 2;
+    }
+
+    if (caseNumber === 1) {
       toast({
         title: "No Changes!",
         description: "You haven't made any changes to your poetry!",
       });
       return false;
     }
+
     await update({
       id: poetryId,
       title: data.title,
       description: data.description,
       content: data.content,
     });
-    toast({
-      title: "Updated Successfully!",
-      description: "Your poetry has been updated successfully!",
-    });
+
+    switch (caseNumber) {
+      case 2:
+        toast({
+          title: "Title Changed Successfully!",
+          description: "You've changed the title of your poetry!",
+        });
+        break;
+      case 3:
+        toast({
+          title: "Description Changed Successfully!",
+          description: "You've changed the description of your poetry!",
+        });
+        break;
+      case 4:
+        toast({
+          title: "Content Changed Successfully!",
+          description: "You've changed the content of your poetry!",
+        });
+        break;
+      case 5:
+        toast({
+          title: "Updated Successfully!",
+          description: "Your poetry has been updated successfully!",
+        });
+        break;
+    }
+    onCloseEdit();
   }
 
   const [isInvalid, setIsInvalid] = useState(false);
@@ -205,13 +246,22 @@ const EditPoetry = ({
                 </FormItem>
               )}
             />
-            <button
-              className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-              type="submit"
-            >
-              Update &rarr;
-              <BottomGradient />
-            </button>
+            <div className="flex gap-4 flex-row-reverse">
+              <button
+                className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+                type="submit"
+              >
+                Update &rarr;
+                <BottomGradient />
+              </button>
+              <button
+                className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] items-center"
+                onClick={onCloseEdit}
+              >
+                Close <CircleX size={16} className="inline-block" />
+                <BottomGradient />
+              </button>
+            </div>
             <div className="bg-gradient-to-r from-transparent via-blue-500 to-transparent my-8 h-[1px] w-full" />
           </form>
         </Form>
