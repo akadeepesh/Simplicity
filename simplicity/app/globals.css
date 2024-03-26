@@ -1,8 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Alkatra:wght@400..700&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100..900&display=swap");
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -49,7 +48,6 @@
     --ring: 240 4.9% 83.9%;
   }
 }
-
 
 @layer base {
   * {

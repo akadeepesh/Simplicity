@@ -12,12 +12,12 @@ import {
 
 import { useRouter } from "next/navigation";
 import {
-  ShoppingCart,
+  Star,
   User,
+  Album,
   Home,
-  Cookie,
   AlertCircle,
-  ShieldCheck,
+  StickyNote,
   LogOut,
 } from "lucide-react";
 import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
@@ -31,71 +31,60 @@ const UserNavigation = () => {
         <DropdownMenuTrigger className="rounded-full">
           <UserButton />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="font-Anta">
-          <DropdownMenuLabel className="text-blue-500 font-Annapura text-base">
+        <DropdownMenuContent className="">
+          <DropdownMenuLabel className="text-blue-500/80 text-base">
             @{user?.username}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="cursor-pointer gap-2"
             onClick={() => {
-              router.push(`/my-posts/${user?.username}`);
+              router.push(`/profile/${user?.username}`);
             }}
           >
             <span>
               <User size={"1.2rem"} />
             </span>
-            <span>My Posts</span>
+            <span>Profile</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer gap-2"
             onClick={() => {
-              router.push(`/my-posts/${user?.username}/edit`);
+              router.push(`/posts/${user?.username}`);
             }}
           >
             <span>
-              <User size={"1.2rem"} />
+              <Album size={"1.2rem"} />
             </span>
-            <span>Edit Profile</span>
+            <span>Your Posts</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer gap-2"
             onClick={() => {
-              router.push(`/menu`);
+              router.push(`/profile/${user?.username}/liked`);
             }}
           >
             <span>
-              <Cookie size={"1.2rem"} />
+              <Star size={"1.2rem"} />
             </span>
-            <span>Menu</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className="cursor-pointer gap-2"
-            onClick={() => {
-              router.push(`/cart`);
-            }}
-          >
-            <span>
-              <ShoppingCart size={"1.2rem"} />
-            </span>
-            <span>Cart</span>
+            <span>Liked Items</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="cursor-pointer gap-1"
             onClick={() => {
-              router.push(`/admin-req?user=${user?.username}`);
+              router.push(`/post`);
             }}
           >
             <span>
-              <ShieldCheck size={"1.2rem"} />
+              <StickyNote size={"1.2rem"} />
             </span>
-            <span>Admin Request</span>
+            <span>Post Poetry</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer gap-1"
             onClick={() => {
-              router.push(`/support?user=${user?.username}`);
+              router.push(`/profile/${user?.username}/support`);
             }}
           >
             <span>

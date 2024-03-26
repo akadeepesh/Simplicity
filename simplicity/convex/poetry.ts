@@ -62,7 +62,6 @@ export const getPoetryByUser = query({
   },
   async handler(ctx, args) {
     return {
-      viewer: (await ctx.auth.getUserIdentity()) ?? null,
       poetries: await ctx.db
         .query("poetry")
         .filter((q) => q.eq(q.field("username"), args.username))

@@ -23,7 +23,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        Alkatra: ["Alkatra", "sans-serif"],
+        Georgian: ["Georgian", "sans"],
       },
       colors: {
         border: "hsl(var(--border))",

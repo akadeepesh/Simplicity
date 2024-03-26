@@ -186,7 +186,7 @@ const PoetriesCollection = () => {
                       </div>
                       <div className="bg-gradient-to-r from-blue-500 to-transparent my-2 h-[1px] w-full" />
                     </div>
-                    <div className="flex whitespace-pre-wrap leading-8 font-Alkatra h-full justify-center items-center">
+                    <div className="flex whitespace-pre-wrap leading-8 tracking-wide h-full justify-center items-center">
                       {poetry.content}
                     </div>
                     <Separator />

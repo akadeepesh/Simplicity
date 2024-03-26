@@ -35,7 +35,7 @@ const Navbar = () => {
         <div className="flex w-full max-w-4xl justify-between items-center">
           <div
             onClick={() => router.push("/")}
-            className="text-xl cursor-pointer font-serif"
+            className="text-xl cursor-pointer font-Poppins font-thin"
           >
             Simplicity
           </div>
