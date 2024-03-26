@@ -4,34 +4,43 @@ import { mutation, query } from "./_generated/server";
 export const LikePoetry = mutation({
   args: {
     poetryId: v.id("poetry"),
-    userId: v.string(),
   },
-  async handler(ctx, args) {
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthenticated call to mutation");
+    }
+    const userId = identity.subject;
     await ctx.db.insert("likes", {
       poetryId: args.poetryId,
-      userId: args.userId,
+      userId: userId,
     });
   },
 });
 
 export const LikesData = query({
-  args: {},
-  async handler(ctx, args) {
+  async handler(ctx) {
     return ctx.db.query("likes").collect();
   },
 });
 
-export const UnlikePoetry = mutation({
+export const unlikePoetry = mutation({
   args: {
     poetryId: v.id("poetry"),
-    userId: v.string(),
   },
-  async handler(ctx, args) {
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthenticated call to mutation");
+    }
+
+    const userId = identity.subject;
+
     const like = await ctx.db
       .query("likes")
       .filter((q) => q.eq(q.field("poetryId"), args.poetryId))
-      .filter((q) => q.eq(q.field("userId"), args.userId))
-      .first();
+      .filter((q) => q.eq(q.field("userId"), userId))
+      .unique();
 
     if (like) {
       await ctx.db.delete(like._id);

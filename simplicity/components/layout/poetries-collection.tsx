@@ -31,7 +31,7 @@ const PoetriesCollection = () => {
   const dellikesbypoetry = useMutation(api.likes.DeleteAllLikesByPoetryId);
   const likesData = useQuery(api.likes.LikesData, {});
   const [copiedText, setCopiedText] = useState<string | null>(null);
-  const unlikePoetry = useMutation(api.likes.UnlikePoetry);
+  const unlikePoetry = useMutation(api.likes.unlikePoetry);
   const [editPoetryId, setEditPoetryId] = useState<Id<"poetry"> | null>(null);
   const [passTitle, setPassTitle] = useState<string | null>(null);
   const [passDescription, setPassDescription] = useState<string | null>(null);
@@ -45,12 +45,10 @@ const PoetriesCollection = () => {
     if (isLiked) {
       await unlikePoetry({
         poetryId: poetryId,
-        userId: viewer?.subject ?? "",
       });
     } else {
       await likePoetry({
         poetryId: poetryId,
-        userId: viewer?.subject ?? "",
       });
     }
   };

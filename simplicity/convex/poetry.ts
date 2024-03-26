@@ -71,9 +71,45 @@ export const getPoetryByUser = query({
   },
 });
 
+export const getViewerPoetries = query({
+  async handler(ctx) {
+    const identity = await ctx.auth.getUserIdentity();
+    return {
+      poetries: await ctx.db
+        .query("poetry")
+        .filter((q) => q.eq(q.field("username"), identity?.nickname))
+        .order("desc")
+        .collect(),
+    };
+  },
+});
+
 export const deletePoetry = mutation({
   args: { id: v.id("poetry") },
   handler: async (ctx, args) => {
     await ctx.db.delete(args.id);
   },
 });
+
+// export const getLikedPoems = query({
+//   args: {},
+//   handler: async (ctx) => {
+//     const identity = await ctx.auth.getUserIdentity();
+//     if (!identity) {
+//       throw new Error("Unauthenticated call to query");
+//     }
+//     // You may need to adjust "by_user" based on your actual index name
+//     const likedPoetryIds = await ctx.db.query("likes")
+//                             .withIndex("by_user", q => q.eq("userId", identity.nickname))
+//                             .collect();
+
+//     const likedPoetries = await Promise.all(
+//       likedPoetryIds.map( async (like) => {
+//         const poetry = await ctx.db.query("poetry").get(like.poetryId); // adjust "poetryId" based on your actual field name
+//         return poetry;
+//       })
+//     );
+
+//     return likedPoetries;
+//   }
+// });

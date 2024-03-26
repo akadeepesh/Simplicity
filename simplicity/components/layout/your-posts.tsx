@@ -1,15 +1,9 @@
-"use client";
-
 import React from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useUser } from "@clerk/clerk-react";
 
 const YourPosts = () => {
-  const { user } = useUser();
-  const userPoetries = useQuery(api.poetry.getPoetryByUser, {
-    username: user?.username || "",
-  });
+  const userPoetries = useQuery(api.poetry.getViewerPoetries, {});
   return (
     <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 mt-20 z-10">
       <div className="flex flex-col gap-2">
