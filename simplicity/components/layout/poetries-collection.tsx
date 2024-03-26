@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import EditPoetry from "./edit-poetry";
+import { Separator } from "../ui/separator";
 
 const PoetriesCollection = () => {
   const { viewer, poetries } = useQuery(api.poetry.getPoetry) ?? {};
@@ -162,7 +163,7 @@ const PoetriesCollection = () => {
                                   onClick={() =>
                                     DeletePoetryAndLikes(poetry._id)
                                   }
-                                  className="cursor-pointer"
+                                  className="cursor-pointer bg-destructive"
                                 >
                                   <div className="flex flex-row items-center justify-center gap-2">
                                     <Trash2 size={15} />
@@ -172,7 +173,7 @@ const PoetriesCollection = () => {
                               </DropdownMenuContent>
                             ) : (
                               <DropdownMenuContent>
-                                <DropdownMenuItem className="cursor-pointer">
+                                <DropdownMenuItem className="cursor-pointer bg-destructive">
                                   <div className="flex flex-row items-center justify-center gap-2">
                                     <Flag size={15} />
                                     Report
@@ -188,7 +189,7 @@ const PoetriesCollection = () => {
                     <div className="flex whitespace-pre-wrap leading-8 font-Alkatra h-full justify-center items-center">
                       {poetry.content}
                     </div>
-                    <div className="bg-secondary mt-2 h-[1px] w-full" />
+                    <Separator />
                     <div className="flex flex-row justify-between items-center">
                       <div className="flex flex-row gap-2 group-hover:opacity-100 opacity-0 text-muted-foreground transition-all duration-300">
                         <Authenticated>

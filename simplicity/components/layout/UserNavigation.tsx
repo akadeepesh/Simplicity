@@ -29,12 +29,10 @@ const UserNavigation = () => {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger className="rounded-full">
-          <div className="border-transparent focus:border-transparent rounded-full">
-            <UserButton />
-          </div>
+          <UserButton />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="font-Anta">
-          <DropdownMenuLabel className=" font-Annapura text-base text-primary">
+          <DropdownMenuLabel className="text-blue-500 font-Annapura text-base">
             @{user?.username}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
