@@ -1,7 +1,7 @@
 import EditUser from "@/components/layout/edit-profile";
 import React from "react";
 
-const ProfileEdit = () => {
+const ManageProfile = () => {
   return (
     <div>
       <EditUser />
@@ -9,4 +9,4 @@ const ProfileEdit = () => {
   );
 };
 
-export default ProfileEdit;
+export default ManageProfile;

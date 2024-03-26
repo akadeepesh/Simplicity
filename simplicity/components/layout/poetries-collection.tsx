@@ -126,7 +126,7 @@ const PoetriesCollection = () => {
                         className={`flex flex-row justify-between items-center`}
                       >
                         <div className="flex flex-col">
-                          <div className="text-xl font-bold">
+                          <div className="text-xl font-semibold">
                             {poetry.title ? poetry.title : "Simplicity"}
                           </div>
                           <div className="text-base text-muted-foreground">
@@ -186,7 +186,7 @@ const PoetriesCollection = () => {
                       </div>
                       <div className="bg-gradient-to-r from-blue-500 to-transparent my-2 h-[1px] w-full" />
                     </div>
-                    <div className="flex whitespace-pre-wrap leading-8 tracking-wide h-full justify-center items-center">
+                    <div className="flex whitespace-pre-wrap leading-8 h-full font-light justify-center items-center">
                       {poetry.content}
                     </div>
                     <Separator />

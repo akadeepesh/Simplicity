@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Authenticated, Unauthenticated } from "convex/react";
-import { SignInButton, SignUpButton } from "@clerk/clerk-react";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { ModeToggle } from "../theme/mode-toggle";
 import UserNavigation from "./UserNavigation";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ const Navbar = () => {
         <div className="flex w-full max-w-4xl justify-between items-center">
           <div
             onClick={() => router.push("/")}
-            className="text-xl cursor-pointer font-Poppins font-thin"
+            className="text-xl cursor-pointer tracking-wide hover:tracking-widest transition-all duration-300 hover:text-blue-500"
           >
             Simplicity
           </div>
