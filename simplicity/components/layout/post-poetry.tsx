@@ -110,7 +110,7 @@ const Post = () => {
                           <TooltipContent>
                             <div className="">
                               This is an optional field, if left blank others
-                              will see "Simplicity" as title
+                              will see &quot;Simplicity&quot; as title
                             </div>{" "}
                           </TooltipContent>
                         </Tooltip>
@@ -149,7 +149,7 @@ const Post = () => {
                           <TooltipContent>
                             <div className="">
                               This is an optional field, if left blank others
-                              will see "..." as description
+                              will see &quot;...&quot; as description
                             </div>{" "}
                           </TooltipContent>
                         </Tooltip>
