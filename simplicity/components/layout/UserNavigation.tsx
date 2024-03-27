@@ -71,7 +71,7 @@ const UserNavigation = () => {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            className="cursor-pointer gap-1"
+            className="cursor-pointer gap-2"
             onClick={() => {
               router.push(`/post`);
             }}
@@ -82,7 +82,7 @@ const UserNavigation = () => {
             <span>Post Poetry</span>
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="cursor-pointer gap-1"
+            className="cursor-pointer gap-2"
             onClick={() => {
               router.push(`/profile/${user?.username}/support`);
             }}
@@ -94,7 +94,7 @@ const UserNavigation = () => {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            className="cursor-pointer gap-1"
+            className="cursor-pointer gap-2"
             onClick={() => {
               router.push(`/`);
             }}

@@ -18,6 +18,7 @@ import { Textarea } from "../aceternity/textarea";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/clerk-react";
 import { useToast } from "@/components/ui/use-toast";
+import { MoveRight } from "lucide-react";
 
 const FormSchema = z.object({
   id: z.any(),
@@ -127,16 +128,16 @@ const EditPoetry = ({
   return (
     <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input">
       <h2 className="font-bold text-xl">Welcome to Simplicity</h2>
-      <p className="text-muted-foreground text-sm max-w-sm mt-2">
-        Edit Your Poetry &quot;
-        {title
-          ? `${title.split(" ").slice(0, 7).join(" ").substring(0, 50)}${
-              title.split(" ").length > 7 || title.length > 50 ? "..." : ""
-            }`
-          : title}
-        &quot;
+      <p className="text-muted-foreground text-sm max-w-sm mt-2 flex flex-row items-center gap-2">
+        Edit Your Poetry
+        {title ? (
+          ` "${title.split(" ").slice(0, 7).join(" ").substring(0, 50)}${
+            title.split(" ").length > 7 || title.length > 50 ? "..." : ""
+          }"`
+        ) : (
+          <MoveRight size={16} />
+        )}
       </p>
-
       <Form {...form}>
         <form
           className="my-8 flex flex-col space-y-6"

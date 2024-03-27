@@ -17,7 +17,15 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { useRouter } from "next/navigation";
+import { CircleHelp } from "lucide-react";
 
 const FormSchema = z.object({
   username: z.string(),
@@ -89,7 +97,25 @@ const Post = () => {
               <FormItem>
                 <LabelInputContainer>
                   <FormLabel>
-                    <Label htmlFor="title">Title</Label>
+                    <Label
+                      className="flex flex-row items-center gap-2"
+                      htmlFor="title"
+                    >
+                      Title{" "}
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <CircleHelp className="cursor-help" size={16} />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="">
+                              This is an optional field, if left blank others
+                              will see "Simplicity" as title
+                            </div>{" "}
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </Label>
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -110,7 +136,25 @@ const Post = () => {
               <FormItem>
                 <LabelInputContainer>
                   <FormLabel>
-                    <Label htmlFor="description">Description</Label>
+                    <Label
+                      className="flex flex-row items-center gap-2"
+                      htmlFor="description"
+                    >
+                      Description{" "}
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <CircleHelp className="cursor-help" size={16} />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="">
+                              This is an optional field, if left blank others
+                              will see "..." as description
+                            </div>{" "}
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </Label>
                   </FormLabel>
                   <FormControl>
                     <Input

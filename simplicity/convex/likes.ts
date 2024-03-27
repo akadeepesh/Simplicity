@@ -56,14 +56,30 @@ export const DeleteAllLikesByPoetryId = mutation({
     let like = await ctx.db
       .query("likes")
       .filter((q) => q.eq(q.field("poetryId"), args.poetryId))
-      .first();
+      .unique();
 
     while (like) {
       await ctx.db.delete(like._id);
       like = await ctx.db
         .query("likes")
         .filter((q) => q.eq(q.field("poetryId"), args.poetryId))
-        .first();
+        .unique();
     }
   },
 });
+
+// export const GetPoetriesLikedByUser = query({
+//   async handler(ctx) {
+//     const identity = await ctx.auth.getUserIdentity();
+//     if (!identity) {
+//       throw new Error("Unauthenticated call to query");
+//     }
+//     const userId = identity.subject;
+//     const likes = await ctx.db // get all likes by user
+//       .query("likes")
+//       .filter((q) => q.eq(q.field("userId"), userId))
+//       .collect();
+//     const poetryIds = likes.map((like) => like.poetryId); // get all poetry ids
+//     return ctx.db.query("poetries").filter((q) => q.eq(likes._id, poetryIds)).collect();
+//   },
+// });
