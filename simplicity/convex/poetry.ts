@@ -19,10 +19,10 @@ export const AddPoetry = mutation({
 });
 
 export const getPoetry = query({
-  args: {},
   async handler(ctx) {
+    const identity = await ctx.auth.getUserIdentity();
     return {
-      viewer: (await ctx.auth.getUserIdentity()) ?? null,
+      viewer: identity,
       poetries: await ctx.db.query("poetry").order("desc").collect(),
     };
   },
@@ -49,24 +49,10 @@ export const getPoetryById = query({
     id: v.id("poetry"),
   },
   async handler(ctx, args) {
+    const identity = await ctx.auth.getUserIdentity();
     return {
-      viewer: (await ctx.auth.getUserIdentity()) ?? null,
+      viewer: identity,
       poetry: await ctx.db.get(args.id),
-    };
-  },
-});
-
-export const getPoetryByUser = query({
-  args: {
-    username: v.string(),
-  },
-  async handler(ctx, args) {
-    return {
-      poetries: await ctx.db
-        .query("poetry")
-        .filter((q) => q.eq(q.field("username"), args.username))
-        .order("desc")
-        .collect(),
     };
   },
 });
@@ -74,6 +60,9 @@ export const getPoetryByUser = query({
 export const getViewerPoetries = query({
   async handler(ctx) {
     const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthenticated call to query");
+    }
     return {
       viewer: identity,
       poetries: await ctx.db
