@@ -19,7 +19,7 @@ import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 import { Filter } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
-import { motion } from "framer-motion";
+
 const SideBar = () => {
   const [orderByDate, setOrderByDate] = useState<boolean>(true);
   const [orderByLikes, setOrderByLikes] = useState<boolean>(false);
@@ -152,7 +152,7 @@ const SideBar = () => {
                       Auto Title &amp; Description
                     </Label>
                     <Label className="text-xs text-muted-foreground">
-                      Don't Append Auto Title &amp; Description
+                      Don&apos;t Append Auto Title &amp; Description
                     </Label>
                   </div>
                   <Switch
