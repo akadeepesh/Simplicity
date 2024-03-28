@@ -6,25 +6,8 @@ import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { ModeToggle } from "../theme/mode-toggle";
 import UserNavigation from "./UserNavigation";
 import Link from "next/link";
-import { Filter } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useSelectedLayoutSegments } from "next/navigation";
-import { Separator } from "../ui/separator";
-import { Label } from "../ui/label";
-import { Switch } from "../ui/switch";
+import SideBar from "./side-bar";
 
 function SignInAndSignUpButtons() {
   return (
@@ -57,38 +40,8 @@ const Navbar = () => {
               Simplicity
             </div>
           </Link>
-          <div className="flex gap-2">
-            {isHomePage && (
-              <Sheet>
-                <SheetTrigger>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Filter
-                          className="hover:text-blue-500 transition-all duration-300"
-                          size={20}
-                        />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Add Filters</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </SheetTrigger>
-                <SheetContent className="flex flex-col gap-4">
-                  <SheetHeader>
-                    <SheetTitle>Filters</SheetTitle>
-                    <Separator />
-                  </SheetHeader>
-                  {/* <SheetDescription> */}
-                  <div className="flex items-center space-x-2 mt-4">
-                    <Label htmlFor="order">Descending Order</Label>
-                    <Switch id="order" checked />
-                  </div>
-                  {/* </SheetDescription> */}
-                </SheetContent>
-              </Sheet>
-            )}
+          <div className="flex gap-2 items-center">
+            {isHomePage && <SideBar />}
             <ModeToggle />
             <SignInAndSignUpButtons />
           </div>
