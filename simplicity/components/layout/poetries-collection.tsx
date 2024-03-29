@@ -27,19 +27,6 @@ import { FilterContext } from "./FilterContext";
 
 const PoetriesCollection = () => {
   const { filterData } = useContext(FilterContext) || {};
-
-  if (!filterData) {
-    return null; // or render a loading state
-  }
-
-  const {
-    hideTitle,
-    hideDescription,
-    orderByDate,
-    orderByLikes,
-    mostLikedFirst,
-    stopAuto,
-  } = filterData;
   const { viewer, poetries } = useQuery(api.poetry.getPoetry) ?? {};
   const delPoetry = useMutation(api.poetry.deletePoetry);
   const likePoetry = useMutation(api.likes.LikePoetry);
@@ -105,6 +92,19 @@ const PoetriesCollection = () => {
     setPassDescription(description);
     setPassContent(content);
   };
+
+  if (!filterData) {
+    return null;
+  }
+
+  const {
+    hideTitle,
+    hideDescription,
+    orderByDate,
+    orderByLikes,
+    mostLikedFirst,
+    stopAuto,
+  } = filterData;
 
   return (
     <>

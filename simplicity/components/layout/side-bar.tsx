@@ -98,7 +98,7 @@ const SideBar = () => {
           <Separator className="bg-blue-500" />
           <Card>
             <CardHeader className="gap-2">
-              <CardTitle>Order by</CardTitle>
+              <CardTitle>Sort by</CardTitle>
               <Separator className="bg-blue-500" />
             </CardHeader>
             <CardContent>
