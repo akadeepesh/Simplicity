@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Authenticated, useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -23,8 +23,23 @@ import {
 } from "../ui/dropdown-menu";
 import EditPoetry from "./edit-poetry";
 import { Separator } from "../ui/separator";
+import { FilterContext } from "./FilterContext";
 
 const PoetriesCollection = () => {
+  const { filterData } = useContext(FilterContext) || {};
+
+  if (!filterData) {
+    return null; // or render a loading state
+  }
+
+  const {
+    hideTitle,
+    hideDescription,
+    orderByDate,
+    orderByLikes,
+    mostLikedFirst,
+    stopAuto,
+  } = filterData;
   const { viewer, poetries } = useQuery(api.poetry.getPoetry) ?? {};
   const delPoetry = useMutation(api.poetry.deletePoetry);
   const likePoetry = useMutation(api.likes.LikePoetry);
@@ -113,6 +128,10 @@ const PoetriesCollection = () => {
                   like.poetryId === poetry._id &&
                   like.userId === viewer?.subject
               );
+              const showTitleAndDescription =
+                !hideTitle &&
+                !hideDescription &&
+                (poetry.title || poetry.description || !stopAuto);
               return (
                 <>
                   <div
@@ -125,10 +144,14 @@ const PoetriesCollection = () => {
                       >
                         <div className="flex flex-col">
                           <div className="text-xl font-semibold">
-                            {poetry.title ? poetry.title : "Simplicity"}
+                            {poetry.title
+                              ? `${hideTitle ? "" : poetry.title}`
+                              : `${stopAuto || hideTitle ? "" : "Simplicity"}`}
                           </div>
                           <div className="text-base text-muted-foreground">
-                            {poetry.description ? poetry.description : "..."}
+                            {poetry.description
+                              ? `${hideDescription ? "" : poetry.description}`
+                              : `${stopAuto || hideDescription ? "" : "..."}`}
                           </div>
                         </div>
                         <Authenticated>
@@ -182,12 +205,14 @@ const PoetriesCollection = () => {
                           </DropdownMenu>
                         </Authenticated>
                       </div>
-                      <div className="bg-gradient-to-r from-blue-500 to-transparent my-2 h-[1px] w-full" />
+                      {showTitleAndDescription && (
+                        <div className="bg-gradient-to-r from-blue-500 to-transparent my-2 h-[1px] w-full" />
+                      )}
                     </div>
                     <div className="flex whitespace-pre-wrap leading-8 h-full font-light justify-center items-center">
                       {poetry.content}
                     </div>
-                    <Separator />
+                    {showTitleAndDescription && <Separator />}
                     <div className="flex flex-row justify-between items-center">
                       <div className="flex flex-row gap-2 group-hover:opacity-100 opacity-0 text-muted-foreground transition-all duration-300">
                         <Authenticated>

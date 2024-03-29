@@ -5,6 +5,7 @@ import ConvexClientProvider from "./ConvexClientProvider";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import Navbar from "@/components/layout/navbar";
 import { Toaster } from "@/components/ui/toaster";
+import { FilterProvider } from "@/components/layout/FilterContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,9 +30,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ConvexClientProvider>
-            <Navbar />
-            {children}
-            <Toaster />
+            <FilterProvider>
+              <Navbar />
+              {children}
+              <Toaster />
+            </FilterProvider>
           </ConvexClientProvider>
         </ThemeProvider>
       </body>

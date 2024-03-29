@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import {
   Sheet,
   SheetContent,
@@ -19,14 +19,50 @@ import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 import { Filter } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
+import { FilterContext } from "./FilterContext";
+
+interface FilterData {
+  orderByDate: boolean;
+  orderByLikes: boolean;
+  mostLikedFirst: boolean;
+  hideTitle: boolean;
+  hideDescription: boolean;
+  stopAuto: boolean;
+}
+
+interface SideBarProps {
+  filterData: FilterData;
+  setOrderByDate: React.Dispatch<React.SetStateAction<boolean>>;
+  setOrderByLikes: React.Dispatch<React.SetStateAction<boolean>>;
+  setMostLikedFirst: React.Dispatch<React.SetStateAction<boolean>>;
+  setHideTitle: React.Dispatch<React.SetStateAction<boolean>>;
+  setHideDescription: React.Dispatch<React.SetStateAction<boolean>>;
+  setStopAuto: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const SideBar = () => {
-  const [orderByDate, setOrderByDate] = useState<boolean>(true);
-  const [orderByLikes, setOrderByLikes] = useState<boolean>(false);
-  const [mostLikedFirst, setMostLikedFirst] = useState<boolean>(true);
-  const [hideTitle, setHideTitle] = useState<boolean>(false);
-  const [hideDescription, setHideDescription] = useState<boolean>(false);
-  const [stopAuto, setStopAuto] = useState<boolean>(false);
+  const {
+    filterData,
+    setHideTitle,
+    setHideDescription,
+    setOrderByDate,
+    setOrderByLikes,
+    setMostLikedFirst,
+    setStopAuto,
+  } = useContext(FilterContext) || {};
+  if (!filterData) {
+    return null;
+  }
+
+  const {
+    hideTitle,
+    hideDescription,
+    orderByDate,
+    orderByLikes,
+    mostLikedFirst,
+    stopAuto,
+  } = filterData;
+
   return (
     <div className="mt-1">
       <Sheet>
@@ -82,7 +118,7 @@ const SideBar = () => {
                   </div>
                   <Switch
                     checked={orderByDate && !orderByLikes}
-                    onClick={() => setOrderByDate(!orderByDate)}
+                    onClick={() => setOrderByDate?.(!orderByDate)}
                   />
                 </div>
                 <div className="flex items-center space-x-2 justify-between">
@@ -91,7 +127,7 @@ const SideBar = () => {
                   </Label>
                   <Checkbox
                     checked={orderByLikes}
-                    onClick={() => setOrderByLikes(!orderByLikes)}
+                    onClick={() => setOrderByLikes?.(!orderByLikes)}
                   />
                 </div>
                 <div
@@ -106,7 +142,7 @@ const SideBar = () => {
                     className="disabled:cursor-auto"
                     disabled={!orderByLikes}
                     checked={mostLikedFirst}
-                    onClick={() => setMostLikedFirst(!mostLikedFirst)}
+                    onClick={() => setMostLikedFirst?.(!mostLikedFirst)}
                   />
                 </div>
               </div>
@@ -129,7 +165,7 @@ const SideBar = () => {
                   </div>
                   <Switch
                     checked={hideTitle}
-                    onClick={() => setHideTitle(!hideTitle)}
+                    onClick={() => setHideTitle?.(!hideTitle)}
                   />
                 </div>
                 <div className="flex items-center justify-between">
@@ -143,7 +179,7 @@ const SideBar = () => {
                   </div>
                   <Switch
                     checked={hideDescription}
-                    onClick={() => setHideDescription(!hideDescription)}
+                    onClick={() => setHideDescription?.(!hideDescription)}
                   />
                 </div>
                 <div className="flex items-center w-full justify-between">
@@ -156,8 +192,9 @@ const SideBar = () => {
                     </Label>
                   </div>
                   <Switch
-                    checked={stopAuto}
-                    onClick={() => setStopAuto(!stopAuto)}
+                    checked={!(hideTitle && hideDescription) && stopAuto}
+                    disabled={hideTitle && hideDescription}
+                    onClick={() => setStopAuto?.(!stopAuto)}
                   />
                 </div>
               </div>
