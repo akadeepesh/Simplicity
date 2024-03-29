@@ -1,11 +1,16 @@
 "use client";
 import React, { createContext, useState } from "react";
 
+export enum SortOptions {
+  None,
+  Date,
+  Likes,
+}
+
 interface FilterData {
   hideTitle: boolean;
   hideDescription: boolean;
-  orderByDate: boolean;
-  orderByLikes: boolean;
+  sortOption: SortOptions;
   mostLikedFirst: boolean;
   stopAuto: boolean;
 }
@@ -14,8 +19,7 @@ interface FilterContextProps {
   filterData: FilterData;
   setHideTitle: React.Dispatch<React.SetStateAction<boolean>>;
   setHideDescription: React.Dispatch<React.SetStateAction<boolean>>;
-  setOrderByDate: React.Dispatch<React.SetStateAction<boolean>>;
-  setOrderByLikes: React.Dispatch<React.SetStateAction<boolean>>;
+  setSortOption: React.Dispatch<React.SetStateAction<SortOptions>>;
   setMostLikedFirst: React.Dispatch<React.SetStateAction<boolean>>;
   setStopAuto: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -29,16 +33,14 @@ export const FilterProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [hideTitle, setHideTitle] = useState<boolean>(false);
   const [hideDescription, setHideDescription] = useState<boolean>(false);
-  const [orderByDate, setOrderByDate] = useState<boolean>(true);
-  const [orderByLikes, setOrderByLikes] = useState<boolean>(false);
+  const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.None);
   const [mostLikedFirst, setMostLikedFirst] = useState<boolean>(true);
   const [stopAuto, setStopAuto] = useState<boolean>(false);
 
   const filterData: FilterData = {
     hideTitle,
     hideDescription,
-    orderByDate,
-    orderByLikes,
+    sortOption,
     mostLikedFirst,
     stopAuto,
   };
@@ -47,8 +49,7 @@ export const FilterProvider: React.FC<{ children: React.ReactNode }> = ({
     filterData,
     setHideTitle,
     setHideDescription,
-    setOrderByDate,
-    setOrderByLikes,
+    setSortOption,
     setMostLikedFirst,
     setStopAuto,
   };

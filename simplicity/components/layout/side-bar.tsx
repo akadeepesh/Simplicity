@@ -19,34 +19,17 @@ import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 import { Filter } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
-import { FilterContext } from "./FilterContext";
-
-interface FilterData {
-  orderByDate: boolean;
-  orderByLikes: boolean;
-  mostLikedFirst: boolean;
-  hideTitle: boolean;
-  hideDescription: boolean;
-  stopAuto: boolean;
-}
-
-interface SideBarProps {
-  filterData: FilterData;
-  setOrderByDate: React.Dispatch<React.SetStateAction<boolean>>;
-  setOrderByLikes: React.Dispatch<React.SetStateAction<boolean>>;
-  setMostLikedFirst: React.Dispatch<React.SetStateAction<boolean>>;
-  setHideTitle: React.Dispatch<React.SetStateAction<boolean>>;
-  setHideDescription: React.Dispatch<React.SetStateAction<boolean>>;
-  setStopAuto: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { FilterContext, SortOptions } from "./FilterContext";
+import { Link } from "../typography/link";
+import { useUser } from "@clerk/clerk-react";
 
 const SideBar = () => {
+  const { user } = useUser();
   const {
     filterData,
     setHideTitle,
     setHideDescription,
-    setOrderByDate,
-    setOrderByLikes,
+    setSortOption,
     setMostLikedFirst,
     setStopAuto,
   } = useContext(FilterContext) || {};
@@ -54,14 +37,8 @@ const SideBar = () => {
     return null;
   }
 
-  const {
-    hideTitle,
-    hideDescription,
-    orderByDate,
-    orderByLikes,
-    mostLikedFirst,
-    stopAuto,
-  } = filterData;
+  const { hideTitle, hideDescription, sortOption, mostLikedFirst, stopAuto } =
+    filterData;
 
   return (
     <div className="mt-1">
@@ -87,13 +64,13 @@ const SideBar = () => {
             <Separator className="bg-blue-500" />
           </SheetHeader>
           <div className="flex flex-row justify-between">
-            <div className="text-sm underline underline-offset-2">
-              Your Posts
-            </div>
+            <Link href={`/profile/${user?.username}/posts`}>
+              <div className="text-sm">Your Posts</div>
+            </Link>
             <Separator orientation="vertical" className="bg-blue-500" />
-            <div className="text-sm underline underline-offset-2">
-              Liked Posts
-            </div>
+            <Link href={`/profile/${user?.username}/liked`}>
+              <div className="text-sm">Liked Posts</div>
+            </Link>
           </div>
           <Separator className="bg-blue-500" />
           <Card>
@@ -104,7 +81,7 @@ const SideBar = () => {
             <CardContent>
               <div
                 className={`flex flex-col gap-6 duration-300 ${
-                  orderByLikes ? "h-[110px]" : "h-[70px]"
+                  sortOption === SortOptions.Likes ? "h-[110px]" : "h-[70px]"
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -117,8 +94,14 @@ const SideBar = () => {
                     </Label>
                   </div>
                   <Switch
-                    checked={orderByDate && !orderByLikes}
-                    onClick={() => setOrderByDate?.(!orderByDate)}
+                    checked={sortOption === SortOptions.Date}
+                    onClick={() =>
+                      setSortOption?.(
+                        sortOption === SortOptions.Date
+                          ? SortOptions.None
+                          : SortOptions.Date
+                      )
+                    }
                   />
                 </div>
                 <div className="flex items-center space-x-2 justify-between">
@@ -126,13 +109,21 @@ const SideBar = () => {
                     Likes
                   </Label>
                   <Checkbox
-                    checked={orderByLikes}
-                    onClick={() => setOrderByLikes?.(!orderByLikes)}
+                    checked={sortOption === SortOptions.Likes}
+                    onClick={() =>
+                      setSortOption?.(
+                        sortOption === SortOptions.Likes
+                          ? SortOptions.None
+                          : SortOptions.Likes
+                      )
+                    }
                   />
                 </div>
                 <div
                   className={`flex items-center justify-between duration-200 ${
-                    orderByLikes ? "opacity-100" : "opacity-0"
+                    sortOption === SortOptions.Likes
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 >
                   <Label className="text-[13px] text-muted-foreground select-none">
@@ -140,7 +131,6 @@ const SideBar = () => {
                   </Label>
                   <Switch
                     className="disabled:cursor-auto"
-                    disabled={!orderByLikes}
                     checked={mostLikedFirst}
                     onClick={() => setMostLikedFirst?.(!mostLikedFirst)}
                   />

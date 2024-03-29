@@ -97,15 +97,8 @@ const PoetriesCollection = () => {
     return null;
   }
 
-  const {
-    hideTitle,
-    hideDescription,
-    orderByDate,
-    orderByLikes,
-    mostLikedFirst,
-    stopAuto,
-  } = filterData;
-
+  const { hideTitle, hideDescription, sortOption, mostLikedFirst, stopAuto } =
+    filterData;
   return (
     <>
       {editPoetryId ? (
