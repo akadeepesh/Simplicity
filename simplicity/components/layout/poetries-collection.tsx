@@ -128,7 +128,7 @@ const PoetriesCollection = () => {
               return (
                 <>
                   <div
-                    key={poetry.id}
+                    key={poetry._id}
                     className="rounded-lg flex flex-col gap-8 p-6 group"
                   >
                     <div className="flex flex-col">
@@ -160,8 +160,8 @@ const PoetriesCollection = () => {
                                   onClick={() =>
                                     handleEdit(
                                       poetry._id,
-                                      poetry.title,
-                                      poetry.description,
+                                      poetry.title ?? "",
+                                      poetry.description ?? "",
                                       poetry.content
                                     )
                                   }

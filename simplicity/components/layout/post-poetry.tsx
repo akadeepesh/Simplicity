@@ -48,7 +48,6 @@ const Post = () => {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     await post({
-      username: data.username,
       title: data.title,
       description: data.description,
       content: data.content,
@@ -110,7 +109,8 @@ const Post = () => {
                           <TooltipContent>
                             <div className="">
                               This is an optional field, if left blank others
-                              will see &quot;Simplicity&quot; as title
+                              will see &quot;Simplicity&quot; as title. <br />{" "}
+                              Which can be disabled by filtering.
                             </div>{" "}
                           </TooltipContent>
                         </Tooltip>
@@ -149,7 +149,8 @@ const Post = () => {
                           <TooltipContent>
                             <div className="">
                               This is an optional field, if left blank others
-                              will see &quot;...&quot; as description
+                              will see &quot;...&quot; as description. <br />{" "}
+                              Which can be disabled by filtering.
                             </div>{" "}
                           </TooltipContent>
                         </Tooltip>

@@ -10,7 +10,7 @@ const YourPosts = () => {
         {userPoetries?.poetries.map((poetry) => (
           <>
             <div
-              key={poetry.id}
+              key={poetry._id}
               className="rounded-lg flex flex-col h-[70vh] justify-center items-center gap-8"
             >
               <div className="">

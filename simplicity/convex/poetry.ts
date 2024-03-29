@@ -3,15 +3,14 @@ import { mutation, query } from "./_generated/server";
 
 export const AddPoetry = mutation({
   args: {
-    username: v.string(),
     title: v.optional(v.string()),
     description: v.optional(v.string()),
     content: v.string(),
   },
   async handler(ctx, args) {
+    const identity = await ctx.auth.getUserIdentity();
     await ctx.db.insert("poetry", {
-      username: args.username,
-      title: args.title,
+      username: identity?.nickname || "",
       description: args.description,
       content: args.content,
     });
@@ -81,42 +80,28 @@ export const deletePoetry = mutation({
   },
 });
 
-// export const getLikedPoems = query({
-//   args: {},
-//   handler: async (ctx) => {
-//     const identity = await ctx.auth.getUserIdentity();
-//     if (!identity) {
-//       throw new Error("Unauthenticated call to query");
-//     }
-//     // You may need to adjust "by_user" based on your actual index name
-//     const likedPoetryIds = await ctx.db.query("likes")
-//                             .withIndex("by_user", q => q.eq("userId", identity.nickname))
-//                             .collect();
+export const getLikedPoetries = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthenticated call to query");
+    }
+    const userId = identity.subject;
 
-//     const likedPoetries = await Promise.all(
-//       likedPoetryIds.map( async (like) => {
-//         const poetry = await ctx.db.query("poetry").get(like.poetryId); // adjust "poetryId" based on your actual field name
-//         return poetry;
-//       })
-//     );
+    const likes = await ctx.db
+      .query("likes")
+      .withIndex("byUserId", (q) => q.eq("userId", userId))
+      .collect();
 
-//     return likedPoetries;
-//   }
-// });
+    const likedPoetries = [];
+    for (const like of likes) {
+      const poetry = await ctx.db
+        .query("poetry")
+        .filter((q) => q.eq(q.field("_id"), like.poetryId))
+        .unique();
+      likedPoetries.push(poetry);
+    }
 
-// export const getLikedPoems = query({
-//   args: {},
-//   handler: async (ctx) => {
-//     const identity = await ctx.auth.getUserIdentity();
-//     if (!identity) {
-//       throw new Error("Unauthenticated call to query");
-//     }
-//     const userId = identity.subject;
-//     const likes = await ctx.db
-//       .query("likes")
-//       .filter((q) => q.eq(q.field("userId"), userId))
-//       .collect();
-//     const poetryIds = likes.map((like) => like.poetryId);
-//     return ctx.db.query("poetry").filter((q) => q.eq(poetry._id ,poetryIds)).collect();
-//   },
-// });
+    return likedPoetries;
+  },
+});
