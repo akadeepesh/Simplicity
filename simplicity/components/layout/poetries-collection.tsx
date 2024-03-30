@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { Authenticated, useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -48,7 +48,48 @@ const PoetriesCollection = () => {
   const [passDescription, setPassDescription] = useState<string | null>(null);
   const [passContent, setPassContent] = useState<string | null>(null);
   const [currentPoetryIndex, setCurrentPoetryIndex] = useState(0);
+  const [views, setViews] = useState<number[]>([]);
   const poetryRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const timers = useRef<(NodeJS.Timeout | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const index = poetryRefs.current.indexOf(
+          entry.target as HTMLDivElement
+        );
+        if (entry.isIntersecting) {
+          timers.current[index] = setTimeout(() => {
+            setViews((views) => {
+              const newViews = [...views];
+              newViews[index] = (newViews[index] || 0) + 1;
+              console.log(
+                `Poetry ${index} has been viewed ${newViews[index]} times.`
+              );
+              return newViews;
+            });
+          }, 5000);
+        } else {
+          clearTimeout(timers.current[index] as NodeJS.Timeout);
+          timers.current[index] = null;
+        }
+      });
+    });
+
+    poetryRefs.current.forEach((ref) => {
+      if (ref) {
+        observer.observe(ref);
+      }
+    });
+
+    return () => {
+      poetryRefs.current.forEach((ref) => {
+        if (ref) {
+          observer.unobserve(ref);
+        }
+      });
+    };
+  }, []);
 
   const scrollToPoetry = (index: number) => {
     const ref = poetryRefs.current[index];

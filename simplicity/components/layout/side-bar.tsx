@@ -178,7 +178,7 @@ const SideBar = () => {
                       Auto Title &amp; Description
                     </Label>
                     <Label className="text-xs text-muted-foreground">
-                      Don&apos;t Append Auto Title &amp; Description
+                      Don&apos;t Show Auto Title &amp; Description
                     </Label>
                   </div>
                   <Switch
