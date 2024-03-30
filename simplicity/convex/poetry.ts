@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
 export const AddPoetry = mutation({
@@ -9,6 +9,11 @@ export const AddPoetry = mutation({
   },
   async handler(ctx, args) {
     const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error(
+        "Unauthenticated User Are Not Allowed For This Operation"
+      );
+    }
     await ctx.db.insert("poetry", {
       username: identity?.nickname || "",
       description: args.description,
@@ -20,6 +25,11 @@ export const AddPoetry = mutation({
 export const getPoetry = query({
   async handler(ctx) {
     const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      new ConvexError(
+        "Unauthenticated User Are Not Allowed For This Operation"
+      );
+    }
     return {
       viewer: identity,
       poetries: await ctx.db.query("poetry").order("desc").collect(),
@@ -49,6 +59,11 @@ export const getPoetryById = query({
   },
   async handler(ctx, args) {
     const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error(
+        "Unauthenticated User Are Not Allowed For This Operation"
+      );
+    }
     return {
       viewer: identity,
       poetry: await ctx.db.get(args.id),
@@ -60,7 +75,9 @@ export const getViewerPoetries = query({
   async handler(ctx) {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
-      throw new Error("Unauthenticated call to query");
+      throw new Error(
+        "Unauthenticated User Are Not Allowed For This Operation"
+      );
     }
     return {
       viewer: identity,
@@ -84,7 +101,9 @@ export const getLikedPoetries = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
-      throw new Error("Unauthenticated call to query");
+      throw new Error(
+        "Unauthenticated User Are Not Allowed For This Operation"
+      );
     }
     const userId = identity.subject;
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { Authenticated, useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -11,8 +11,16 @@ import {
   EllipsisVertical,
   Pencil,
   Trash2,
+  ChevronDown,
 } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import {
   DropdownMenu,
@@ -24,6 +32,7 @@ import {
 import EditPoetry from "./edit-poetry";
 import { Separator } from "../ui/separator";
 import { FilterContext } from "./FilterContext";
+import { Button } from "../ui/button";
 
 const PoetriesCollection = () => {
   const { filterData } = useContext(FilterContext) || {};
@@ -38,7 +47,26 @@ const PoetriesCollection = () => {
   const [passTitle, setPassTitle] = useState<string | null>(null);
   const [passDescription, setPassDescription] = useState<string | null>(null);
   const [passContent, setPassContent] = useState<string | null>(null);
+  const [currentPoetryIndex, setCurrentPoetryIndex] = useState(0);
+  const poetryRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const scrollToPoetry = (index: number) => {
+    const ref = poetryRefs.current[index];
+    if (ref) {
+      const offset = 100;
+      const top = ref.offsetTop - offset;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
+  const handleButtonClick = () => {
+    setCurrentPoetryIndex((currentPoetryIndex) => {
+      const nextPoetryIndex =
+        (currentPoetryIndex + 1) % poetryRefs.current.length;
+      scrollToPoetry(nextPoetryIndex);
+      return nextPoetryIndex;
+    });
+  };
   const handleLikeClick = async (poetryId: Id<"poetry">) => {
     const isLiked = likesData?.some(
       (like) => like.poetryId === poetryId && like.userId === viewer?.subject
@@ -112,7 +140,7 @@ const PoetriesCollection = () => {
       ) : (
         <div className="">
           <div className="flex flex-col gap-2">
-            {poetries?.map((poetry) => {
+            {poetries?.map((poetry, index) => {
               const numLikes =
                 likesData?.filter((like) => like.poetryId === poetry._id)
                   .length ?? 0;
@@ -130,6 +158,7 @@ const PoetriesCollection = () => {
                   <div
                     key={poetry._id}
                     className="rounded-lg flex flex-col gap-8 p-6 group"
+                    ref={(el) => (poetryRefs.current[index] = el)}
                   >
                     <div className="flex flex-col">
                       <div
@@ -243,6 +272,25 @@ const PoetriesCollection = () => {
               );
             })}
           </div>
+          <Button
+            onClick={handleButtonClick}
+            size={"icon"}
+            className="fixed group bottom-8 right-8 bg-transparent hover:bg-secondary transition-all duration-300 text-primary z-10"
+          >
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <ChevronDown
+                    className="group-hover:text-blue-500 transition-all duration-300"
+                    size={20}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <div>Next Poetry</div>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </Button>
         </div>
       )}
     </>

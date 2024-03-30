@@ -14,7 +14,7 @@ const Main = () => {
   const [showButton, setShowButton] = useState(false);
 
   const handleScroll = () => {
-    if (window.scrollY > 600) {
+    if (window.scrollY > 500) {
       setShowButton(true);
     } else {
       setShowButton(false);
@@ -40,7 +40,7 @@ const Main = () => {
         <Button
           onClick={scrollToTop}
           size={"icon"}
-          className="fixed group bottom-8 right-8 bg-transparent hover:bg-secondary transition-all duration-300 text-primary z-10"
+          className="fixed group bottom-16 right-8 bg-transparent hover:bg-secondary transition-all duration-300 text-primary z-10"
         >
           <TooltipProvider>
             <Tooltip>
