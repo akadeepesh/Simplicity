@@ -33,10 +33,12 @@ import EditPoetry from "./edit-poetry";
 import { Separator } from "../ui/separator";
 import { FilterContext } from "./FilterContext";
 import { Button } from "../ui/button";
+import { useUser } from "@clerk/clerk-react";
 
 const PoetriesCollection = () => {
   const { filterData } = useContext(FilterContext) || {};
-  const { viewer, poetries } = useQuery(api.poetry.getPoetry) ?? {};
+  const { poetries } = useQuery(api.poetry.getPoetry) ?? {};
+  const { user } = useUser();
   const delPoetry = useMutation(api.poetry.deletePoetry);
   const likePoetry = useMutation(api.likes.LikePoetry);
   const dellikesbypoetry = useMutation(api.likes.DeleteAllLikesByPoetryId);
@@ -94,7 +96,7 @@ const PoetriesCollection = () => {
   const scrollToPoetry = (index: number) => {
     const ref = poetryRefs.current[index];
     if (ref) {
-      const offset = 100;
+      const offset = 80;
       const top = ref.offsetTop - offset;
       window.scrollTo({ top, behavior: "smooth" });
     }
@@ -110,7 +112,7 @@ const PoetriesCollection = () => {
   };
   const handleLikeClick = async (poetryId: Id<"poetry">) => {
     const isLiked = likesData?.some(
-      (like) => like.poetryId === poetryId && like.userId === viewer?.subject
+      (like) => like.poetryId === poetryId && like.userId === user?.id
     );
 
     if (isLiked) {
@@ -132,7 +134,7 @@ const PoetriesCollection = () => {
     }, 2000);
   };
 
-  if (viewer === undefined || poetries === undefined) {
+  if (user === undefined || poetries === undefined) {
     return (
       <div className="flex-col space-y-10">
         <Skeleton className="flex h-[40vh] w-full" />
@@ -187,8 +189,7 @@ const PoetriesCollection = () => {
                   .length ?? 0;
               const isLiked = likesData?.some(
                 (like) =>
-                  like.poetryId === poetry._id &&
-                  like.userId === viewer?.subject
+                  like.poetryId === poetry._id && like.userId === user?.id
               );
               const showTitleAndDescription =
                 !hideTitle &&
@@ -224,7 +225,7 @@ const PoetriesCollection = () => {
                                 <EllipsisVertical size={20} />
                               </div>
                             </DropdownMenuTrigger>
-                            {poetry.username === viewer?.nickname ? (
+                            {poetry.username === user?.username ? (
                               <DropdownMenuContent>
                                 <DropdownMenuItem
                                   onClick={() =>

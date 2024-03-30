@@ -10,7 +10,7 @@ export const AddPoetry = mutation({
   async handler(ctx, args) {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
-      throw new Error(
+      throw new ConvexError(
         "Unauthenticated User Are Not Allowed For This Operation"
       );
     }
@@ -24,14 +24,7 @@ export const AddPoetry = mutation({
 
 export const getPoetry = query({
   async handler(ctx) {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      new ConvexError(
-        "Unauthenticated User Are Not Allowed For This Operation"
-      );
-    }
     return {
-      viewer: identity,
       poetries: await ctx.db.query("poetry").order("desc").collect(),
     };
   },
@@ -60,7 +53,7 @@ export const getPoetryById = query({
   async handler(ctx, args) {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
-      throw new Error(
+      throw new ConvexError(
         "Unauthenticated User Are Not Allowed For This Operation"
       );
     }
@@ -75,7 +68,7 @@ export const getViewerPoetries = query({
   async handler(ctx) {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
-      throw new Error(
+      throw new ConvexError(
         "Unauthenticated User Are Not Allowed For This Operation"
       );
     }
@@ -101,7 +94,7 @@ export const getLikedPoetries = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
-      throw new Error(
+      throw new ConvexError(
         "Unauthenticated User Are Not Allowed For This Operation"
       );
     }
