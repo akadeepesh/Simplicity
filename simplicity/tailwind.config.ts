@@ -26,6 +26,7 @@ module.exports = {
         Georgian: ["Georgian", "sans"],
       },
       colors: {
+        bluePrimary: "#21bbdc",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

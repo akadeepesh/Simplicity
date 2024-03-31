@@ -1,11 +1,6 @@
 "use client";
 import React, { useState, useContext, useRef, useEffect } from "react";
-import {
-  Authenticated,
-  useMutation,
-  useQuery,
-  usePaginatedQuery,
-} from "convex/react";
+import { Authenticated, useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import {
@@ -41,10 +36,10 @@ import { Button } from "../ui/button";
 import { useUser } from "@clerk/nextjs";
 
 const PoetriesCollection = () => {
-  let numOfPoetries = 5;
+  const [numFetch, setNumFetch] = useState<number>(5);
   const { filterData } = useContext(FilterContext) || {};
   const { poetries } =
-    useQuery(api.poetry.getPoetry, { count: numOfPoetries }) ?? {};
+    useQuery(api.poetry.getPoetry, { count: numFetch }) ?? {};
   const { user } = useUser();
   const delPoetry = useMutation(api.poetry.deletePoetry);
   const likePoetry = useMutation(api.likes.LikePoetry);
@@ -277,7 +272,7 @@ const PoetriesCollection = () => {
                         </Authenticated>
                       </div>
                       {showTitleAndDescription && (
-                        <div className="bg-gradient-to-r from-[#21bbdc] to-transparent my-2 h-[1px] w-full" />
+                        <div className="bg-gradient-to-r from-bluePrimary to-transparent my-2 h-[1px] w-full" />
                       )}
                     </div>
                     <div className="flex whitespace-pre-wrap leading-8 h-full font-light justify-center items-center">
@@ -294,7 +289,9 @@ const PoetriesCollection = () => {
                             <Heart
                               size={20}
                               className={
-                                isLiked ? "fill-[#21bbdc] text-[#21bbdc]" : ""
+                                isLiked
+                                  ? "fill-bluePrimary text-bluePrimary"
+                                  : ""
                               }
                             />
                             <div>{numLikes}</div>
@@ -322,7 +319,12 @@ const PoetriesCollection = () => {
             })}
           </div>
           <div className="flex w-full justify-center items-center">
-            <Button onClick={() => (numOfPoetries += 5)}>Load More</Button>
+            <Button
+              className="hover:border-bluePrimary border-b transition-all duration-300 text-primary bg-transparent hover:bg-transparent"
+              onClick={() => setNumFetch(numFetch + 5)}
+            >
+              Load More
+            </Button>
           </div>
           <Button
             onClick={handleButtonClick}
@@ -333,7 +335,7 @@ const PoetriesCollection = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <ChevronDown
-                    className="group-hover:text-[#21bbdc] transition-all duration-300"
+                    className="group-hover:text-bluePrimary transition-all duration-300"
                     size={20}
                   />
                 </TooltipTrigger>
