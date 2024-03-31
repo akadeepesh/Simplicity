@@ -135,7 +135,6 @@ const PoetriesCollection = () => {
   };
 
   if (user === undefined || poetries === undefined) {
-    console.log("user :", user, "poetries :", poetries);
     return (
       <div className="flex-col space-y-10">
         <Skeleton className="flex h-[40vh] w-full" />
