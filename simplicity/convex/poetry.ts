@@ -23,9 +23,13 @@ export const AddPoetry = mutation({
 });
 
 export const getPoetry = query({
-  async handler(ctx) {
+  args: {
+    count: v.optional(v.number()),
+  },
+  async handler(ctx, args) {
+    const count = args.count || 5;
     return {
-      poetries: await ctx.db.query("poetry").order("desc").collect(),
+      poetries: await ctx.db.query("poetry").order("desc").take(count),
     };
   },
 });
