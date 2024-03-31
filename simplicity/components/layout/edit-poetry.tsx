@@ -22,7 +22,6 @@ import { MoveRight } from "lucide-react";
 
 const FormSchema = z.object({
   id: z.any(),
-  username: z.string(),
   title: z.string().optional(),
   description: z.string().optional(),
   content: z.string(),
@@ -45,7 +44,6 @@ const EditPoetry = ({
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
       id: poetryId,
-      username: user?.username ?? "",
       title: title ?? "",
       description: description ?? "",
       content: content ?? "",
@@ -123,7 +121,7 @@ const EditPoetry = ({
     setIsInvalid(true);
   };
   return (
-    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input my-6">
+    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input mt-6">
       <h2 className="font-bold text-xl cursor-default">
         Welcome to{" "}
         <span className="hover:text-bluePrimary duration-300">Simplicity</span>
@@ -140,43 +138,9 @@ const EditPoetry = ({
       </p>
       <Form {...form}>
         <form
-          className="my-8 flex flex-col space-y-6"
+          className="mt-8 flex flex-col space-y-6"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <div className="flex flex-row gap-5">
-            <FormField
-              control={form.control}
-              name="id"
-              render={({ field }) => (
-                <FormItem>
-                  <LabelInputContainer>
-                    <FormLabel>
-                      <Label>ID</Label>
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} disabled />
-                    </FormControl>
-                  </LabelInputContainer>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <LabelInputContainer>
-                    <FormLabel>
-                      <Label>Username</Label>
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} disabled />
-                    </FormControl>
-                  </LabelInputContainer>
-                </FormItem>
-              )}
-            />
-          </div>
           <FormField
             control={form.control}
             name="title"
@@ -241,9 +205,10 @@ const EditPoetry = ({
                   </FormLabel>
                   <FormControl>
                     <Textarea
-                      className="h-20 text-left align-top"
+                      className="h-20 text-left align-top max-h-60 leading-6 min-h-[100px]"
                       {...field}
                       placeholder="Write Your Poetry Here..."
+                      spellCheck={false}
                       onInvalid={handleInvalid}
                       onFocus={() => setIsInvalid(false)}
                       required
@@ -253,15 +218,13 @@ const EditPoetry = ({
               </FormItem>
             )}
           />
-          <div className="flex gap-4 flex-row-reverse">
-            <button
-              className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-              type="submit"
-            >
-              Update &rarr;
-              <BottomGradient />
-            </button>
-          </div>
+          <button
+            className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+            type="submit"
+          >
+            Update &rarr;
+            <BottomGradient />
+          </button>
           <div className="bg-gradient-to-r from-transparent via-[#21bbdc] to-transparent my-8 h-[1px] w-full" />
         </form>
       </Form>

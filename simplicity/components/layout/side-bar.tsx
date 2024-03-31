@@ -75,7 +75,10 @@ const SideBar = () => {
           <Separator className="bg-[#21bbdc]" />
           <Card>
             <CardHeader className="gap-2">
-              <CardTitle>Sort by</CardTitle>
+              <CardTitle className="flex flex-row gap-2 items-end">
+                Sort by{" "}
+                <span className="text-destructive text-xs">(Not In Use)</span>
+              </CardTitle>
               <Separator className="bg-[#21bbdc]" />
             </CardHeader>
             <CardContent>
