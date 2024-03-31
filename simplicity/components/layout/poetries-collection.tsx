@@ -134,14 +134,15 @@ const PoetriesCollection = () => {
     }, 2000);
   };
 
-  // if (user === undefined || poetries === undefined) {
-  //   return (
-  //     <div className="flex-col space-y-10">
-  //       <Skeleton className="flex h-[40vh] w-full" />
-  //       <Skeleton className="flex h-[40vh] w-full" />
-  //     </div>
-  //   );
-  // }
+  if (user === undefined || poetries === undefined) {
+    console.log("user :", user, "poetries :", poetries);
+    return (
+      <div className="flex-col space-y-10">
+        <Skeleton className="flex h-[40vh] w-full" />
+        <Skeleton className="flex h-[40vh] w-full" />
+      </div>
+    );
+  }
 
   const DeletePoetryAndLikes = async (poetryId: Id<"poetry">) => {
     await delPoetry({ id: poetryId });
