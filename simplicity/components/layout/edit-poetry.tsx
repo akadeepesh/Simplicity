@@ -33,13 +33,11 @@ const EditPoetry = ({
   title,
   description,
   content,
-  onCloseEdit,
 }: {
   poetryId: Id<"poetry">;
   title: string | null;
   description: string | null;
   content: string | null;
-  onCloseEdit: () => void;
 }) => {
   const update = useMutation(api.poetry.updatePoetry);
   const { user } = useUser();
@@ -116,7 +114,6 @@ const EditPoetry = ({
         });
         break;
     }
-    onCloseEdit();
   }
 
   const [isInvalid, setIsInvalid] = useState(false);
@@ -126,9 +123,12 @@ const EditPoetry = ({
     setIsInvalid(true);
   };
   return (
-    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input">
-      <h2 className="font-bold text-xl">Welcome to Simplicity</h2>
-      <p className="text-muted-foreground text-sm max-w-sm mt-2 flex flex-row items-center gap-2">
+    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input my-6">
+      <h2 className="font-bold text-xl cursor-default">
+        Welcome to{" "}
+        <span className="hover:text-bluePrimary duration-300">Simplicity</span>
+      </h2>
+      <p className="text-muted-foreground text-sm max-w-sm flex flex-row items-center gap-2">
         Edit Your Poetry
         {title ? (
           ` "${title.split(" ").slice(0, 7).join(" ").substring(0, 50)}${
@@ -143,38 +143,40 @@ const EditPoetry = ({
           className="my-8 flex flex-col space-y-6"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <FormField
-            control={form.control}
-            name="id"
-            render={({ field }) => (
-              <FormItem>
-                <LabelInputContainer>
-                  <FormLabel>
-                    <Label>ID</Label>
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled />
-                  </FormControl>
-                </LabelInputContainer>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <LabelInputContainer>
-                  <FormLabel>
-                    <Label>Username</Label>
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled />
-                  </FormControl>
-                </LabelInputContainer>
-              </FormItem>
-            )}
-          />
+          <div className="flex flex-row gap-5">
+            <FormField
+              control={form.control}
+              name="id"
+              render={({ field }) => (
+                <FormItem>
+                  <LabelInputContainer>
+                    <FormLabel>
+                      <Label>ID</Label>
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} disabled />
+                    </FormControl>
+                  </LabelInputContainer>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <LabelInputContainer>
+                    <FormLabel>
+                      <Label>Username</Label>
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} disabled />
+                    </FormControl>
+                  </LabelInputContainer>
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="title"
@@ -258,12 +260,6 @@ const EditPoetry = ({
             >
               Update &rarr;
               <BottomGradient />
-            </button>
-            <button
-              className="bg-gradient-to-br relative group/btn bg-destructive w-full text-primary rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] items-center"
-              onClick={onCloseEdit}
-            >
-              Close &times;
             </button>
           </div>
           <div className="bg-gradient-to-r from-transparent via-[#21bbdc] to-transparent my-8 h-[1px] w-full" />
