@@ -321,9 +321,9 @@ const PoetriesCollection = () => {
               );
             })}
           </div>
-          {/* <div className="flex w-full justify-center items-center">
+          <div className="flex w-full justify-center items-center">
             <Button onClick={() => (numOfPoetries += 5)}>Load More</Button>
-          </div> */}
+          </div>
           <Button
             onClick={handleButtonClick}
             size={"icon"}
