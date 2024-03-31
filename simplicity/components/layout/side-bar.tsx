@@ -48,7 +48,7 @@ const SideBar = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Filter
-                  className="hover:text-blue-500 transition-all duration-300"
+                  className="hover:text-[#21bbdc] transition-all duration-300"
                   size={20}
                 />
               </TooltipTrigger>
@@ -61,22 +61,22 @@ const SideBar = () => {
         <SheetContent className="flex flex-col gap-8 w-72">
           <SheetHeader>
             <SheetTitle>Filters</SheetTitle>
-            <Separator className="bg-blue-500" />
+            <Separator className="bg-[#21bbdc]" />
           </SheetHeader>
           <div className="flex flex-row justify-between">
             <Link href={`/profile/${user?.username}/posts`}>
               <div className="text-sm">Your Posts</div>
             </Link>
-            <Separator orientation="vertical" className="bg-blue-500" />
+            <Separator orientation="vertical" className="bg-[#21bbdc]" />
             <Link href={`/profile/${user?.username}/liked`}>
               <div className="text-sm">Liked Posts</div>
             </Link>
           </div>
-          <Separator className="bg-blue-500" />
+          <Separator className="bg-[#21bbdc]" />
           <Card>
             <CardHeader className="gap-2">
               <CardTitle>Sort by</CardTitle>
-              <Separator className="bg-blue-500" />
+              <Separator className="bg-[#21bbdc]" />
             </CardHeader>
             <CardContent>
               <div
@@ -142,7 +142,7 @@ const SideBar = () => {
           <Card>
             <CardHeader className="gap-2">
               <CardTitle>Title &amp; Description</CardTitle>
-              <Separator className="bg-blue-500" />
+              <Separator className="bg-[#21bbdc]" />
             </CardHeader>
             <CardContent>
               <div className="flex flex-col gap-6">

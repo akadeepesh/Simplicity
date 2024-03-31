@@ -32,7 +32,7 @@ const UserNavigation = () => {
           <UserButton />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="">
-          <DropdownMenuLabel className="text-blue-500/80 text-base">
+          <DropdownMenuLabel className="text-[#21bbdc]/80 text-base">
             @{user?.username}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />

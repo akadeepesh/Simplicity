@@ -33,7 +33,7 @@ import EditPoetry from "./edit-poetry";
 import { Separator } from "../ui/separator";
 import { FilterContext } from "./FilterContext";
 import { Button } from "../ui/button";
-import { useUser } from "@clerk/clerk-react";
+import { useUser } from "@clerk/nextjs";
 
 const PoetriesCollection = () => {
   const { filterData } = useContext(FilterContext) || {};
@@ -270,7 +270,7 @@ const PoetriesCollection = () => {
                         </Authenticated>
                       </div>
                       {showTitleAndDescription && (
-                        <div className="bg-gradient-to-r from-blue-500 to-transparent my-2 h-[1px] w-full" />
+                        <div className="bg-gradient-to-r from-[#21bbdc] to-transparent my-2 h-[1px] w-full" />
                       )}
                     </div>
                     <div className="flex whitespace-pre-wrap leading-8 h-full font-light justify-center items-center">
@@ -287,7 +287,7 @@ const PoetriesCollection = () => {
                             <Heart
                               size={20}
                               className={
-                                isLiked ? "fill-blue-500 text-blue-500" : ""
+                                isLiked ? "fill-[#21bbdc] text-[#21bbdc]" : ""
                               }
                             />
                             <div>{numLikes}</div>
@@ -323,7 +323,7 @@ const PoetriesCollection = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <ChevronDown
-                    className="group-hover:text-blue-500 transition-all duration-300"
+                    className="group-hover:text-[#21bbdc] transition-all duration-300"
                     size={20}
                   />
                 </TooltipTrigger>

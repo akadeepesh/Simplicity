@@ -210,7 +210,7 @@ const Post = () => {
             Post &rarr;
             <BottomGradient />
           </button>
-          <div className="bg-gradient-to-r from-transparent via-blue-500 to-transparent my-8 h-[1px] w-full" />
+          <div className="bg-gradient-to-r from-transparent via-[#21bbdc] to-transparent my-8 h-[1px] w-full" />
         </form>
       </Form>
     </div>
