@@ -46,7 +46,7 @@ const Main = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <ChevronUp
-                  className="group-hover:text-[#21bbdc] transition-all duration-300"
+                  className="group-hover:text-[#21bbdc] hover:bg-secondary transition-all duration-300"
                   size={20}
                 />
               </TooltipTrigger>
