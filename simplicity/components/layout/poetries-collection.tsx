@@ -53,6 +53,7 @@ const PoetriesCollection = () => {
   const [views, setViews] = useState<number[]>([]);
   const poetryRefs = useRef<(HTMLDivElement | null)[]>([]);
   const timers = useRef<(NodeJS.Timeout | null)[]>([]);
+  const [currentOpenId, setCurrentOpenId] = useState<Id<"poetry"> | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -188,7 +189,14 @@ const PoetriesCollection = () => {
                       </div>
                     </div>
                     <Authenticated>
-                      <Dialog>
+                      <Dialog
+                        open={poetry._id === currentOpenId}
+                        onOpenChange={(isOpen) =>
+                          isOpen
+                            ? setCurrentOpenId(poetry._id)
+                            : setCurrentOpenId(null)
+                        }
+                      >
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild className="rounded-md">
                             <div className="group-hover:opacity-80 opacity-0 flex text-muted-foreground p-3 rounded-2xl hover:bg-muted cursor-pointer transition-all duration-300">
@@ -233,6 +241,7 @@ const PoetriesCollection = () => {
                             title={poetry.title ?? null}
                             description={poetry.description ?? null}
                             content={poetry.content}
+                            closeDialog={() => setCurrentOpenId(null)}
                           />
                         </DialogContent>
                       </Dialog>

@@ -16,7 +16,6 @@ import { Input } from "../aceternity/input";
 import { Label } from "../aceternity/label";
 import { Textarea } from "../aceternity/textarea";
 import { cn } from "@/lib/utils";
-import { useUser } from "@clerk/clerk-react";
 import { useToast } from "@/components/ui/use-toast";
 import { MoveRight } from "lucide-react";
 
@@ -32,14 +31,15 @@ const EditPoetry = ({
   title,
   description,
   content,
+  closeDialog,
 }: {
   poetryId: Id<"poetry">;
   title: string | null;
   description: string | null;
   content: string | null;
+  closeDialog: () => void;
 }) => {
   const update = useMutation(api.poetry.updatePoetry);
-  const { user } = useUser();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
@@ -85,6 +85,8 @@ const EditPoetry = ({
       description: data.description,
       content: data.content,
     });
+
+    closeDialog();
 
     switch (caseNumber) {
       case 2:
