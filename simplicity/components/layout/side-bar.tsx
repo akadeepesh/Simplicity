@@ -77,7 +77,9 @@ const SideBar = () => {
             <CardHeader className="gap-2">
               <CardTitle className="flex flex-row gap-2 items-end">
                 Sort by{" "}
-                <span className="text-destructive text-xs">(Not In Use)</span>
+                <span className="text-muted-foreground text-xs">
+                  (In Development)
+                </span>
               </CardTitle>
               <Separator className="bg-[#21bbdc]" />
             </CardHeader>
@@ -98,6 +100,7 @@ const SideBar = () => {
                   </div>
                   <Switch
                     checked={sortOption === SortOptions.Date}
+                    disabled
                     onClick={() =>
                       setSortOption?.(
                         sortOption === SortOptions.Date
@@ -113,6 +116,7 @@ const SideBar = () => {
                   </Label>
                   <Checkbox
                     checked={sortOption === SortOptions.Likes}
+                    disabled
                     onClick={() =>
                       setSortOption?.(
                         sortOption === SortOptions.Likes
@@ -133,6 +137,7 @@ const SideBar = () => {
                     Most Liked First
                   </Label>
                   <Switch
+                    disabled
                     className="disabled:cursor-auto"
                     checked={mostLikedFirst}
                     onClick={() => setMostLikedFirst?.(!mostLikedFirst)}

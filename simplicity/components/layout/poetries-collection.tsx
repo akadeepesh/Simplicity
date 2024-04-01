@@ -1,6 +1,11 @@
 "use client";
 import React, { useState, useContext, useRef, useEffect } from "react";
-import { Authenticated, useMutation, useQuery } from "convex/react";
+import {
+  Authenticated,
+  useMutation,
+  useQuery,
+  usePaginatedQuery,
+} from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import {
@@ -38,10 +43,12 @@ import { Button } from "../ui/button";
 import { useUser } from "@clerk/nextjs";
 
 const PoetriesCollection = () => {
-  const [numFetch, setNumFetch] = useState<number>(5);
   const { filterData } = useContext(FilterContext) || {};
-  const { poetries } =
-    useQuery(api.poetry.getPoetry, { count: numFetch }) ?? {};
+  const { results, status, loadMore } = usePaginatedQuery(
+    api.poetry.getPoetry,
+    {},
+    { initialNumItems: 5 }
+  );
   const { user } = useUser();
   const delPoetry = useMutation(api.poetry.deletePoetry);
   const likePoetry = useMutation(api.likes.LikePoetry);
@@ -135,7 +142,7 @@ const PoetriesCollection = () => {
     }, 2000);
   };
 
-  if (user === undefined || poetries === undefined) {
+  if (user === undefined || results.length === 0) {
     return (
       <div className="flex-col space-y-10">
         <Skeleton className="flex h-[40vh] w-full" />
@@ -157,7 +164,7 @@ const PoetriesCollection = () => {
   return (
     <>
       <div className="flex flex-col gap-2">
-        {poetries?.map((poetry, index) => {
+        {results?.map((poetry, index) => {
           const numLikes =
             likesData?.filter((like) => like.poetryId === poetry._id).length ??
             0;
@@ -182,7 +189,7 @@ const PoetriesCollection = () => {
                           ? `${hideTitle ? "" : poetry.title}`
                           : `${stopAuto || hideTitle ? "" : "Simplicity"}`}
                       </div>
-                      <div className="text-base text-muted-foreground">
+                      <div className="text-xs text-muted-foreground">
                         {poetry.description
                           ? `${hideDescription ? "" : poetry.description}`
                           : `${stopAuto || hideDescription ? "" : "..."}`}
@@ -251,7 +258,7 @@ const PoetriesCollection = () => {
                     <div className="bg-gradient-to-r from-bluePrimary to-transparent my-2 h-[1px] w-full" />
                   )}
                 </div>
-                <div className="flex whitespace-pre-wrap leading-8 h-full font-light justify-center items-center">
+                <div className="flex whitespace-pre-wrap leading-8 h-full font-light items-center">
                   {poetry.content}
                 </div>
                 {showTitleAndDescription && <Separator />}
@@ -293,12 +300,14 @@ const PoetriesCollection = () => {
         })}
       </div>
       <div className="flex w-full justify-center items-center">
-        <Button
-          className="hover:border-bluePrimary border-b transition-all duration-300 text-primary bg-transparent hover:bg-transparent"
-          onClick={() => setNumFetch(numFetch + 5)}
-        >
-          Load More
-        </Button>
+        {status === "CanLoadMore" ? (
+          <Button
+            className="hover:border-bluePrimary border-b transition-all duration-300 text-primary bg-transparent hover:bg-transparent"
+            onClick={() => loadMore(5)}
+          >
+            Load More
+          </Button>
+        ) : null}
       </div>
       <Button
         onClick={handleButtonClick}

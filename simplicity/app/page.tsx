@@ -40,13 +40,13 @@ const Main = () => {
         <Button
           onClick={scrollToTop}
           size={"icon"}
-          className="fixed group bottom-16 right-8 bg-transparent hover:bg-secondary transition-all duration-300 text-primary z-10"
+          className="fixed group bottom-[72px] right-8 bg-transparent hover:bg-secondary transition-all duration-300 text-primary z-10"
         >
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <ChevronUp
-                  className="group-hover:text-[#21bbdc] hover:bg-secondary transition-all duration-300"
+                  className="group-hover:text-bluePrimary hover:bg-secondary transition-all duration-300"
                   size={20}
                 />
               </TooltipTrigger>

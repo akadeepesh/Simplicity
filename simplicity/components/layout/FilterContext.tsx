@@ -33,7 +33,7 @@ export const FilterProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [hideTitle, setHideTitle] = useState<boolean>(false);
   const [hideDescription, setHideDescription] = useState<boolean>(false);
-  const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.None);
+  const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.Date);
   const [mostLikedFirst, setMostLikedFirst] = useState<boolean>(true);
   const [stopAuto, setStopAuto] = useState<boolean>(false);
 

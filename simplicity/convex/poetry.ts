@@ -1,5 +1,6 @@
 import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { paginationOptsValidator } from "convex/server";
 
 export const AddPoetry = mutation({
   args: {
@@ -22,15 +23,25 @@ export const AddPoetry = mutation({
   },
 });
 
+// export const getPoetry = query({
+//   args: {
+//     count: v.optional(v.number()),
+//   },
+//   async handler(ctx, args) {
+//     const count = args.count || 5;
+//     return {
+//       poetries: await ctx.db.query("poetry").order("desc").take(count),
+//     };
+//   },
+// });
+
 export const getPoetry = query({
-  args: {
-    count: v.optional(v.number()),
-  },
-  async handler(ctx, args) {
-    const count = args.count || 5;
-    return {
-      poetries: await ctx.db.query("poetry").order("desc").take(count),
-    };
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("poetry")
+      .order("desc")
+      .paginate(args.paginationOpts);
   },
 });
 
