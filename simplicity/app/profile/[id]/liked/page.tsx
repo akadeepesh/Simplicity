@@ -1,37 +1,75 @@
 "use client";
-import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
-import React from "react";
+import React, { useState } from "react";
+import Footer from "@/components/layout/footer";
+import { ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import UnauthenticatedUserPage from "@/components/layout/unauthenticated-users";
+import LikedPoetries from "@/components/layout/liked-poetries";
+import { Authenticated, Unauthenticated } from "convex/react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-const Liked = () => {
-  const likedPoetries = useQuery(api.poetry.getLikedPoetries);
+const LikedPage = () => {
+  const [showButton, setShowButton] = useState(false);
+
+  const handleScroll = () => {
+    if (window.scrollY > 500) {
+      setShowButton(true);
+    } else {
+      setShowButton(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 mt-20 z-10">
-      <div className="flex flex-col gap-2">
-        {likedPoetries?.map((poetry) => (
-          <>
-            <div
-              key={poetry?._id}
-              className="rounded-lg flex flex-col h-[70vh] justify-center items-center gap-8"
+    <div>
+      <Authenticated>
+        <div>
+          <div className="container max-w-2xl flex flex-col mt-14 md:mt-28">
+            <LikedPoetries />
+          </div>
+          {showButton && (
+            <Button
+              onClick={scrollToTop}
+              size={"icon"}
+              className="fixed group bottom-[72px] right-8 bg-transparent hover:bg-secondary transition-all duration-300 text-primary z-10"
             >
-              <div className="">
-                <div className="text-xl font-bold">
-                  {poetry?.title ? poetry.title : "Untitled"}
-                </div>
-                <div className="text-base text-muted-foreground">
-                  {poetry?.description ? poetry.description : "..."}
-                </div>
-              </div>
-              <div className="whitespace-pre-wrap leading-8 font-sans">
-                {poetry?.content}
-              </div>
-            </div>
-            <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-12 h-[1px] w-full" />
-          </>
-        ))}
-      </div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <ChevronUp
+                      className="group-hover:text-bluePrimary hover:bg-secondary transi
+                  tion-all duration-300"
+                      size={20}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <div>Move to Top</div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </Button>
+          )}
+          <Footer />
+        </div>
+      </Authenticated>
+      <Unauthenticated>
+        <UnauthenticatedUserPage ErrorMessage="You need to Sign in to access your poetries" />
+      </Unauthenticated>
     </div>
   );
 };
 
-export default Liked;
+export default LikedPage;

@@ -106,6 +106,7 @@ export const getLikedPoetries = query({
     const likes = await ctx.db
       .query("likes")
       .withIndex("byUserId", (q) => q.eq("userId", userId))
+      .order("desc")
       .collect();
 
     const likedPoetries = [];
