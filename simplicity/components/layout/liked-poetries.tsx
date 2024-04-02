@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext, useRef, useEffect } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { Authenticated, useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -39,6 +39,7 @@ import { Skeleton } from "../ui/skeleton";
 
 const LikedItems = () => {
   const { user } = useUser();
+  const userload = useUser().isLoaded;
   const delPoetry = useMutation(api.poetry.deletePoetry);
   const likePoetry = useMutation(api.likes.LikePoetry);
   const likedPoetries = useQuery(api.poetry.getLikedPoetries);
@@ -55,7 +56,7 @@ const LikedItems = () => {
   }
 
   const { hideTitle, hideDescription, stopAuto } = filterData; // sortOption, mostLikedFirst, will be added later
-  if (useUser().isLoaded) {
+  if (userload) {
     if (!likedPoetries) {
       return (
         <div className="flex-col space-y-10">
