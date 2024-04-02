@@ -38,27 +38,23 @@ import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "../ui/skeleton";
 
 const LikedItems = () => {
+  const { user } = useUser();
+  const delPoetry = useMutation(api.poetry.deletePoetry);
+  const likePoetry = useMutation(api.likes.LikePoetry);
+  const yourPoetries = useQuery(api.poetry.getViewerPoetries);
+  const dellikesbypoetry = useMutation(api.likes.DeleteAllLikesByPoetryId);
+  const likesData = useQuery(api.likes.LikesData, {});
+  const [copiedText, setCopiedText] = useState<string | null>(null);
+  const unlikePoetry = useMutation(api.likes.unlikePoetry);
+  const [currentPoetryIndex, setCurrentPoetryIndex] = useState(0);
+  const poetryRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [currentOpenId, setCurrentOpenId] = useState<Id<"poetry"> | null>(null);
   const { filterData } = useContext(FilterContext) || {};
   if (!filterData) {
     return null;
   }
-
   const { hideTitle, hideDescription, stopAuto } = filterData; // sortOption, mostLikedFirst, will be added later
-  const { user } = useUser();
   if (useUser().isLoaded) {
-    const delPoetry = useMutation(api.poetry.deletePoetry);
-    const likePoetry = useMutation(api.likes.LikePoetry);
-    const yourPoetries = useQuery(api.poetry.getViewerPoetries);
-    const dellikesbypoetry = useMutation(api.likes.DeleteAllLikesByPoetryId);
-    const likesData = useQuery(api.likes.LikesData, {});
-    const [copiedText, setCopiedText] = useState<string | null>(null);
-    const unlikePoetry = useMutation(api.likes.unlikePoetry);
-    const [currentPoetryIndex, setCurrentPoetryIndex] = useState(0);
-    const poetryRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const [currentOpenId, setCurrentOpenId] = useState<Id<"poetry"> | null>(
-      null
-    );
-
     if (!yourPoetries) {
       return (
         <div className="flex-col space-y-10">
