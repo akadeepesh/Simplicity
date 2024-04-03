@@ -36,6 +36,8 @@ import { FilterContext } from "./FilterContext";
 import { Button } from "../ui/button";
 import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "../ui/skeleton";
+import { SearchContext } from "./SearchContext";
+import UnauthenticatedUserPage from "./unauthenticated-users";
 
 const LikedItems = () => {
   const { user } = useUser();
@@ -50,11 +52,27 @@ const LikedItems = () => {
   const [currentPoetryIndex, setCurrentPoetryIndex] = useState(0);
   const poetryRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [currentOpenId, setCurrentOpenId] = useState<Id<"poetry"> | null>(null);
+
   const { filterData } = useContext(FilterContext) || {};
-  if (!filterData) {
-    return null;
+  const { hideTitle, hideDescription, stopAuto } = filterData ?? {}; // sortOption, mostLikedFirst, will be added later
+  const { searchQuery } = useContext(SearchContext) || {};
+  const filteredPoetries = yourPoetries?.poetries?.filter((poetry) =>
+    !searchQuery
+      ? true
+      : new RegExp(searchQuery, "i").test(poetry.title || "") ||
+        new RegExp(searchQuery, "i").test(poetry.description || "") ||
+        new RegExp(searchQuery, "i").test(poetry.content || "") ||
+        new RegExp(searchQuery, "i").test(poetry.username || "")
+  );
+
+  if (filteredPoetries?.length === 0 && searchQuery) {
+    return (
+      <UnauthenticatedUserPage
+        ErrorMessage="No poetry found"
+        className="h-[calc(100vh-13rem)]"
+      />
+    );
   }
-  const { hideTitle, hideDescription, stopAuto } = filterData; // sortOption, mostLikedFirst, will be added later
   if (userload) {
     if (!yourPoetries) {
       return (
@@ -113,20 +131,19 @@ const LikedItems = () => {
     return (
       <>
         <div className="flex flex-col gap-2">
-          {yourPoetries.poetries?.map((poetry, index) => {
+          {filteredPoetries?.map((poetry, index) => {
             const numLikes =
-              likesData?.filter((like) => like.poetryId === poetry?._id)
+              likesData?.filter((like) => like.poetryId === poetry._id)
                 .length ?? 0;
             const isLiked = likesData?.some(
-              (like) =>
-                like.poetryId === poetry?._id && like.userId === user?.id
+              (like) => like.poetryId === poetry._id && like.userId === user?.id
             );
             const showTitleAndDescription =
               !hideTitle &&
               !hideDescription &&
-              (poetry?.title || poetry?.description || !stopAuto);
+              (poetry.title || poetry.description || !stopAuto);
             return (
-              <div key={poetry?._id}>
+              <div key={poetry._id}>
                 <div
                   className="rounded-lg flex flex-col gap-8 p-6 group"
                   ref={(el) => (poetryRefs.current[index] = el)}
@@ -137,22 +154,22 @@ const LikedItems = () => {
                     >
                       <div className="flex flex-col">
                         <div className="text-xl font-semibold">
-                          {poetry?.title
+                          {poetry.title
                             ? `${hideTitle ? "" : poetry.title}`
                             : `${stopAuto || hideTitle ? "" : "Simplicity"}`}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          {poetry?.description
+                          {poetry.description
                             ? `${hideDescription ? "" : poetry.description}`
                             : `${stopAuto || hideDescription ? "" : "..."}`}
                         </div>
                       </div>
                       <Authenticated>
                         <Dialog
-                          open={poetry?._id === currentOpenId}
+                          open={poetry._id === currentOpenId}
                           onOpenChange={(isOpen) =>
                             isOpen
-                              ? setCurrentOpenId(poetry?._id || null)
+                              ? setCurrentOpenId(poetry._id || null)
                               : setCurrentOpenId(null)
                           }
                         >
@@ -162,7 +179,7 @@ const LikedItems = () => {
                                 <EllipsisVertical size={20} />
                               </div>
                             </DropdownMenuTrigger>
-                            {poetry?.username === user?.username ? (
+                            {poetry.username === user?.username ? (
                               <DropdownMenuContent>
                                 <DialogTrigger className="w-full">
                                   <DropdownMenuItem className="cursor-pointer">
@@ -175,7 +192,7 @@ const LikedItems = () => {
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
                                   onClick={() =>
-                                    poetry?._id &&
+                                    poetry._id &&
                                     DeletePoetryAndLikes(poetry._id)
                                   }
                                   className="cursor-pointer bg-destructive md:bg-inherit md:hover:bg-destructive"
@@ -199,10 +216,10 @@ const LikedItems = () => {
                           </DropdownMenu>
                           <DialogContent className=" border-bluePrimary">
                             <EditPoetry
-                              poetryId={poetry?._id as Id<"poetry">}
-                              title={poetry?.title ?? null}
-                              description={poetry?.description ?? null}
-                              content={poetry?.content ?? null}
+                              poetryId={poetry._id as Id<"poetry">}
+                              title={poetry.title ?? null}
+                              description={poetry.description ?? null}
+                              content={poetry.content ?? null}
                               closeDialog={() => setCurrentOpenId(null)}
                             />
                           </DialogContent>
@@ -214,7 +231,7 @@ const LikedItems = () => {
                     )}
                   </div>
                   <div className="flex whitespace-pre-wrap leading-8 h-full font-light items-center">
-                    {poetry?.content}
+                    {poetry.content}
                   </div>
                   {showTitleAndDescription && <Separator />}
                   <div className="flex flex-row justify-between items-center">
@@ -222,7 +239,7 @@ const LikedItems = () => {
                       <Authenticated>
                         <div
                           onClick={() =>
-                            handleLikeClick(poetry?._id as Id<"poetry">)
+                            handleLikeClick(poetry._id as Id<"poetry">)
                           }
                           className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer"
                         >
@@ -236,10 +253,10 @@ const LikedItems = () => {
                         </div>
                       </Authenticated>
                       <div
-                        onClick={() => handleCopyClick(poetry?.content ?? "")}
+                        onClick={() => handleCopyClick(poetry.content ?? "")}
                         className="flex flex-row gap-2 items-center p-3 rounded-2xl hover:bg-secondary cursor-pointer"
                       >
-                        {copiedText === poetry?.content ? (
+                        {copiedText === poetry.content ? (
                           <CircleCheck size={20} className="text-green-500" />
                         ) : (
                           <Clipboard size={20} />
@@ -247,7 +264,7 @@ const LikedItems = () => {
                       </div>
                     </div>
                     <div className="text-muted-foreground">
-                      ~{poetry?.username}
+                      ~{poetry.username}
                     </div>
                   </div>
                 </div>

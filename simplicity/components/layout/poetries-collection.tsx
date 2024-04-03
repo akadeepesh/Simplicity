@@ -159,11 +159,7 @@ const PoetriesCollection = () => {
     await dellikesbypoetry({ poetryId: poetryId });
   };
 
-  if (!filterData) {
-    return null;
-  }
-
-  const { hideTitle, hideDescription, stopAuto } = filterData; // sortOption, mostLikedFirst, will be added later
+  const { hideTitle, hideDescription, stopAuto } = filterData ?? {}; // sortOption, mostLikedFirst, will be added later
 
   const filteredPoetries = results?.filter((poetry) =>
     !searchQuery

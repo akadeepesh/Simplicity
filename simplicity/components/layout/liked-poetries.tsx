@@ -36,6 +36,8 @@ import { FilterContext } from "./FilterContext";
 import { Button } from "../ui/button";
 import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "../ui/skeleton";
+import UnauthenticatedUserPage from "./unauthenticated-users";
+import { SearchContext } from "./SearchContext";
 
 const LikedItems = () => {
   const { user } = useUser();
@@ -51,11 +53,26 @@ const LikedItems = () => {
   const poetryRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [currentOpenId, setCurrentOpenId] = useState<Id<"poetry"> | null>(null);
   const { filterData } = useContext(FilterContext) || {};
-  if (!filterData) {
-    return null;
-  }
+  const { hideTitle, hideDescription, stopAuto } = filterData ?? {}; // sortOption, mostLikedFirst, will be added later
+  const { searchQuery } = useContext(SearchContext) || {};
 
-  const { hideTitle, hideDescription, stopAuto } = filterData; // sortOption, mostLikedFirst, will be added later
+  const filteredPoetries = likedPoetries?.filter((poetry) =>
+    !searchQuery
+      ? true
+      : new RegExp(searchQuery, "i").test(poetry?.title || "") ||
+        new RegExp(searchQuery, "i").test(poetry?.description || "") ||
+        new RegExp(searchQuery, "i").test(poetry?.content || "") ||
+        new RegExp(searchQuery, "i").test(poetry?.username || "")
+  );
+
+  if (filteredPoetries?.length === 0 && searchQuery) {
+    return (
+      <UnauthenticatedUserPage
+        ErrorMessage="No poetry found"
+        className="h-[calc(100vh-13rem)]"
+      />
+    );
+  }
   if (userload) {
     if (!likedPoetries) {
       return (
@@ -114,7 +131,7 @@ const LikedItems = () => {
     return (
       <>
         <div className="flex flex-col gap-2">
-          {likedPoetries?.map((poetry, index) => {
+          {filteredPoetries?.map((poetry, index) => {
             const numLikes =
               likesData?.filter((like) => like.poetryId === poetry?._id)
                 .length ?? 0;

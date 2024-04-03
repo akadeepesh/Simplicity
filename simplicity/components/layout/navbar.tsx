@@ -30,7 +30,7 @@ function SignInAndSignUpButtons() {
 
 const Navbar = () => {
   const segments = useSelectedLayoutSegments();
-  const ShowSideBar =
+  const ShowFilters =
     segments.length === 0 ||
     segments.includes("liked") ||
     segments.includes("posts");
@@ -44,9 +44,9 @@ const Navbar = () => {
               Simplicity
             </div>
           </Link>
-          <SearchBox />
+          {ShowFilters && <SearchBox />}
           <div className="flex gap-2 items-center">
-            {ShowSideBar && <SideBar />}
+            {ShowFilters && <SideBar />}
             <ModeToggle />
             <SignInAndSignUpButtons />
           </div>
