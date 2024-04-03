@@ -39,11 +39,14 @@ import {
 import EditPoetry from "./edit-poetry";
 import { Separator } from "../ui/separator";
 import { FilterContext } from "./FilterContext";
+import { SearchContext } from "./SearchContext";
 import { Button } from "../ui/button";
 import { useUser } from "@clerk/nextjs";
+import UnauthenticatedUserPage from "./unauthenticated-users";
 
 const PoetriesCollection = () => {
   const { filterData } = useContext(FilterContext) || {};
+  const { searchQuery } = useContext(SearchContext) || {};
   const { results, status, loadMore } = usePaginatedQuery(
     api.poetry.getPoetry,
     {},
@@ -161,10 +164,29 @@ const PoetriesCollection = () => {
   }
 
   const { hideTitle, hideDescription, stopAuto } = filterData; // sortOption, mostLikedFirst, will be added later
+
+  const filteredPoetries = results?.filter((poetry) =>
+    !searchQuery
+      ? true
+      : new RegExp(searchQuery, "i").test(poetry.title || "") ||
+        new RegExp(searchQuery, "i").test(poetry.description || "") ||
+        new RegExp(searchQuery, "i").test(poetry.content || "") ||
+        new RegExp(searchQuery, "i").test(poetry.username || "")
+  );
+
+  if (filteredPoetries.length === 0 && searchQuery) {
+    return (
+      <UnauthenticatedUserPage
+        ErrorMessage="No poetry found"
+        className="h-[calc(100vh-17rem)]"
+      />
+    );
+  }
+
   return (
     <>
       <div className="flex flex-col gap-2">
-        {results?.map((poetry, index) => {
+        {filteredPoetries?.map((poetry, index) => {
           const numLikes =
             likesData?.filter((like) => like.poetryId === poetry._id).length ??
             0;
