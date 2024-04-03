@@ -10,7 +10,7 @@ const Footer = () => {
   const router = useRouter();
   return (
     <div>
-      <div className="bottom-0 left-0 right-0 fixed flex backdrop-blur-sm justify-center py-2 border-t mt-5 items-center font-serif font-bold">
+      <div className="flex backdrop-blur-sm justify-center py-2 border-t mt-5 items-center font-serif font-bold">
         <div className="flex w-full max-w-4xl justify-center items-center gap-3">
           <div className="flex flex-col">
             <div className="text-xl">Is there no one to hear you?</div>
