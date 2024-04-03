@@ -126,15 +126,9 @@ const PoetriesCollection = () => {
       (like) => like.poetryId === poetryId && like.userId === user?.id
     );
 
-    if (isLiked) {
-      await unlikePoetry({
-        poetryId: poetryId,
-      });
-    } else {
-      await likePoetry({
-        poetryId: poetryId,
-      });
-    }
+    isLiked
+      ? await unlikePoetry({ poetryId: poetryId })
+      : await likePoetry({ poetryId: poetryId });
   };
 
   const handleCopyClick = async (content: string) => {
