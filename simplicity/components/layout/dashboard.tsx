@@ -69,15 +69,15 @@ export const Dashboard = () => {
             </CardHeader>
           </Card>
         </Link>
-        <Link href={`/profile/${user?.username}/support`}>
+        <Link href={`/profile/${user?.username}/guidelines`}>
           <Card className="h-fit w-full border-transparent hover:border-[#21bbdc] group cursor-pointer transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex flex-row items-center justify-center gap-4">
                 <BadgeCheck className="size-10 group-hover:text-[#21bbdc]" />
                 <div className="flex flex-col gap-2">
-                  <CardTitle className="font-Anta">User Support</CardTitle>
+                  <CardTitle className="font-Anta">Guidelines</CardTitle>
                   <CardDescription className="font-Annapura ">
-                    Get help, support and contact the support team.
+                    Learn how to you can keep the platform clean and friendly.
                   </CardDescription>
                 </div>
               </div>

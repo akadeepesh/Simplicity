@@ -84,13 +84,13 @@ const UserNavigation = () => {
           <DropdownMenuItem
             className="cursor-pointer gap-2"
             onClick={() => {
-              router.push(`/profile/${user?.username}/support`);
+              router.push(`/profile/${user?.username}/guidelines`);
             }}
           >
             <span>
               <AlertCircle size={"1.2rem"} />
             </span>
-            <span>Support</span>
+            <span>Guidelines</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
