@@ -16,6 +16,7 @@ import type {
 } from "convex/server";
 import type * as likes from "../likes.js";
 import type * as poetry from "../poetry.js";
+import type * as reports from "../reports.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -28,6 +29,7 @@ import type * as poetry from "../poetry.js";
 declare const fullApi: ApiFromModules<{
   likes: typeof likes;
   poetry: typeof poetry;
+  reports: typeof reports;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

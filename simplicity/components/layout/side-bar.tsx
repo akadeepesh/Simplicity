@@ -17,7 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
-import { Filter } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import { FilterContext, SortOptions } from "./FilterContext";
 import { Link } from "../typography/link";
@@ -48,7 +48,7 @@ const SideBar = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Filter
+                <SlidersHorizontal
                   className="hover:text-bluePrimary transition-all duration-300"
                   size={20}
                 />

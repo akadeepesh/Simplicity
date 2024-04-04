@@ -43,6 +43,7 @@ import { SearchContext } from "./SearchContext";
 import { Button } from "../ui/button";
 import { useUser } from "@clerk/nextjs";
 import UnauthenticatedUserPage from "./unauthenticated-users";
+import Report from "./report-poetry";
 
 const PoetriesCollection = () => {
   const { filterData } = useContext(FilterContext) || {};
@@ -245,24 +246,37 @@ const PoetriesCollection = () => {
                             </DropdownMenuContent>
                           ) : (
                             <DropdownMenuContent>
-                              <DropdownMenuItem className="cursor-pointer bg-destructive">
-                                <div className="flex flex-row items-center justify-center gap-2">
-                                  <Flag size={15} />
-                                  Report
-                                </div>
-                              </DropdownMenuItem>
+                              <DialogTrigger className="w-full">
+                                <DropdownMenuItem className="cursor-pointer bg-destructive">
+                                  <div className="flex flex-row items-center justify-center gap-2">
+                                    <Flag size={15} />
+                                    Report
+                                  </div>
+                                </DropdownMenuItem>
+                              </DialogTrigger>
                             </DropdownMenuContent>
                           )}
                         </DropdownMenu>
-                        <DialogContent className=" border-bluePrimary">
-                          <EditPoetry
-                            poetryId={poetry._id}
-                            title={poetry.title ?? null}
-                            description={poetry.description ?? null}
-                            content={poetry.content}
-                            closeDialog={() => setCurrentOpenId(null)}
-                          />
-                        </DialogContent>
+                        {poetry.username === user?.username ? (
+                          <DialogContent className=" border-bluePrimary">
+                            <EditPoetry
+                              poetryId={poetry._id}
+                              title={poetry.title ?? null}
+                              description={poetry.description ?? null}
+                              content={poetry.content}
+                              closeDialog={() => setCurrentOpenId(null)}
+                            />
+                          </DialogContent>
+                        ) : (
+                          <DialogContent className="border-bluePrimary">
+                            <div className="flex flex-col gap-2 p-4">
+                              <div className="text-lg font-semibold">
+                                Report
+                              </div>
+                              <Report poetryId={poetry._id} />
+                            </div>
+                          </DialogContent>
+                        )}
                       </Dialog>
                     </Authenticated>
                   </div>

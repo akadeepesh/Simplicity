@@ -13,4 +13,11 @@ export default defineSchema({
     userId: v.string(),
     poetryId: v.id("poetry"),
   }).index("byUserId", ["userId"]),
+
+  reports: defineTable({
+    poetryId: v.id("poetry"),
+    userId: v.string(),
+    topic: v.string(),
+    reason: v.optional(v.string()),
+  }),
 });
