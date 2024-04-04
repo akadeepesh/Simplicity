@@ -164,7 +164,7 @@ export default function SelectForm({ poetryId }: { poetryId: Id<"poetry"> }) {
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   I hereby confirm that I&apos;ve read the
-                  <Link href="/guidelines">&apos;guidelines&apos;</Link>.
+                  <Link href="/guidelines">guidelines</Link>.
                 </label>
               </div>
               <FormMessage />

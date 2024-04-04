@@ -36,6 +36,7 @@ import { FilterContext } from "./FilterContext";
 import { Button } from "../ui/button";
 import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "../ui/skeleton";
+import Report from "./report-poetry";
 import UnauthenticatedUserPage from "./unauthenticated-users";
 import { SearchContext } from "./SearchContext";
 
@@ -205,15 +206,27 @@ const LikedItems = () => {
                             </DropdownMenuContent>
                           )}
                         </DropdownMenu>
-                        <DialogContent className=" border-bluePrimary">
-                          <EditPoetry
-                            poetryId={poetry?._id as Id<"poetry">}
-                            title={poetry?.title ?? null}
-                            description={poetry?.description ?? null}
-                            content={poetry?.content ?? null}
-                            closeDialog={() => setCurrentOpenId(null)}
-                          />
-                        </DialogContent>
+
+                        {poetry?.username === user?.username ? (
+                          <DialogContent className=" border-bluePrimary">
+                            <EditPoetry
+                              poetryId={poetry?._id as Id<"poetry">}
+                              title={poetry?.title ?? null}
+                              description={poetry?.description ?? null}
+                              content={poetry?.content ?? null}
+                              closeDialog={() => setCurrentOpenId(null)}
+                            />
+                          </DialogContent>
+                        ) : (
+                          <DialogContent className="border-bluePrimary">
+                            <div className="flex flex-col gap-2 p-4">
+                              <div className="text-lg font-semibold">
+                                Report
+                              </div>
+                              <Report poetryId={poetry?._id as Id<"poetry">} />
+                            </div>
+                          </DialogContent>
+                        )}
                       </Dialog>
                     </Authenticated>
                   </div>
