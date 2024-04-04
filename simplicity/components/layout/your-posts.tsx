@@ -5,7 +5,6 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import {
   Clipboard,
-  Flag,
   Heart,
   CircleCheck,
   EllipsisVertical,
@@ -40,7 +39,6 @@ import { SearchContext } from "./SearchContext";
 import UnauthenticatedUserPage from "./unauthenticated-users";
 
 const LikedItems = () => {
-  const { user } = useUser();
   const userload = useUser().isLoaded;
   const delPoetry = useMutation(api.poetry.deletePoetry);
   const likePoetry = useMutation(api.likes.LikePoetry);
