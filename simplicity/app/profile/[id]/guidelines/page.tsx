@@ -5,7 +5,7 @@ const GuideLines = () => {
     <div className="container max-w-full flex flex-col mt-14 md:mt-28">
       <h1 className="text-3xl font-bold mb-4">Community Guidelines</h1>
       <p className="mb-4">
-        Welcome to our community! We're committed to maintaining a safe and
+        Welcome to our community! We&apos;re committed to maintaining a safe and
         respectful environment for everyone. Here are some guidelines to help
         you understand what is expected of you and what you can expect from
         other participants.
@@ -13,31 +13,31 @@ const GuideLines = () => {
       <ul className="list-disc pl-5 space-y-2">
         <li className="mb-2">
           <strong>Respect others.</strong> Treat all members with kindness and
-          understanding. We're all here to learn and grow together.
+          understanding. We&apos;re all here to learn and grow together.
         </li>
         <li className="mb-2">
           <strong>Stay on topic.</strong> Make sure your contributions are
           relevant to the discussion and to the purpose of the forum.
         </li>
         <li className="mb-2">
-          <strong>No spam.</strong> Don't post the same poetry multiple times or
-          post promotional material.
+          <strong>No spam.</strong> Don&apos;t post the same poetry multiple
+          times or post promotional material.
         </li>
         <li className="mb-2">
-          <strong>No offensive content.</strong> Avoid posting anything that's
-          offensive, hateful, or violent. Be mindful of the words you choose and
-          how they might be perceived by others.
+          <strong>No offensive content.</strong> Avoid posting anything
+          that&apos;s offensive, hateful, or violent. Be mindful of the words
+          you choose and how they might be perceived by others.
         </li>
         <li className="mb-2">
           <strong>Plagiarism.</strong> Any form of plagiarism is strictly
           prohibited. Always give credit to the original source or author and do
-          not present someone else's work as your own. Violations can result in
-          penalties ranging from warnings to permanent bans.
+          not present someone else&apos;s work as your own. Violations can
+          result in penalties ranging from warnings to permanent bans.
         </li>
         <li className="mb-2">
-          <strong>Respect privacy.</strong> Don't share personal information
-          about yourself or others, including addresses, phone numbers, or email
-          addresses.
+          <strong>Respect privacy.</strong> Don&apos;t share personal
+          information about yourself or others, including addresses, phone
+          numbers, or email addresses.
         </li>
         <li className="mb-2">
           <strong>Report violations.</strong> If you see something that violates
