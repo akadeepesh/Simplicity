@@ -19,7 +19,7 @@ const SearchBox = () => {
           size={40}
           value={searchQuery}
           onChange={(e) => setSearchQuery?.(e.target.value)}
-          placeholder="Search Title, Description, Poetry or Author"
+          placeholder="Search Title, Description, Poetry or Writer"
         />
       </div>
     </div>

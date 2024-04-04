@@ -163,7 +163,7 @@ export default function SelectForm({ poetryId }: { poetryId: Id<"poetry"> }) {
                   htmlFor="terms"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  I hereby confirm that I&apos;ve read the
+                  I hereby confirm that I&apos;ve read the{" "}
                   <Link href="/guidelines">guidelines</Link>.
                 </label>
               </div>
