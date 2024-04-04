@@ -24,15 +24,50 @@ export const AddPoetry = mutation({
 });
 
 export const getPoetry = query({
-  args: { paginationOpts: paginationOptsValidator },
+  args: {
+    paginationOpts: paginationOptsValidator,
+    sortOption: v.number(),
+    mostLikedFirst: v.boolean(),
+  },
   handler: async (ctx, args) => {
-    return await ctx.db
-      .query("poetry")
-      .order("desc")
-      .paginate(args.paginationOpts);
+    if (args.sortOption === 1) {
+      return await ctx.db
+        .query("poetry")
+        .order("desc")
+        .paginate(args.paginationOpts);
+    }
+    if (args.sortOption === 0) {
+      return await ctx.db.query("poetry").paginate(args.paginationOpts);
+    }
+    if (args.sortOption === 2) {
+      const poetries = await ctx.db
+        .query("poetry")
+        .order("desc")
+        .paginate(args.paginationOpts);
+      const poetriesWithLikes = await Promise.all(
+        poetries.page.map(async (poetry) => {
+          // Find the likes for each poetry
+          const likes = await ctx.db
+            .query("likes")
+            .withIndex("byPoetryId", (q) => q.eq("poetryId", poetry._id))
+            .collect();
+          // Join the count of likes with the poetry data
+          return {
+            ...poetry,
+            likes: likes.length,
+          };
+        })
+      );
+      return {
+        continueCursor: poetries.continueCursor,
+        isDone: poetries.isDone,
+        page: args.mostLikedFirst
+          ? poetriesWithLikes.sort((a, b) => b.likes - a.likes)
+          : poetriesWithLikes.sort((a, b) => a.likes - b.likes),
+      };
+    }
   },
 });
-
 export const updatePoetry = mutation({
   args: {
     id: v.id("poetry"),
@@ -109,7 +144,7 @@ export const getLikedPoetries = query({
       .order("desc")
       .collect();
 
-    const likedPoetries = [];
+    const likedPoetries: Array<any> = [];
     for (const like of likes) {
       const poetry = await ctx.db
         .query("poetry")
@@ -119,5 +154,56 @@ export const getLikedPoetries = query({
     }
 
     return likedPoetries;
+  },
+});
+
+// export const PoetriesSortedByLikes = query({
+//   args: {},
+//   handler: async (ctx) => {
+//     const poetries = await ctx.db.query("poetry").collect();
+//     const poetriesWithLikes = await Promise.all(
+//       poetries.map(async (poetry) => {
+//         // Find the likes for each poetry
+//         const likes = await ctx.db
+//           .query("likes")
+//           .withIndex("byPoetryId", (q) => q.eq("poetryId", poetry._id))
+//           .collect();
+//         // Join the count of likes with the poetry data
+//         return {
+//           ...poetry,
+//           likes: likes.length,
+//         };
+//       })
+//     );
+//     return poetriesWithLikes.sort((a, b) => b.likes - a.likes);
+//   },
+// });
+
+export const PoetriesSortedByLikes = query({
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    const poetries = await ctx.db
+      .query("poetry")
+      .order("desc")
+      .paginate(args.paginationOpts);
+    const poetriesWithLikes = await Promise.all(
+      poetries.page.map(async (poetry) => {
+        // Find the likes for each poetry
+        const likes = await ctx.db
+          .query("likes")
+          .withIndex("byPoetryId", (q) => q.eq("poetryId", poetry._id))
+          .collect();
+        // Join the count of likes with the poetry data
+        return {
+          ...poetry,
+          likes: likes.length,
+        };
+      })
+    );
+    return {
+      continueCursor: poetries.continueCursor,
+      isDone: poetries.isDone,
+      page: poetriesWithLikes.sort((a, b) => b.likes - a.likes),
+    };
   },
 });

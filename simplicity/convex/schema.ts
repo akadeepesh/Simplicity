@@ -12,7 +12,9 @@ export default defineSchema({
   likes: defineTable({
     userId: v.string(),
     poetryId: v.id("poetry"),
-  }).index("byUserId", ["userId"]),
+  })
+    .index("byUserId", ["userId"])
+    .index("byPoetryId", ["poetryId"]),
 
   reports: defineTable({
     poetryId: v.id("poetry"),

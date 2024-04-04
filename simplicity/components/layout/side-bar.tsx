@@ -103,7 +103,6 @@ const SideBar = () => {
                   </div>
                   <Switch
                     checked={sortOption === SortOptions.Date}
-                    disabled
                     onClick={() =>
                       setSortOption?.(
                         sortOption === SortOptions.Date
@@ -119,7 +118,6 @@ const SideBar = () => {
                   </Label>
                   <Checkbox
                     checked={sortOption === SortOptions.Likes}
-                    disabled
                     onClick={() =>
                       setSortOption?.(
                         sortOption === SortOptions.Likes
@@ -140,7 +138,6 @@ const SideBar = () => {
                     Most Liked First
                   </Label>
                   <Switch
-                    disabled
                     className="disabled:cursor-auto"
                     checked={mostLikedFirst}
                     onClick={() => setMostLikedFirst?.(!mostLikedFirst)}

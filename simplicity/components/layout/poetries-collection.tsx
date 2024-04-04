@@ -47,10 +47,12 @@ import Report from "./report-poetry";
 
 const PoetriesCollection = () => {
   const { filterData } = useContext(FilterContext) || {};
+  const { hideTitle, hideDescription, sortOption, mostLikedFirst, stopAuto } =
+    filterData ?? {};
   const { searchQuery } = useContext(SearchContext) || {};
   const { results, status, loadMore } = usePaginatedQuery(
-    api.poetry.getPoetry,
-    {},
+    api.poetry.getPoetry as any,
+    { sortOption, mostLikedFirst },
     { initialNumItems: 5 }
   );
   const { user } = useUser();
@@ -61,49 +63,8 @@ const PoetriesCollection = () => {
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const unlikePoetry = useMutation(api.likes.unlikePoetry);
   const [currentPoetryIndex, setCurrentPoetryIndex] = useState(0);
-  const [views, setViews] = useState<number[]>([]);
   const poetryRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const timers = useRef<(NodeJS.Timeout | null)[]>([]);
   const [currentOpenId, setCurrentOpenId] = useState<Id<"poetry"> | null>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const index = poetryRefs.current.indexOf(
-          entry.target as HTMLDivElement
-        );
-        if (entry.isIntersecting) {
-          timers.current[index] = setTimeout(() => {
-            setViews((views) => {
-              const newViews = [...views];
-              newViews[index] = (newViews[index] || 0) + 1;
-              console.log(
-                `Poetry ${index} has been viewed ${newViews[index]} times.`
-              );
-              return newViews;
-            });
-          }, 5000);
-        } else {
-          clearTimeout(timers.current[index] as NodeJS.Timeout);
-          timers.current[index] = null;
-        }
-      });
-    });
-
-    poetryRefs.current.forEach((ref) => {
-      if (ref) {
-        observer.observe(ref);
-      }
-    });
-
-    return () => {
-      poetryRefs.current.forEach((ref) => {
-        if (ref) {
-          observer.unobserve(ref);
-        }
-      });
-    };
-  }, []);
 
   const scrollToPoetry = (index: number) => {
     const ref = poetryRefs.current[index];
@@ -154,8 +115,8 @@ const PoetriesCollection = () => {
     await dellikesbypoetry({ poetryId: poetryId });
   };
 
-  const { hideTitle, hideDescription, stopAuto } = filterData ?? {}; // sortOption, mostLikedFirst, will be added later
-
+  // sortOption, mostLikedFirst, will be added later
+  console.log("sortOption", sortOption, "mostLikedFirst", mostLikedFirst);
   const filteredPoetries = results?.filter((poetry) =>
     !searchQuery
       ? true
