@@ -116,7 +116,6 @@ const PoetriesCollection = () => {
   };
 
   // sortOption, mostLikedFirst, will be added later
-  console.log("sortOption", sortOption, "mostLikedFirst", mostLikedFirst);
   const filteredPoetries = results?.filter((poetry) =>
     !searchQuery
       ? true
@@ -130,7 +129,7 @@ const PoetriesCollection = () => {
     return (
       <UnauthenticatedUserPage
         ErrorMessage="No poetry found"
-        className="h-[calc(100vh-13rem)]"
+        className="h-[calc(100vh-201px)]"
       />
     );
   }

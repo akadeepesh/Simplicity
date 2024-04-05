@@ -1,6 +1,7 @@
 import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { paginationOptsValidator } from "convex/server";
+import { Id } from "./_generated/dataModel";
 
 export const AddPoetry = mutation({
   args: {
@@ -23,6 +24,70 @@ export const AddPoetry = mutation({
   },
 });
 
+// export const getPoetry = query({
+//   args: {
+//     paginationOpts: paginationOptsValidator,
+//     sortOption: v.number(),
+//     mostLikedFirst: v.boolean(),
+//   },
+//   handler: async (ctx, args) => {
+//     if (args.sortOption === 1) {
+//       return await ctx.db
+//         .query("poetry")
+//         .order("desc")
+//         .paginate(args.paginationOpts);
+//     }
+//     if (args.sortOption === 0) {
+//       return await ctx.db.query("poetry").paginate(args.paginationOpts);
+//     }
+//     if (args.sortOption === 2) {
+//       const poetries = await ctx.db
+//         .query("poetry")
+//         .order("desc")
+//         .paginate(args.paginationOpts);
+//       const poetriesWithLikes = await Promise.all(
+//         poetries.page.map(async (poetry) => {
+//           // Find the likes for each poetry
+//           const likes = await ctx.db
+//             .query("likes")
+//             .withIndex("byPoetryId", (q) => q.eq("poetryId", poetry._id))
+//             .collect();
+//           // Join the count of likes with the poetry data
+//           return {
+//             ...poetry,
+//             likes: likes.length,
+//           };
+//         })
+//       );
+//       return {
+//         continueCursor: poetries.continueCursor,
+//         isDone: poetries.isDone,
+//         page: args.mostLikedFirst
+//           ? poetriesWithLikes.sort((a, b) => b.likes - a.likes)
+//           : poetriesWithLikes.sort((a, b) => a.likes - b.likes),
+//       };
+//     }
+//   },
+// });
+
+interface Poetry {
+  _id: Id<"poetry">;
+}
+
+interface QueryType {
+  eq: (field: string, value: string) => QueryType;
+}
+
+const getLikes = async (ctx: any, poetry: Poetry) => {
+  const likes = await ctx.db
+    .query("likes")
+    .withIndex("byPoetryId", (q: QueryType) => q.eq("poetryId", poetry._id))
+    .collect();
+  return {
+    ...poetry,
+    likes: likes.length,
+  };
+};
 export const getPoetry = query({
   args: {
     paginationOpts: paginationOptsValidator,
@@ -30,44 +95,34 @@ export const getPoetry = query({
     mostLikedFirst: v.boolean(),
   },
   handler: async (ctx, args) => {
-    if (args.sortOption === 1) {
-      return await ctx.db
-        .query("poetry")
-        .order("desc")
-        .paginate(args.paginationOpts);
-    }
-    if (args.sortOption === 0) {
-      return await ctx.db.query("poetry").paginate(args.paginationOpts);
-    }
-    if (args.sortOption === 2) {
-      const poetries = await ctx.db
-        .query("poetry")
-        .order("desc")
-        .paginate(args.paginationOpts);
-      const poetriesWithLikes = await Promise.all(
-        poetries.page.map(async (poetry) => {
-          // Find the likes for each poetry
-          const likes = await ctx.db
-            .query("likes")
-            .withIndex("byPoetryId", (q) => q.eq("poetryId", poetry._id))
-            .collect();
-          // Join the count of likes with the poetry data
-          return {
-            ...poetry,
-            likes: likes.length,
-          };
-        })
-      );
-      return {
-        continueCursor: poetries.continueCursor,
-        isDone: poetries.isDone,
-        page: args.mostLikedFirst
+    switch (args.sortOption) {
+      case 1:
+      case 0:
+        return await ctx.db
+          .query("poetry")
+          .order(args.sortOption === 1 ? "desc" : "asc")
+          .paginate(args.paginationOpts);
+      case 2:
+        const poetries = await ctx.db
+          .query("poetry")
+          .order("desc")
+          .paginate(args.paginationOpts);
+        const poetriesWithLikes = await Promise.all(
+          poetries.page.map(async (poetry) => await getLikes(ctx, poetry))
+        );
+        const sortedPoetries = args.mostLikedFirst
           ? poetriesWithLikes.sort((a, b) => b.likes - a.likes)
-          : poetriesWithLikes.sort((a, b) => a.likes - b.likes),
-      };
+          : poetriesWithLikes.sort((a, b) => a.likes - b.likes);
+        return {
+          ...poetries,
+          page: sortedPoetries,
+        };
+      default:
+        return;
     }
   },
 });
+
 export const updatePoetry = mutation({
   args: {
     id: v.id("poetry"),
