@@ -39,7 +39,7 @@ import { SearchContext } from "./SearchContext";
 import UnauthenticatedUserPage from "./unauthenticated-users";
 
 const LikedItems = () => {
-  const userload = useUser().isLoaded;
+  const { isLoaded } = useUser();
   const delPoetry = useMutation(api.poetry.deletePoetry);
   const likePoetry = useMutation(api.likes.LikePoetry);
   const yourPoetries = useQuery(api.poetry.getViewerPoetries);
@@ -71,7 +71,7 @@ const LikedItems = () => {
       />
     );
   }
-  if (!yourPoetries || !userload) {
+  if (!yourPoetries || !isLoaded) {
     return (
       <div className="flex-col space-y-10">
         <Skeleton className="flex h-[40vh] w-full" />
