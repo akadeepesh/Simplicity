@@ -23,6 +23,7 @@ import { FilterContext, SortOptions } from "./FilterContext";
 import { Link } from "../typography/link";
 import { useUser } from "@clerk/clerk-react";
 import { Authenticated } from "convex/react";
+import { useSelectedLayoutSegments } from "next/navigation";
 
 const SideBar = () => {
   const { user } = useUser();
@@ -34,13 +35,11 @@ const SideBar = () => {
     setMostLikedFirst,
     setStopAuto,
   } = useContext(FilterContext) || {};
-  if (!filterData) {
-    return null;
-  }
 
   const { hideTitle, hideDescription, sortOption, mostLikedFirst, stopAuto } =
-    filterData;
-
+    filterData ?? {};
+  const segments = useSelectedLayoutSegments();
+  const ShowSorting = segments.length === 0;
   return (
     <div className="mt-1">
       <Sheet>
@@ -76,77 +75,79 @@ const SideBar = () => {
             </div>
             <Separator className="bg-bluePrimary" />
           </Authenticated>
-          <Card>
-            <CardHeader className="gap-2">
-              <CardTitle className="flex flex-row gap-2 items-end">
-                Sort by{" "}
-                <span className="text-muted-foreground text-xs">
-                  (In Development)
-                </span>
-              </CardTitle>
-              <Separator className="bg-bluePrimary" />
-            </CardHeader>
-            <CardContent>
-              <div
-                className={`flex flex-col gap-6 duration-300 ${
-                  sortOption === SortOptions.Likes ? "h-[110px]" : "h-[70px]"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col">
-                    <Label className="text-sm" htmlFor="order">
-                      Date
-                    </Label>
-                    <Label className="text-xs text-muted-foreground">
-                      Latest First
-                    </Label>
-                  </div>
-                  <Switch
-                    checked={sortOption === SortOptions.Date}
-                    onClick={() =>
-                      setSortOption?.(
-                        sortOption === SortOptions.Date
-                          ? SortOptions.None
-                          : SortOptions.Date
-                      )
-                    }
-                  />
-                </div>
-                <div className="flex items-center space-x-2 justify-between">
-                  <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    Likes
-                  </Label>
-                  <Checkbox
-                    checked={sortOption === SortOptions.Likes}
-                    onClick={() =>
-                      setSortOption?.(
-                        sortOption === SortOptions.Likes
-                          ? SortOptions.None
-                          : SortOptions.Likes
-                      )
-                    }
-                  />
-                </div>
+          {ShowSorting && (
+            <Card>
+              <CardHeader className="gap-2">
+                <CardTitle className="flex flex-row gap-2 items-end">
+                  Sort by{" "}
+                  <span className="text-muted-foreground text-xs">
+                    (In Development)
+                  </span>
+                </CardTitle>
+                <Separator className="bg-bluePrimary" />
+              </CardHeader>
+              <CardContent>
                 <div
-                  className={`flex items-center justify-between duration-200 ${
-                    sortOption === SortOptions.Likes
-                      ? "opacity-100"
-                      : "opacity-0"
+                  className={`flex flex-col gap-6 duration-300 ${
+                    sortOption === SortOptions.Likes ? "h-[110px]" : "h-[70px]"
                   }`}
                 >
-                  <Label className="text-[13px] text-muted-foreground select-none">
-                    Most Liked First
-                  </Label>
-                  <Switch
-                    className="disabled:cursor-auto"
-                    checked={mostLikedFirst}
-                    onClick={() => setMostLikedFirst?.(!mostLikedFirst)}
-                  />
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col">
+                      <Label className="text-sm" htmlFor="order">
+                        Date
+                      </Label>
+                      <Label className="text-xs text-muted-foreground">
+                        Latest First
+                      </Label>
+                    </div>
+                    <Switch
+                      checked={sortOption === SortOptions.Date}
+                      onClick={() =>
+                        setSortOption?.(
+                          sortOption === SortOptions.Date
+                            ? SortOptions.None
+                            : SortOptions.Date
+                        )
+                      }
+                    />
+                  </div>
+                  <div className="flex items-center space-x-2 justify-between">
+                    <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Likes
+                    </Label>
+                    <Checkbox
+                      checked={sortOption === SortOptions.Likes}
+                      onClick={() =>
+                        setSortOption?.(
+                          sortOption === SortOptions.Likes
+                            ? SortOptions.None
+                            : SortOptions.Likes
+                        )
+                      }
+                    />
+                  </div>
+                  <div
+                    className={`flex items-center justify-between duration-200 ${
+                      sortOption === SortOptions.Likes
+                        ? "opacity-100"
+                        : "opacity-0"
+                    }`}
+                  >
+                    <Label className="text-[13px] text-muted-foreground select-none">
+                      Most Liked First
+                    </Label>
+                    <Switch
+                      className="disabled:cursor-auto"
+                      checked={mostLikedFirst}
+                      onClick={() => setMostLikedFirst?.(!mostLikedFirst)}
+                    />
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Separator />
+              </CardContent>
+            </Card>
+          )}
+          {ShowSorting && <Separator />}
           <Card>
             <CardHeader className="gap-2">
               <CardTitle>Title &amp; Description</CardTitle>
