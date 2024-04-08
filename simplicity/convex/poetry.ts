@@ -18,6 +18,7 @@ export const AddPoetry = mutation({
     }
     await ctx.db.insert("poetry", {
       username: identity?.nickname || "",
+      title: args.title,
       description: args.description,
       content: args.content,
     });
