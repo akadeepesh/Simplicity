@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Input } from "../aceternity/input";
 import { Label } from "../aceternity/label";
-import { useUser } from "@clerk/clerk-react";
+import { useUser } from "@clerk/nextjs";
 import { Textarea } from "../aceternity/textarea";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
