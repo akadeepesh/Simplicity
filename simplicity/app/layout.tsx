@@ -23,6 +23,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          defer
+          src="https://supalytics.co/track.js"
+          data-website-id="89d21cd1-5922-47a3-9e9f-6ecabd65704e"
+        ></script>
+      </head>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
