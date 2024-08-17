@@ -48,7 +48,7 @@ const Navbar = () => {
           {ShowFilters && <SearchBox />}
           <div className="flex gap-2 items-center">
             {ShowFilters && <SideBar />}
-            <AfterSSR children={<ModeToggle/>} />
+            <AfterSSR><ModeToggle/></AfterSSR>
             <SignInAndSignUpButtons />
           </div>
         </div>
