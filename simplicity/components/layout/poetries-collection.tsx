@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext, useRef, useEffect } from "react";
+import React, { useState, useContext, useRef } from "react";
 import {
   Authenticated,
   useMutation,
@@ -19,13 +19,12 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
-
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "../ui/tooltip";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 

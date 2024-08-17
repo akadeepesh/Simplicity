@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
 import SideBar from "./side-bar";
 import SearchBox from "./search-box";
+import { AfterSSR } from "../helpers/AfterSSR";
 
 function SignInAndSignUpButtons() {
   return (
@@ -47,7 +48,7 @@ const Navbar = () => {
           {ShowFilters && <SearchBox />}
           <div className="flex gap-2 items-center">
             {ShowFilters && <SideBar />}
-            <ModeToggle />
+            <AfterSSR children={<ModeToggle/>} />
             <SignInAndSignUpButtons />
           </div>
         </div>

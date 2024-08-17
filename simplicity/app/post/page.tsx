@@ -9,7 +9,7 @@ const PostPoetry = () => {
   return (
     <>
       <Authenticated>
-        <div className="flex justify-center items-center h-[calc(100vh-2rem)]">
+        <div className="flex justify-center items-center h-screen">
           <Post />
         </div>
       </Authenticated>

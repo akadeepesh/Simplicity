@@ -63,7 +63,7 @@ const Post = () => {
   };
 
   return (
-    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input mt-20">
+    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input my-14 md:my-28">
       <h2 className="font-bold text-xl">Welcome to Simplicity</h2>
       <p className="text-muted-foreground text-sm max-w-sm mt-2">
         Add your poetry collection to the world of Simplicity
@@ -191,7 +191,7 @@ const Post = () => {
                   </FormLabel>
                   <FormControl>
                     <Textarea
-                      className="h-20 text-left align-top"
+                      className="h-20 text-left align-top max-h-32 leading-6 min-h-[60px]"
                       {...field}
                       placeholder="Write Your Poetry Here..."
                       required

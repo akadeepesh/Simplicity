@@ -37,7 +37,7 @@ const LikedPage = () => {
     <div>
       <Authenticated>
         <div>
-          <div className="container max-w-2xl flex flex-col mt-14 md:mt-28">
+          <div className="container max-w-2xl flex flex-col mt-7 md:mt-14">
             <LikedPoetries />
           </div>
           {showButton && (

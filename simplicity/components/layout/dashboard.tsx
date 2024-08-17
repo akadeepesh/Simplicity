@@ -11,7 +11,7 @@ import Link from "next/link";
 export const Dashboard = () => {
   const { user } = useUser();
   return (
-    <div className="flex justify-center items-center mt-20 sm:mt-24 md:mt-28 lg:mt-36">
+    <div className="flex justify-center items-center mt-10 sm:mt-12 md:mt-14 lg:mt-18">
       <div className="flex max-w-xl w-full flex-col gap-10">
         <Link href={`/profile/${user?.username}/liked`}>
           <Card className="h-fit w-full border-transparent hover:border-[#21bbdc] group cursor-pointer transition-all duration-300">
