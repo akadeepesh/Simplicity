@@ -17,8 +17,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
-import { SlidersHorizontal } from "lucide-react";
+import { Settings } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
+import { Button } from "../ui/button";
 import { FilterContext, SortOptions } from "./FilterContext";
 import { Link } from "../typography/link";
 import { useUser } from "@clerk/clerk-react";
@@ -41,23 +42,20 @@ const SideBar = () => {
   const segments = useSelectedLayoutSegments();
   const ShowSorting = segments.length === 0;
   return (
-    <div className="mt-1">
-      <Sheet>
-        <SheetTrigger>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <SlidersHorizontal
-                  className="hover:text-bluePrimary transition-all duration-300"
-                  size={20}
-                />
-              </TooltipTrigger>
-              <TooltipContent>
-                <div>Add Filters</div>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </SheetTrigger>
+    <Sheet>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <SheetTrigger asChild>
+              <Button size="sm" variant="ghost" className="p-2">
+                <Settings size="1rem" />
+              </Button>
+            </SheetTrigger>
+          </TooltipTrigger>
+          <TooltipContent>
+            <div>Add Filters</div>
+          </TooltipContent>
+        </Tooltip>
         <SheetContent className="flex flex-col gap-8 w-72">
           <SheetHeader>
             <SheetTitle>Filters</SheetTitle>
@@ -200,8 +198,8 @@ const SideBar = () => {
             </CardContent>
           </Card>
         </SheetContent>
-      </Sheet>
-    </div>
+      </TooltipProvider>
+    </Sheet>
   );
 };
 

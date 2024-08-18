@@ -1,6 +1,12 @@
 "use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { Authenticated, Unauthenticated } from "convex/react";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { ModeToggle } from "../theme/mode-toggle";
@@ -10,6 +16,7 @@ import { useSelectedLayoutSegments } from "next/navigation";
 import SideBar from "./side-bar";
 import SearchBox from "./search-box";
 import { AfterSSR } from "../helpers/AfterSSR";
+import { Plus } from "lucide-react";
 
 function SignInAndSignUpButtons() {
   return (
@@ -48,7 +55,24 @@ const Navbar = () => {
           {ShowFilters && <SearchBox />}
           <div className="flex gap-2 items-center">
             {ShowFilters && <SideBar />}
-            <AfterSSR><ModeToggle/></AfterSSR>
+            <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+        <Link href="/post">
+              <Button variant="ghost" size="sm" className="p-2">
+                <Plus size={"1rem"} />
+              </Button>
+            </Link>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Post Poetry</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+            
+            <AfterSSR>
+              <ModeToggle />
+            </AfterSSR>
             <SignInAndSignUpButtons />
           </div>
         </div>
