@@ -10,6 +10,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ShootingStars } from "@/components/aceternity/shooting-stars";
+import { StarsBackground } from "@/components/aceternity/stars-background";
 const Main = () => {
   const [showButton, setShowButton] = useState(false);
 
@@ -33,6 +35,10 @@ const Main = () => {
 
   return (
     <div>
+      <div className="relative">
+        <StarsBackground />
+        <ShootingStars />
+      </div>
       <div className="container max-w-2xl flex flex-col mt-7 md:mt-14">
         <PoetriesCollection />
       </div>
