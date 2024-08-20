@@ -28,8 +28,14 @@ const UserNavigation = () => {
   return (
     <div>
       <DropdownMenu>
-        <DropdownMenuTrigger className="rounded-full">
-          <UserButton />
+        <DropdownMenuTrigger className="rounded-full items-center justify-center">
+          <UserButton
+            appearance={{
+              elements: {
+                avatarBox: "w-7 h-7",
+              },
+            }}
+          />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="">
           <DropdownMenuLabel className="text-bluePrimary/80 text-base">

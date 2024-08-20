@@ -25,6 +25,7 @@ import { Link } from "../typography/link";
 import { useUser } from "@clerk/clerk-react";
 import { Authenticated } from "convex/react";
 import { useSelectedLayoutSegments } from "next/navigation";
+import { ModeToggle } from "../theme/mode-toggle";
 
 const SideBar = () => {
   const { user } = useUser();
@@ -56,7 +57,7 @@ const SideBar = () => {
             <div>Add Filters</div>
           </TooltipContent>
         </Tooltip>
-        <SheetContent className="flex flex-col gap-8 w-72">
+        <SheetContent className="flex flex-col gap-8 w-full sm:w-72">
           <SheetHeader>
             <SheetTitle>Filters</SheetTitle>
             <Separator className="bg-bluePrimary" />

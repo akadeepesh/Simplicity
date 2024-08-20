@@ -122,6 +122,7 @@ const Post = () => {
                       id="title"
                       placeholder="You would like to address your poetry as"
                       type="text"
+                      spellCheck="false"
                       {...field}
                     />
                   </FormControl>
@@ -162,6 +163,7 @@ const Post = () => {
                       id="description"
                       placeholder="Wanna share any special memory about this?"
                       type="text"
+                      spellCheck="false"
                       {...field}
                     />
                   </FormControl>
@@ -194,6 +196,7 @@ const Post = () => {
                       className="h-20 text-left align-top max-h-32 leading-6 min-h-[60px]"
                       {...field}
                       placeholder="Write Your Poetry Here..."
+                      spellCheck="false"
                       required
                       onInvalid={handleInvalid}
                       onFocus={() => setIsInvalid(false)}

@@ -14,6 +14,11 @@ module.exports = {
   ],
   darkMode: "class",
   theme: {
+    screens: {
+      xs: "425px",
+      xxs: "475px",
+      ...defaultTheme.screens,
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -24,6 +29,7 @@ module.exports = {
     extend: {
       fontFamily: {
         Georgian: ["Georgian", "sans"],
+        basic: ["Basic", "sans"],
       },
       colors: {
         bluePrimary: "#21bbdc",

@@ -6,7 +6,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 import { Authenticated, Unauthenticated } from "convex/react";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { ModeToggle } from "../theme/mode-toggle";
@@ -26,11 +26,20 @@ function SignInAndSignUpButtons() {
       </Authenticated>
       <Unauthenticated>
         <SignInButton mode="modal">
-          <Button variant="ghost">Sign in</Button>
+          <div className="">
+            <div className="hidden md:flex">
+              <Button variant="ghost">Sign in</Button>
+            </div>
+            <div className="flex md:hidden">
+              <Button>Sign in</Button>
+            </div>
+          </div>
         </SignInButton>
-        <SignUpButton mode="modal">
-          <Button>Sign up</Button>
-        </SignUpButton>
+        <div className="hidden md:flex">
+          <SignUpButton mode="modal">
+            <Button>Sign up</Button>
+          </SignUpButton>
+        </div>
       </Unauthenticated>
     </div>
   );
@@ -45,31 +54,30 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="sticky top-0 left-5 right-5 md:left-0 md:right-0 flex backdrop-blur-sm justify-center py-[10px] border-b items-center font-bold z-50">
-        <div className="flex w-full max-w-4xl justify-between items-center">
-          <Link href="/">
-            <div className="text-xl cursor-pointer tracking-wide hover:tracking-widest transition-all duration-300 hover:text-[#21bbdc]">
+      <div className="sticky top-0 left-5 right-5 md:left-0 md:right-0 flex backdrop-blur-sm justify-center py-[10px] border-b items-center z-50">
+        <div className="flex gap-2 w-full md:max-w-3xl lg:max-w-4xl max-w-xs sm:max-w-sm xxs:max-w-md xs:max-w-sm justify-between items-center">
+          <Link className="flex" href="/">
+            <div className="font-basic text-xl cursor-pointer tracking-wide hover:tracking-widest transition-all duration-300 hover:text-bluePrimary">
               Simplicity
             </div>
           </Link>
-          {ShowFilters && <SearchBox />}
-          <div className="flex gap-2 items-center">
+          <div className="flex">{ShowFilters && <SearchBox />}</div>
+          <div className="flex md:gap-2 items-center">
             {ShowFilters && <SideBar />}
             <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-        <Link href="/post">
-              <Button variant="ghost" size="sm" className="p-2">
-                <Plus size={"1rem"} />
-              </Button>
-            </Link>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Post Poetry</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-            
+              <Tooltip>
+                <TooltipTrigger asChild className="hidden md:flex">
+                  <Link href="/post">
+                    <Button variant="ghost" size="sm" className="p-2">
+                      <Plus size={"1rem"} />
+                    </Button>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Post Poetry</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <AfterSSR>
               <ModeToggle />
             </AfterSSR>

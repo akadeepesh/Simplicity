@@ -128,7 +128,7 @@ const PoetriesCollection = () => {
     return (
       <UnauthenticatedUserPage
         ErrorMessage="No poetry found"
-        className="h-[calc(100vh-201px)]"
+        className="h-[calc(100vh-204px)]"
       />
     );
   }
