@@ -63,7 +63,7 @@ const Post = () => {
   };
 
   return (
-    <div className="max-w-xs xs:max-w-sm xxs:max-w-md md:max-w-xl w-full rounded-none md:rounded-2xl -mt-28 xs:-mt-52 xxs:-mt-80 md:-mt-96 lg:-mt-0 mx-auto p-4 md:p-8 shadow-input">
+    <div className="max-w-xs xs:max-w-sm xxs:max-w-md md:max-w-xl w-full rounded-none md:rounded-2xl my-14 mx-auto p-4 md:p-8 shadow-input">
       <h2 className="font-bold text-xl">Welcome to Simplicity</h2>
       <p className="text-muted-foreground text-sm max-w-sm mt-2">
         Add your poetry collection to the world of Simplicity

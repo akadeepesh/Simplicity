@@ -9,7 +9,7 @@ const PostPoetry = () => {
   return (
     <>
       <Authenticated>
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center">
           <Post />
         </div>
       </Authenticated>
