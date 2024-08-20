@@ -2,7 +2,7 @@ import React from "react";
 
 const GuideLines = () => {
   return (
-    <div className="container max-w-full flex flex-col mt-7 md:mt-14">
+    <div className="container flex flex-col max-w-screen-lg mx-auto my-5 sm:my-6 md:my-7 lg:my-9">
       <h1 className="text-3xl font-bold mb-4">Community Guidelines</h1>
       <p className="mb-4">
         Welcome to our community! We&apos;re committed to maintaining a safe and

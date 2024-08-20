@@ -17,7 +17,7 @@ export const Dashboard = () => {
           <Card className="h-fit w-full border-transparent hover:border-bluePrimary group cursor-pointer transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex flex-row items-center justify-center gap-4">
-                <Star className="size-10 group-hover:text-bluePrimary" />
+                <Star className="w-10 h-10 xxs:w-8 xxs:h-8 xs:w-7 xs:h-7 sm:w-6 sm:h-6 group-hover:text-bluePrimary" />
                 <div className="flex flex-col gap-2">
                   <CardTitle className="font-Anta">Liked Posts</CardTitle>
                   <CardDescription className="font-Annapura">
@@ -25,7 +25,7 @@ export const Dashboard = () => {
                   </CardDescription>
                 </div>
               </div>
-              <div className="flex w-fit mr-5 group-hover:mr-0 group-hover:text-bluePrimary transition-all duration-300">
+              <div className="flex mr-5 group-hover:mr-0 group-hover:text-bluePrimary transition-all duration-300">
                 <MoveRight />
               </div>
             </CardHeader>
@@ -35,7 +35,7 @@ export const Dashboard = () => {
           <Card className="h-fit w-full border-transparent hover:border-bluePrimary group cursor-pointer transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex flex-row items-center justify-center gap-4">
-                <Album className="size-10 group-hover:text-bluePrimary" />
+                <Album className="w-6 h-6 group-hover:text-bluePrimary" />
                 <div className="flex flex-col gap-2">
                   <CardTitle className="font-Anta">Your Posts</CardTitle>
                   <CardDescription className="font-Annapura ">
@@ -53,7 +53,7 @@ export const Dashboard = () => {
           <Card className="h-fit w-full border-transparent hover:border-bluePrimary group cursor-pointer transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex flex-row items-center justify-center gap-4">
-                <ShieldCheck className="size-10 group-hover:text-bluePrimary" />
+                <ShieldCheck className="w-10 h-10 xxs:w-8 xxs:h-8 xs:w-7 xs:h-7 sm:w-6 sm:h-6 group-hover:text-bluePrimary" />
                 <div className="flex flex-col gap-2">
                   <CardTitle className="font-Anta">
                     Account & Security
@@ -73,7 +73,7 @@ export const Dashboard = () => {
           <Card className="h-fit w-full border-transparent hover:border-bluePrimary group cursor-pointer transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex flex-row items-center justify-center gap-4">
-                <BadgeCheck className="size-10 group-hover:text-bluePrimary" />
+                <BadgeCheck className="w-14 h-14 xxs:w-10 xxs:h-10 xs:w-9 xs:h-9 sm:w-6 sm:h-6 group-hover:text-bluePrimary" />
                 <div className="flex flex-col gap-2">
                   <CardTitle className="font-Anta">Guidelines</CardTitle>
                   <CardDescription className="font-Annapura ">

@@ -63,7 +63,7 @@ const Post = () => {
   };
 
   return (
-    <div className="max-w-xl w-full rounded-none md:rounded-2xl mx-auto p-4 md:p-8 shadow-input my-14 md:my-28">
+    <div className="max-w-xs xs:max-w-sm xxs:max-w-md md:max-w-xl w-full rounded-none md:rounded-2xl -mt-28 xs:-mt-52 xxs:-mt-80 md:-mt-96 lg:-mt-0 mx-auto p-4 md:p-8 shadow-input">
       <h2 className="font-bold text-xl">Welcome to Simplicity</h2>
       <p className="text-muted-foreground text-sm max-w-sm mt-2">
         Add your poetry collection to the world of Simplicity
@@ -213,7 +213,7 @@ const Post = () => {
             Post &rarr;
             <BottomGradient />
           </button>
-          <div className="bg-gradient-to-r from-transparent via-[#21bbdc] to-transparent my-8 h-[1px] w-full" />
+          <div className="bg-gradient-to-r from-transparent via-bluePrimary to-transparent my-8 h-[1px] w-full" />
         </form>
       </Form>
     </div>
