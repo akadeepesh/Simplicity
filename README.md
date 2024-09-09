@@ -1,5 +1,6 @@
 <p align="center">
-  <img src="https://github.com/akadeepesh/Simplicity/assets/100466756/e79474f2-dc3c-48c4-bf10-987793ff3348"><br>
+
+  <img src="https://github.com/user-attachments/assets/43eb4ab9-89fc-4a76-81e6-dc0e767528c0"><br>
    <h1 align="center">Simplicity - A Community of Poetry</h1><hr>
 </p>
 
