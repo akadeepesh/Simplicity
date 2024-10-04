@@ -7,6 +7,7 @@ import Navbar from "@/components/layout/navbar";
 import { Toaster } from "@/components/ui/toaster";
 import { FilterProvider } from "@/components/layout/FilterContext";
 import { SearchProvider } from "@/components/layout/SearchContext";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,13 +32,15 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ConvexClientProvider>
-            <FilterProvider>
-              <SearchProvider>
-                <Navbar />
-                {children}
-                <Toaster />
-              </SearchProvider>
-            </FilterProvider>
+            <ClerkProvider>
+              <FilterProvider>
+                <SearchProvider>
+                  <Navbar />
+                  {children}
+                  <Toaster />
+                </SearchProvider>
+              </FilterProvider>
+            </ClerkProvider>
           </ConvexClientProvider>
         </ThemeProvider>
       </body>
