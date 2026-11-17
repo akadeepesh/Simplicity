@@ -142,6 +142,39 @@
   background-image: none;
 }
 
+.shooting-star {
+  position: absolute;
+  width: 90px;
+  height: 1px;
+  background: linear-gradient(90deg, oklch(1 0 0 / 0.9), transparent);
+  transform: rotate(-35deg);
+  opacity: 0;
+  animation: shoot 14s linear infinite;
+}
+@keyframes shoot {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  6% {
+    opacity: 0;
+    translate: -260px 180px;
+  }
+  100% {
+    opacity: 0;
+    translate: -260px 180px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shooting-star,
+  .animate-twinkle {
+    animation: none !important;
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /* Reading styles                                                      */
 /* ------------------------------------------------------------------ */
