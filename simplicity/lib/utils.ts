@@ -52,3 +52,11 @@ export function absoluteUrl(path = "/") {
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
   return new URL(path, base).toString();
 }
+
+/** Only allow same-site relative redirects. */
+export function safeRedirect(next: string | null | undefined, fallback = "/") {
+  if (!next || !next.startsWith("/") || next.startsWith("//") || next.startsWith("/\\")) {
+    return fallback;
+  }
+  return next;
+}
