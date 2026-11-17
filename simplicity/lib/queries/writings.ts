@@ -15,7 +15,7 @@ import {
 
 export const PAGE_SIZE = 12;
 
-export type FeedSort = "latest" | "trending" | "top";
+export type FeedSort = "latest" | "trending" | "top" | "foryou";
 
 export type FeedParams = {
   sort?: FeedSort;
@@ -29,6 +29,9 @@ export type FeedParams = {
   q?: string;
   page?: number;
 };
+
+/** Freshness-weighted recent likes. */
+const trendingScore = sql`((select count(*) from ${like} where ${like.writingId} = ${writing.id} and ${like.createdAt} > now() - interval '14 days') + 1) / power(extract(epoch from (now() - ${writing.publishedAt})) / 3600 + 2, 0.8)`;
 
 const likeCount = sql<number>`(select count(*)::int from ${like} where ${like.writingId} = ${writing.id})`;
 const commentCount = sql<number>`(select count(*)::int from ${comment} where ${comment.writingId} = ${writing.id})`;
@@ -99,6 +102,10 @@ export async function getFeed(params: FeedParams, viewerId?: string | null) {
     );
   }
 
+  if (params.sort === "foryou" && viewerId) {
+    where.push(sql`${writing.authorId} <> ${viewerId}`);
+  }
+
   if (params.likedBy) {
     where.push(
       sql`exists(select 1 from ${like} where ${like.writingId} = ${writing.id} and ${like.userId} = ${params.likedBy})`,
@@ -132,6 +139,9 @@ export async function getFeed(params: FeedParams, viewerId?: string | null) {
     case "top":
       order.push(desc(likeCount));
       break;
+    case "foryou":
+      order.push(desc(sql`(${affinity(viewerId)} + 1) * ${trendingScore}`));
+      break;
     case "trending":
       order.push(
         desc(
@@ -155,6 +165,21 @@ export async function getFeed(params: FeedParams, viewerId?: string | null) {
     items: rows.slice(0, PAGE_SIZE),
     nextPage: rows.length > PAGE_SIZE ? page + 1 : null,
   };
+}
+
+/**
+ * How close a writing is to the viewer's taste: followed author (+3), shared tags with
+ * writings they loved (+1 each), and a type they tend to love (+1).
+ */
+function affinity(viewerId: string | null | undefined): SQL {
+  if (!viewerId) return sql`0`;
+  return sql`(
+    (case when exists(select 1 from ${follow} where ${follow.followerId} = ${viewerId} and ${follow.followingId} = ${writing.authorId}) then 3 else 0 end)
+    + (select count(*) from ${writingTag} wt where wt.writing_id = ${writing.id} and wt.tag_id in (
+        select wt2.tag_id from ${like} l join ${writingTag} wt2 on wt2.writing_id = l.writing_id where l.user_id = ${viewerId}))
+    + (case when ${writing.type} in (
+        select w3.type from ${like} l3 join ${writing} w3 on w3.id = l3.writing_id where l3.user_id = ${viewerId}) then 1 else 0 end)
+  )`;
 }
 
 function escapeLike(s: string) {
