@@ -40,9 +40,6 @@ export const auth = betterAuth({
       website: { type: "string", required: false, input: false },
     },
   },
-  session: {
-    cookieCache: { enabled: true, maxAge: 5 * 60 },
-  },
   plugins: [
     username({
       minUsernameLength: 3,
