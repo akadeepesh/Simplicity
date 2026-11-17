@@ -59,9 +59,11 @@ export function WriteForm({ initial }: { initial: InitialWriting }) {
 
   const def = TYPE_MAP[type];
   const latest = React.useRef({ type, form, title, subtitle, content, tags });
-  latest.current = { type, form, title, subtitle, content, tags };
   const idRef = React.useRef(id);
-  idRef.current = id;
+  React.useLayoutEffect(() => {
+    latest.current = { type, form, title, subtitle, content, tags };
+    idRef.current = id;
+  });
   const saving = React.useRef<Promise<unknown> | null>(null);
 
   const persist = React.useCallback(
