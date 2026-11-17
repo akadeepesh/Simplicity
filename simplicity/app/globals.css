@@ -179,8 +179,30 @@
 /* Reading styles                                                      */
 /* ------------------------------------------------------------------ */
 
+/* Reader preferences (set on <html> by the reading settings menu). */
+:root {
+  --read-scale: 1;
+  --read-leading: 1;
+  --read-font: var(--font-serif);
+}
+html[data-read-size="s"] {
+  --read-scale: 0.9;
+}
+html[data-read-size="l"] {
+  --read-scale: 1.12;
+}
+html[data-read-size="xl"] {
+  --read-scale: 1.25;
+}
+html[data-read-leading="airy"] {
+  --read-leading: 1.15;
+}
+html[data-read-font="sans"] {
+  --read-font: var(--font-sans);
+}
+
 .writing-body {
-  font-family: var(--font-serif);
+  font-family: var(--read-font);
   color: var(--foreground);
   overflow-wrap: anywhere;
 }
@@ -226,8 +248,8 @@
 
 /* Verse: each paragraph is a stanza; line breaks preserved. */
 .writing-verse {
-  font-size: 1.2rem;
-  line-height: 1.85;
+  font-size: calc(1.2rem * var(--read-scale));
+  line-height: calc(1.85 * var(--read-leading));
   white-space: pre-wrap;
 }
 .writing-verse p {
@@ -236,8 +258,8 @@
 
 /* Prose: comfortable column. */
 .writing-prose {
-  font-size: 1.2rem;
-  line-height: 1.8;
+  font-size: calc(1.2rem * var(--read-scale));
+  line-height: calc(1.8 * var(--read-leading));
 }
 .writing-prose p {
   margin: 0 0 1.25em;
@@ -254,7 +276,7 @@
 /* Micro: big, display-type pull quote. */
 .writing-card {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-size: calc(clamp(1.5rem, 3.5vw, 2.25rem) * var(--read-scale));
   line-height: 1.35;
   font-weight: 400;
   text-wrap: balance;
