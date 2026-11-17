@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/components/site/theme-provider";
 import { ViewerProvider } from "@/components/site/viewer-context";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getViewer } from "@/lib/session";
+import { PREFS_BOOT_SCRIPT } from "@/lib/reader-prefs";
 import { absoluteUrl } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -53,6 +54,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       suppressHydrationWarning
       className={`${inter.variable} ${newsreader.variable} ${fraunces.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: PREFS_BOOT_SCRIPT }} />
+      </head>
       <body className="min-h-dvh font-sans">
         <ThemeProvider>
           <ViewerProvider viewer={clientViewer}>

@@ -17,6 +17,7 @@ import { Comments } from "@/components/writing/comments";
 import { BookmarkButton, LikeButton, ShareButton } from "@/components/writing/engagement";
 import { OwnerMenu } from "@/components/writing/owner-menu";
 import { ReadingProgress } from "@/components/writing/reading-progress";
+import { ReaderSettings } from "@/components/writing/reader-settings";
 import { ReportDialog } from "@/components/writing/report-dialog";
 import { TypeKicker } from "@/components/writing/writing-card";
 
@@ -131,6 +132,7 @@ export default async function WritingPage({ params }: Props) {
             <Separator orientation="vertical" className="mx-1 h-6" />
             <CollectionPicker writingId={w.id} />
             <ShareButton url={`/w/${w.slug}`} title={w.title ?? "Simplicity"} />
+            <ReaderSettings />
             <Button asChild variant="ghost" size="icon-sm" aria-label="Download share image">
               <a href={`/w/${w.slug}/opengraph-image`} download={`${w.slug}.png`}>
                 <ImageDown />
