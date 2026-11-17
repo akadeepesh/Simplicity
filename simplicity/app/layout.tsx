@@ -6,7 +6,9 @@ import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { MobileTabBar } from "@/components/site/nav-links";
 import { ThemeProvider } from "@/components/site/theme-provider";
+import { ViewerProvider } from "@/components/site/viewer-context";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { getViewer } from "@/lib/session";
 import { absoluteUrl } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -40,7 +42,11 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const viewer = await getViewer();
+  const clientViewer = viewer
+    ? { id: viewer.id, username: viewer.username ?? null, name: viewer.name, image: viewer.image ?? null }
+    : null;
   return (
     <html
       lang="en"
@@ -49,13 +55,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="min-h-dvh font-sans">
         <ThemeProvider>
-          <TooltipProvider delayDuration={300}>
-            <Header />
-            <main className="min-h-[70vh]">{children}</main>
-            <Footer />
-            <MobileTabBar />
-            <Toaster position="bottom-center" toastOptions={{ className: "font-sans" }} />
-          </TooltipProvider>
+          <ViewerProvider viewer={clientViewer}>
+            <TooltipProvider delayDuration={300}>
+              <Header />
+              <main className="min-h-[70vh]">{children}</main>
+              <Footer />
+              <MobileTabBar />
+              <Toaster position="bottom-center" toastOptions={{ className: "font-sans" }} />
+            </TooltipProvider>
+          </ViewerProvider>
         </ThemeProvider>
       </body>
     </html>
