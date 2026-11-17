@@ -1,21 +1,27 @@
-# Convex + TypeScript + Next.js + Clerk + Tailwind + shadcn/ui
+# Simplicity app
 
-This template provides a minimal setup to get Convex working with [Next.js](https://nextjs.org/). It uses [Clerk](https://clerk.dev/) for user authentication.
+The Next.js app for Simplicity. See the [root README](../README.md) for features and setup.
 
-Start by editing `convex/poetry.ts` and interact with your Next.js app.
-
-See Convex docs at https://docs.convex.dev/home
-
-## Setting up
+## Layout
 
 ```
-npm create convex@latest -t nextjs-clerk-shadcn
+app/                 Routes (App Router)
+  w/[slug]/          Reader + generated share image
+  write/             Writing studio (new + edit)
+  u/[username]/      Profiles (served at /@username via a rewrite)
+  explore/           Browse + search
+  library/           Saved, collections, drafts
+  c/[id]/            Collection pages
+components/
+  ui/                Primitives (Radix + Tailwind)
+  site/              Header, footer, theme, search palette
+  writing/           Cards, feed, reader pieces, comments
+  editor/            Tiptap editor + write form
+lib/
+  db/                Drizzle schema + client
+  queries/           Server-side reads
+  actions/           Server actions (all mutations check ownership)
+  auth.ts            Better Auth config
+  writing-types.ts   Writing types and forms
+drizzle/             SQL migrations
 ```
-
-Then:
-
-1. Follow steps 1 to 3 in the [Clerk onboarding guide](https://docs.convex.dev/auth/clerk#get-started)
-2. Paste the Issuer URL as `CLERK_JWT_ISSUER_DOMAIN` to your dev deployment environment variable settings on the Convex dashboard (see [docs](https://docs.convex.dev/auth/clerk#configuring-dev-and-prod-instances))
-3. Paste your publishable key as `VITE_CLERK_PUBLISHABLE_KEY="<your publishable key>"` to the `.env.local` file in this directory.
-
-If you want to sync Clerk user data via webhooks, check out this [example repo](https://github.com/thomasballinger/convex-clerk-users-table/).
