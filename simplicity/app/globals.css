@@ -1,86 +1,244 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Basic&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 1rem;
-  }
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --radius: 0.75rem;
+
+  /* Paper */
+  --background: oklch(0.985 0.007 85);
+  --foreground: oklch(0.22 0.02 265);
+  --card: oklch(0.995 0.004 85);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.995 0.004 85);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.27 0.03 265);
+  --primary-foreground: oklch(0.985 0.007 85);
+  --secondary: oklch(0.955 0.01 85);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.955 0.01 85);
+  --muted-foreground: oklch(0.5 0.02 265);
+  --accent: oklch(0.94 0.015 85);
+  --accent-foreground: var(--foreground);
+  --brand: oklch(0.56 0.12 225);
+  --brand-foreground: oklch(0.99 0 0);
+  --heart: oklch(0.6 0.2 15);
+  --destructive: oklch(0.58 0.21 27);
+  --border: oklch(0.9 0.012 85);
+  --input: oklch(0.88 0.012 85);
+  --ring: oklch(0.56 0.12 225 / 0.5);
+}
+
+.dark {
+  /* Ink */
+  --background: oklch(0.16 0.014 265);
+  --foreground: oklch(0.93 0.01 85);
+  --card: oklch(0.195 0.016 265);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.2 0.016 265);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.93 0.01 85);
+  --primary-foreground: oklch(0.18 0.014 265);
+  --secondary: oklch(0.24 0.016 265);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.23 0.015 265);
+  --muted-foreground: oklch(0.68 0.015 265);
+  --accent: oklch(0.26 0.018 265);
+  --accent-foreground: var(--foreground);
+  --brand: oklch(0.78 0.12 210);
+  --brand-foreground: oklch(0.16 0.014 265);
+  --heart: oklch(0.7 0.19 15);
+  --destructive: oklch(0.65 0.2 25);
+  --border: oklch(0.28 0.016 265);
+  --input: oklch(0.32 0.016 265);
+  --ring: oklch(0.78 0.12 210 / 0.5);
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-heart: var(--heart);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-twinkle: twinkle 4s ease-in-out infinite;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.15;
+    }
+    50% {
+      opacity: 0.9;
+    }
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-gutter: stable;
   }
   body {
-    @apply bg-background text-foreground min-h-full font-sans;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--brand) 25%, transparent);
   }
 }
 
-body {
-  --sb-track-color: hsl(var(--background));
-  --sb-thumb-color: #21bbdc;
-  --sb-size: 3px;
+/* Paper grain in light mode, subtle and non-interactive. */
+.paper-grain {
+  background-image: radial-gradient(
+    color-mix(in oklch, var(--foreground) 4%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 3px 3px;
+}
+.dark .paper-grain {
+  background-image: none;
 }
 
-body::-webkit-scrollbar {
-  width: var(--sb-size);
+/* ------------------------------------------------------------------ */
+/* Reading styles                                                      */
+/* ------------------------------------------------------------------ */
+
+.writing-body {
+  font-family: var(--font-serif);
+  color: var(--foreground);
+  overflow-wrap: anywhere;
+}
+.writing-body a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.writing-body blockquote {
+  border-left: 2px solid var(--brand);
+  padding-left: 1rem;
+  font-style: italic;
+  color: var(--muted-foreground);
+}
+.writing-body hr {
+  border: 0;
+  margin: 2.5rem auto;
+  text-align: center;
+}
+.writing-body hr::after {
+  content: "⁂";
+  color: var(--muted-foreground);
+  letter-spacing: 0.5em;
+}
+.writing-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin: 2rem 0 0.75rem;
+}
+.writing-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin: 1.5rem 0 0.5rem;
+}
+.writing-body ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+.writing-body ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
 }
 
-body::-webkit-scrollbar-track {
-  background: var(--sb-track-color);
-  border-radius: 50px;
+/* Verse: each paragraph is a stanza; line breaks preserved. */
+.writing-verse {
+  font-size: 1.2rem;
+  line-height: 1.85;
+  white-space: pre-wrap;
+}
+.writing-verse p {
+  margin: 0 0 1.5em;
 }
 
-body::-webkit-scrollbar-thumb {
-  background: var(--sb-thumb-color);
-  border-radius: 50px;
+/* Prose: comfortable column. */
+.writing-prose {
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+.writing-prose p {
+  margin: 0 0 1.25em;
+}
+.writing-prose > p:first-of-type::first-letter {
+  font-family: var(--font-display);
+  float: left;
+  font-size: 3.6em;
+  line-height: 0.85;
+  padding: 0.08em 0.1em 0 0;
+  color: var(--brand);
 }
 
-@supports not selector(::-webkit-scrollbar) {
-  body {
-    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
-  }
+/* Micro: big, display-type pull quote. */
+.writing-card {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  line-height: 1.35;
+  font-weight: 400;
+  text-wrap: balance;
+}
+.writing-card p {
+  margin: 0 0 0.6em;
+}
+
+/* Tiptap editor */
+.tiptap {
+  outline: none;
+  min-height: 50vh;
+}
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
