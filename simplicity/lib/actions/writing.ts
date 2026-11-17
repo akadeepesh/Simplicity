@@ -122,7 +122,7 @@ export async function saveWriting(
     if (status === "published") {
       revalidatePath("/");
       revalidatePath(`/w/${slug}`);
-      revalidatePath(`/@${viewer.username}`);
+      revalidatePath(`/u/${viewer.username}`);
     }
     return { ok: true, data: { id, slug, status } };
   } catch (e) {
