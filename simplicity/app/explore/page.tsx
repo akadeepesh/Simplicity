@@ -27,7 +27,8 @@ export default async function ExplorePage({ searchParams }: { searchParams: SP }
   const tag = sp.tag ? slugify(sp.tag) : undefined;
   const q = sp.q?.trim().slice(0, 100) || undefined;
   const following = sp.sort === "following" && !!viewer;
-  const sort: FeedSort = sp.sort === "trending" || sp.sort === "top" ? sp.sort : "latest";
+  const sort: FeedSort =
+    sp.sort === "trending" || sp.sort === "top" || (sp.sort === "foryou" && viewer) ? sp.sort : "latest";
 
   const params: FeedParams = { type: def?.value, form, tag, q, sort, following };
   const [feed, tags, counts] = await Promise.all([

@@ -5,6 +5,7 @@ import { WRITING_TYPES } from "@/lib/writing-types";
 import { cn } from "@/lib/utils";
 
 const SORTS = [
+  { value: "foryou", label: "For you" },
   { value: "latest", label: "Latest" },
   { value: "trending", label: "Trending" },
   { value: "top", label: "Most loved" },
@@ -86,7 +87,7 @@ export function SortTabs({ signedIn }: { signedIn: boolean }) {
   const active = sp.get("sort") ?? "latest";
   return (
     <div className="inline-flex rounded-full border bg-card/60 p-1 text-sm">
-      {SORTS.filter((s) => signedIn || s.value !== "following").map((s) => (
+      {SORTS.filter((s) => signedIn || (s.value !== "following" && s.value !== "foryou")).map((s) => (
         <Link
           key={s.value}
           href={href({ sort: s.value === "latest" ? null : s.value })}

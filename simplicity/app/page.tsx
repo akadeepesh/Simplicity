@@ -19,7 +19,8 @@ export default async function HomePage({ searchParams }: { searchParams: SP }) {
 
   const type = getTypeDef(sp.type)?.value;
   const following = sp.sort === "following" && !!viewer;
-  const sort: FeedSort = sp.sort === "trending" || sp.sort === "top" ? sp.sort : "latest";
+  const sort: FeedSort =
+    sp.sort === "trending" || sp.sort === "top" || (sp.sort === "foryou" && viewer) ? sp.sort : "latest";
   const params: FeedParams = { type, sort, following };
 
   const [feed, spotlight, counts] = await Promise.all([
