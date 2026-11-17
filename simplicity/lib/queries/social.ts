@@ -168,3 +168,13 @@ export async function getSuggestedAuthors(viewerId?: string | null, limit = 4) {
     .orderBy(desc(sql`count(${writing.id})`))
     .limit(limit);
 }
+
+export async function isFollowing(viewerId: string | null | undefined, userId: string) {
+  if (!viewerId || viewerId === userId) return false;
+  const [row] = await db
+    .select({ one: sql`1` })
+    .from(follow)
+    .where(and(eq(follow.followerId, viewerId), eq(follow.followingId, userId)))
+    .limit(1);
+  return !!row;
+}
