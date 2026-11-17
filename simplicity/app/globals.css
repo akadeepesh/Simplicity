@@ -89,7 +89,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
 
-  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
   --animate-twinkle: twinkle 4s ease-in-out infinite;
 
   @keyframes fade-up {
