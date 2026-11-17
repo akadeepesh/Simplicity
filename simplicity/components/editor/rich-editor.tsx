@@ -60,14 +60,16 @@ export function RichEditor({
   onStats?: (stats: { words: number; chars: number }) => void;
 }) {
   const layoutRef = React.useRef(layout);
-  layoutRef.current = layout;
   const onChangeRef = React.useRef(onChange);
-  onChangeRef.current = onChange;
   const onStatsRef = React.useRef(onStats);
-  onStatsRef.current = onStats;
 
   const placeholderRef = React.useRef(placeholder);
-  placeholderRef.current = placeholder;
+  React.useLayoutEffect(() => {
+    layoutRef.current = layout;
+    onChangeRef.current = onChange;
+    onStatsRef.current = onStats;
+    placeholderRef.current = placeholder;
+  });
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -79,8 +81,11 @@ export function RichEditor({
         strike: false,
         link: { openOnClick: false, autolink: true, protocols: ["http", "https", "mailto"] },
       }),
+      // These callbacks run inside editor events, not during render.
+      // eslint-disable-next-line react-hooks/refs
       Placeholder.configure({ placeholder: () => placeholderRef.current }),
       CharacterCount.configure({ limit: maxChars }),
+      // eslint-disable-next-line react-hooks/refs
       VerseEnter.configure({ isVerse: () => layoutRef.current !== "prose" }),
     ],
     content: initialContent,
