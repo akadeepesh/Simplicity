@@ -7,6 +7,7 @@ import { NavLinks } from "./nav-links";
 import { SearchCommand } from "./search-command";
 import { ThemeToggle } from "./theme-toggle";
 import { UserMenu } from "./user-menu";
+import { UsernameNudge } from "./username-nudge";
 
 export async function Header() {
   const viewer = await getViewer();
@@ -41,6 +42,7 @@ export async function Header() {
           )}
         </div>
       </div>
+      {viewer && !viewer.username ? <UsernameNudge /> : null}
     </header>
   );
 }

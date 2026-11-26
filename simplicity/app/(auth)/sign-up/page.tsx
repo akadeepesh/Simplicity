@@ -11,13 +11,13 @@ export const metadata: Metadata = { title: "Join Simplicity" };
 export default async function SignUpPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string }>;
+  searchParams: Promise<{ next?: string; error?: string }>;
 }) {
-  const { next = "/read" } = await searchParams;
+  const { next = "/read", error } = await searchParams;
   if (await getViewer()) redirect(safeRedirect(next));
   return (
     <AuthShell title="Join Simplicity" subtitle="A quiet home for your words. Free, forever.">
-      <AuthForm mode="sign-up" next={next} providers={enabledProviders} />
+      <AuthForm mode="sign-up" next={next} providers={enabledProviders} error={error} />
     </AuthShell>
   );
 }

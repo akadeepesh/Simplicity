@@ -11,13 +11,13 @@ export const metadata: Metadata = { title: "Sign in" };
 export default async function SignInPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string }>;
+  searchParams: Promise<{ next?: string; error?: string }>;
 }) {
-  const { next = "/read" } = await searchParams;
+  const { next = "/read", error } = await searchParams;
   if (await getViewer()) redirect(safeRedirect(next));
   return (
     <AuthShell title="Welcome back" subtitle="Sign in to like, save and write.">
-      <AuthForm mode="sign-in" next={next} providers={enabledProviders} />
+      <AuthForm mode="sign-in" next={next} providers={enabledProviders} error={error} />
     </AuthShell>
   );
 }
