@@ -19,7 +19,7 @@ export default async function Image() {
           alignItems: "center",
           justifyContent: "center",
           gap: 24,
-          background: `radial-gradient(ellipse at top, #1f2a3d 0%, ${OG_COLORS.bg} 70%)`,
+          background: `radial-gradient(ellipse at top, #3a2a1f 0%, ${OG_COLORS.bg} 70%)`,
           color: OG_COLORS.ink,
           fontFamily: display ? "Display" : undefined,
         }}
