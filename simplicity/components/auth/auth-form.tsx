@@ -16,10 +16,13 @@ export function AuthForm({
   mode,
   next,
   providers,
+  error,
 }: {
   mode: Mode;
   next: string;
   providers: { github: boolean; google: boolean };
+  /** Error code better-auth appends when a social sign-in fails. */
+  error?: string;
 }) {
   const router = useRouter();
   const [pending, setPending] = React.useState<string | null>(null);
@@ -58,7 +61,11 @@ export function AuthForm({
 
   async function social(provider: "github" | "google") {
     setPending(provider);
-    const { error } = await signIn.social({ provider, callbackURL: afterAuth });
+    const { error } = await signIn.social({
+      provider,
+      callbackURL: afterAuth,
+      errorCallbackURL: `/${mode}?next=${encodeURIComponent(safeNext)}`,
+    });
     if (error) {
       toast.error(error.message ?? "Couldn't reach provider.");
       setPending(null);
@@ -69,6 +76,11 @@ export function AuthForm({
 
   return (
     <div className="space-y-6">
+      {error ? (
+        <p role="alert" className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+          {socialErrorMessage(error)}
+        </p>
+      ) : null}
       {hasSocial ? (
         <div className="grid gap-2">
           {providers.google ? (
@@ -148,6 +160,14 @@ export function AuthForm({
       </p>
     </div>
   );
+}
+
+function socialErrorMessage(code: string) {
+  if (code === "account_not_linked") {
+    return "An account with that email already exists. Sign in with your password, then try again.";
+  }
+  if (code === "access_denied") return "Sign-in was cancelled.";
+  return "We couldn't sign you in with that account. Please try again.";
 }
 
 function GoogleIcon() {

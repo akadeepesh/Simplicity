@@ -34,6 +34,11 @@ export const auth = betterAuth({
     minPasswordLength: 8,
   },
   socialProviders,
+  account: {
+    // Google and GitHub verify emails, so signing in with one links to an
+    // existing email account instead of failing.
+    accountLinking: { enabled: true, trustedProviders: ["google", "github"] },
+  },
   user: {
     additionalFields: {
       bio: { type: "string", required: false, input: false },
