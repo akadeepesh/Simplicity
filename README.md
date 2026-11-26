@@ -13,6 +13,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)
 ![Postgres](https://img.shields.io/badge/Postgres-Neon-4169e1?logo=postgresql&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green)
+[![CI](https://github.com/akadeepesh/Simplicity/actions/workflows/ci.yml/badge.svg)](https://github.com/akadeepesh/Simplicity/actions/workflows/ci.yml)
 
 </div>
 
@@ -144,7 +145,11 @@ The app deploys to Vercel as-is. Set the project's root directory to `simplicity
 
 ## Contributing
 
-Issues and pull requests are welcome. For anything larger than a small fix, please open an issue first to talk through the idea. Run `npm run lint` and `npm run typecheck` before submitting.
+Issues and pull requests are welcome. For anything larger than a small fix, please open an issue first to talk through the idea.
+
+- [Contributing guide](.github/CONTRIBUTING.md): setup, workflow and code conventions
+- [Code of Conduct](.github/CODE_OF_CONDUCT.md)
+- [Security policy](.github/SECURITY.md): report vulnerabilities privately, never in a public issue
 
 ## License
 

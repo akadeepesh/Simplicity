@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/akadeepesh/Simplicity/security/advisories/new
+    about: Please report security issues privately, not as a public issue.
+  - name: Report content on the site
+    url: https://simplicity.akadeepesh.com/guidelines
+    about: Use the report button on the writing or response itself. Reports are reviewed privately.
