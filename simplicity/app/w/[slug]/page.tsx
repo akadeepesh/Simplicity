@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CollectionPicker } from "@/components/writing/collection-picker";
 import { Comments } from "@/components/writing/comments";
-import { BookmarkButton, LikeButton, ShareButton } from "@/components/writing/engagement";
+import { BookmarkButton, CommentCount, LikeButton, ShareButton } from "@/components/writing/engagement";
 import { OwnerMenu } from "@/components/writing/owner-menu";
 import { ReadingProgress } from "@/components/writing/reading-progress";
 import { ReaderSettings } from "@/components/writing/reader-settings";
@@ -122,12 +122,7 @@ export default async function WritingPage({ params }: Props) {
         {published ? (
           <div className="sticky bottom-20 z-30 mx-auto mt-12 flex w-fit flex-wrap items-center justify-center gap-1 rounded-full border bg-background/85 p-1.5 shadow-lg backdrop-blur md:bottom-6">
             <LikeButton writingId={w.id} initialLiked={w.liked} initialCount={w.likeCount} size="lg" />
-            <a
-              href="#comments"
-              className="rounded-full px-3 py-2 text-[15px] text-muted-foreground hover:bg-accent hover:text-foreground"
-            >
-              {w.commentCount} {w.commentCount === 1 ? "response" : "responses"}
-            </a>
+            <CommentCount count={w.commentCount} href="#comments" size="lg" />
             <BookmarkButton writingId={w.id} initialBookmarked={w.bookmarked} size="lg" />
             <Separator orientation="vertical" className="mx-1 h-6" />
             <CollectionPicker writingId={w.id} />

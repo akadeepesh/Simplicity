@@ -38,28 +38,61 @@ export function LikeButton({
     }
   }
 
+  const iconSize = size === "lg" ? "size-5" : "size-4";
+
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={state.liked}
-      aria-label={state.liked ? "Unlike" : "Like"}
-      className={cn(
-        "relative z-10 inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-muted-foreground transition-colors hover:bg-heart/10 hover:text-heart",
-        state.liked && "text-heart",
-        size === "lg" && "px-3 py-2 text-[15px]",
-      )}
-    >
-      <Heart
-        key={burst}
+    <Tooltip content={state.liked ? "You loved this" : "Love this"}>
+      <button
+        type="button"
+        onClick={onClick}
+        aria-pressed={state.liked}
+        aria-label={state.liked ? "Unlike" : "Like"}
         className={cn(
-          size === "lg" ? "size-5" : "size-4",
-          state.liked && "fill-current",
-          burst > 0 && state.liked && "animate-in zoom-in-50 duration-300",
+          "group/like relative z-10 inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-muted-foreground transition-colors hover:bg-heart/10 hover:text-heart active:scale-95",
+          state.liked && "text-heart",
+          size === "lg" && "px-3 py-2 text-[15px]",
         )}
-      />
-      <span className="tabular-nums text-[13px]">{compactNumber(state.count)}</span>
-    </button>
+      >
+        <span className="relative inline-grid place-items-center">
+          <Heart
+            key={burst}
+            className={cn(
+              iconSize,
+              "transition-transform duration-200 group-hover/like:scale-115",
+              state.liked && "fill-current",
+              burst > 0 && state.liked && "animate-heart-pop",
+            )}
+          />
+          {burst > 0 && state.liked ? <LikeBurst key={`b${burst}`} /> : null}
+        </span>
+        {state.count > 0 ? (
+          <span
+            key={state.count}
+            className="animate-in fade-in slide-in-from-bottom-1 text-[13px] tabular-nums duration-200"
+          >
+            {compactNumber(state.count)}
+          </span>
+        ) : null}
+      </button>
+    </Tooltip>
+  );
+}
+
+const SPARKS = [0, 60, 120, 180, 240, 300];
+
+/** A one-shot ring and sparks around the heart. */
+function LikeBurst() {
+  return (
+    <span aria-hidden className="pointer-events-none absolute inset-0 motion-reduce:hidden">
+      <span className="like-ring absolute inset-0 rounded-full border-2 border-heart" />
+      {SPARKS.map((a) => (
+        <span
+          key={a}
+          className="like-spark absolute top-1/2 left-1/2 size-1 rounded-full bg-heart"
+          style={{ "--a": `${a}deg` } as React.CSSProperties}
+        />
+      ))}
+    </span>
   );
 }
 
@@ -97,37 +130,59 @@ export function BookmarkButton({
         aria-pressed={saved}
         aria-label={saved ? "Remove bookmark" : "Bookmark"}
         className={cn(
-          "relative z-10 inline-flex items-center rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-brand/10 hover:text-brand",
+          "group/save relative z-10 inline-flex items-center rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-brand/10 hover:text-brand active:scale-95",
           saved && "text-brand",
           size === "lg" && "p-2.5",
         )}
       >
-        <Bookmark className={cn(size === "lg" ? "size-5" : "size-4", saved && "fill-current")} />
+        <Bookmark
+          key={String(saved)}
+          className={cn(
+            size === "lg" ? "size-5" : "size-4",
+            "transition-transform duration-200 group-hover/save:-translate-y-0.5",
+            saved && "animate-heart-pop fill-current",
+          )}
+        />
       </button>
     </Tooltip>
   );
 }
 
-export function CommentCount({ count, href }: { count: number; href?: string }) {
-  const inner = (
-    <>
-      <MessageCircle className="size-4" />
-      <span className="tabular-nums text-[13px]">{compactNumber(count)}</span>
-    </>
-  );
-  const cls =
-    "relative z-10 inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground";
-  return href ? (
-    <a href={href} className={cls} aria-label={`${count} comments`}>
-      {inner}
-    </a>
-  ) : (
-    <span className={cls}>{inner}</span>
+export function CommentCount({
+  count,
+  href,
+  size = "sm",
+}: {
+  count: number;
+  href: string;
+  size?: "sm" | "lg";
+}) {
+  const label = count ? `${count} ${count === 1 ? "response" : "responses"}` : "Write a response";
+  return (
+    <Tooltip content={count ? label : "Be the first to respond"}>
+      <a
+        href={href}
+        aria-label={label}
+        className={cn(
+          "group/comment relative z-10 inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-muted-foreground transition-colors hover:bg-brand/10 hover:text-brand active:scale-95",
+          size === "lg" && "px-3 py-2 text-[15px]",
+        )}
+      >
+        <MessageCircle
+          className={cn(
+            size === "lg" ? "size-5" : "size-4",
+            "transition-transform duration-200 group-hover/comment:-rotate-12 group-hover/comment:scale-110",
+          )}
+        />
+        {count > 0 ? <span className="text-[13px] tabular-nums">{compactNumber(count)}</span> : null}
+      </a>
+    </Tooltip>
   );
 }
 
 export function ShareButton({ url, title, text }: { url: string; title: string; text?: string }) {
   const [copied, setCopied] = React.useState(false);
+  const canShare = useCanShare();
 
   async function onClick() {
     const full = new URL(url, window.location.origin).toString();
@@ -147,12 +202,19 @@ export function ShareButton({ url, title, text }: { url: string; title: string; 
 
   return (
     <Button variant="outline" size="sm" onClick={onClick}>
-      {copied ? <Check /> : navigatorShareIcon()}
+      {copied ? <Check /> : canShare ? <Share2 /> : <Link2 />}
       Share
     </Button>
   );
 }
 
-function navigatorShareIcon() {
-  return typeof navigator !== "undefined" && "share" in navigator ? <Share2 /> : <Link2 />;
+const noopSubscribe = () => () => {};
+
+/** False during SSR and hydration, then the real value, so both renders match. */
+function useCanShare() {
+  return React.useSyncExternalStore(
+    noopSubscribe,
+    () => "share" in navigator,
+    () => false,
+  );
 }

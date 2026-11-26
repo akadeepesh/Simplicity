@@ -7,53 +7,53 @@
 :root {
   --radius: 0.75rem;
 
-  /* Paper */
-  --background: oklch(0.985 0.007 85);
-  --foreground: oklch(0.22 0.02 265);
-  --card: oklch(0.995 0.004 85);
+  /* Paper: warm cream, brown ink, autumn rust */
+  --background: oklch(0.975 0.014 78);
+  --foreground: oklch(0.27 0.03 45);
+  --card: oklch(0.99 0.008 80);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.995 0.004 85);
+  --popover: oklch(0.99 0.008 80);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.27 0.03 265);
-  --primary-foreground: oklch(0.985 0.007 85);
-  --secondary: oklch(0.955 0.01 85);
+  --primary: oklch(0.31 0.04 40);
+  --primary-foreground: oklch(0.975 0.014 78);
+  --secondary: oklch(0.948 0.018 75);
   --secondary-foreground: var(--foreground);
-  --muted: oklch(0.955 0.01 85);
-  --muted-foreground: oklch(0.5 0.02 265);
-  --accent: oklch(0.94 0.015 85);
+  --muted: oklch(0.948 0.018 75);
+  --muted-foreground: oklch(0.52 0.03 50);
+  --accent: oklch(0.932 0.025 70);
   --accent-foreground: var(--foreground);
-  --brand: oklch(0.56 0.12 225);
-  --brand-foreground: oklch(0.99 0 0);
-  --heart: oklch(0.6 0.2 15);
-  --destructive: oklch(0.58 0.21 27);
-  --border: oklch(0.9 0.012 85);
-  --input: oklch(0.88 0.012 85);
-  --ring: oklch(0.56 0.12 225 / 0.5);
+  --brand: oklch(0.56 0.15 38);
+  --brand-foreground: oklch(0.99 0.005 80);
+  --heart: oklch(0.6 0.2 18);
+  --destructive: oklch(0.55 0.2 27);
+  --border: oklch(0.89 0.02 75);
+  --input: oklch(0.86 0.022 75);
+  --ring: oklch(0.56 0.15 38 / 0.45);
 }
 
 .dark {
-  /* Ink */
-  --background: oklch(0.16 0.014 265);
-  --foreground: oklch(0.93 0.01 85);
-  --card: oklch(0.195 0.016 265);
+  /* Candlelight: espresso page, cream ink, amber accent */
+  --background: oklch(0.19 0.014 50);
+  --foreground: oklch(0.92 0.02 80);
+  --card: oklch(0.225 0.016 50);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.2 0.016 265);
+  --popover: oklch(0.235 0.016 50);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.93 0.01 85);
-  --primary-foreground: oklch(0.18 0.014 265);
-  --secondary: oklch(0.24 0.016 265);
+  --primary: oklch(0.92 0.02 80);
+  --primary-foreground: oklch(0.2 0.014 50);
+  --secondary: oklch(0.27 0.018 50);
   --secondary-foreground: var(--foreground);
-  --muted: oklch(0.23 0.015 265);
-  --muted-foreground: oklch(0.68 0.015 265);
-  --accent: oklch(0.26 0.018 265);
+  --muted: oklch(0.26 0.016 50);
+  --muted-foreground: oklch(0.7 0.025 70);
+  --accent: oklch(0.29 0.02 50);
   --accent-foreground: var(--foreground);
-  --brand: oklch(0.78 0.12 210);
-  --brand-foreground: oklch(0.16 0.014 265);
-  --heart: oklch(0.7 0.19 15);
+  --brand: oklch(0.76 0.13 60);
+  --brand-foreground: oklch(0.19 0.014 50);
+  --heart: oklch(0.7 0.18 18);
   --destructive: oklch(0.65 0.2 25);
-  --border: oklch(0.28 0.016 265);
-  --input: oklch(0.32 0.016 265);
-  --ring: oklch(0.78 0.12 210 / 0.5);
+  --border: oklch(0.31 0.018 50);
+  --input: oklch(0.35 0.018 50);
+  --ring: oklch(0.76 0.13 60 / 0.45);
 }
 
 @theme inline {
@@ -91,6 +91,30 @@
 
   --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
   --animate-twinkle: twinkle 4s ease-in-out infinite;
+  --animate-leaf-spin: turn 1.8s cubic-bezier(0.65, 0.05, 0.35, 0.95) infinite;
+  --animate-drift: turn 90s linear infinite;
+  --animate-heart-pop: heart-pop 0.45s cubic-bezier(0.17, 0.89, 0.32, 1.3);
+
+  @keyframes heart-pop {
+    0% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(0.75);
+    }
+    60% {
+      transform: scale(1.3);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes turn {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 
   @keyframes fade-up {
     from {
@@ -121,9 +145,19 @@
     -webkit-tap-highlight-color: transparent;
     scrollbar-gutter: stable;
   }
+  /* The gutter above already reserves the scrollbar's space, so stop Radix's
+     scroll lock from adding its own offset when a dialog or menu opens. */
+  html body[data-scroll-locked] {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "ss01", "cv11";
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
   }
   ::selection {
     background: color-mix(in oklch, var(--brand) 25%, transparent);
@@ -168,6 +202,35 @@
     translate: -260px 180px;
   }
 }
+/* Like burst: a ring and six sparks that fly out once. */
+.like-ring {
+  animation: like-ring 0.5s ease-out forwards;
+}
+.like-spark {
+  margin: -2px 0 0 -2px;
+  animation: like-spark 0.55s ease-out forwards;
+}
+@keyframes like-ring {
+  from {
+    transform: scale(0.4);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+@keyframes like-spark {
+  from {
+    transform: rotate(var(--a)) translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: rotate(var(--a)) translateY(-16px) scale(0);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .shooting-star,
   .animate-twinkle {

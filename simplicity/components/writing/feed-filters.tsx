@@ -27,13 +27,19 @@ function useHref() {
   };
 }
 
-export function TypeChips({ counts }: { counts?: Partial<Record<string, number>> }) {
+export function TypeChips({
+  counts,
+  className,
+}: {
+  counts?: Partial<Record<string, number>>;
+  className?: string;
+}) {
   const sp = useSearchParams();
   const href = useHref();
   const active = sp.get("type") ?? "";
   const items = [{ value: "", label: "Everything" }, ...WRITING_TYPES.map((t) => ({ value: t.value, label: t.label }))];
   return (
-    <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:px-0">
+    <div className={cn("-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:px-0", className)}>
       {items.map((t) => (
         <Link
           key={t.value}
@@ -81,19 +87,19 @@ export function FormChips() {
   );
 }
 
-export function SortTabs({ signedIn }: { signedIn: boolean }) {
+export function SortTabs({ signedIn, className }: { signedIn: boolean; className?: string }) {
   const sp = useSearchParams();
   const href = useHref();
   const active = sp.get("sort") ?? "latest";
   return (
-    <div className="inline-flex rounded-full border bg-card/60 p-1 text-sm">
+    <div className={cn("inline-flex rounded-full border bg-card/60 p-1 text-sm", className)}>
       {SORTS.filter((s) => signedIn || (s.value !== "following" && s.value !== "foryou")).map((s) => (
         <Link
           key={s.value}
           href={href({ sort: s.value === "latest" ? null : s.value })}
           scroll={false}
           className={cn(
-            "rounded-full px-3 py-1 text-muted-foreground transition-colors hover:text-foreground",
+            "shrink-0 rounded-full px-3 py-1 text-muted-foreground transition-colors hover:text-foreground",
             active === s.value && "bg-secondary text-foreground shadow-sm",
           )}
         >

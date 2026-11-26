@@ -54,7 +54,7 @@ export function absoluteUrl(path = "/") {
 }
 
 /** Only allow same-site relative redirects. */
-export function safeRedirect(next: string | null | undefined, fallback = "/") {
+export function safeRedirect(next: string | null | undefined, fallback = "/read") {
   if (!next || !next.startsWith("/") || next.startsWith("//") || next.startsWith("/\\")) {
     return fallback;
   }

@@ -2,7 +2,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { formatDistanceToNowStrict } from "date-fns";
+import { RelativeTime } from "@/components/ui/relative-time";
 import { PenLine, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { deleteDrafts } from "@/lib/actions/writing";
@@ -49,7 +49,7 @@ export function DraftList({ drafts }: { drafts: Draft[] }) {
               {d.title || d.excerpt.split("\n")[0] || "Untitled"}
             </div>
             <div className="mt-0.5 text-xs text-muted-foreground">
-              {d.wordCount} words · edited {formatDistanceToNowStrict(new Date(d.updatedAt), { addSuffix: true })}
+              {d.wordCount} words · edited <RelativeTime date={d.updatedAt} />
             </div>
           </Link>
           <Button

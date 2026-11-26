@@ -2,7 +2,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { formatDistanceToNowStrict } from "date-fns";
+import { RelativeTime } from "@/components/ui/relative-time";
 import { Flag, Loader2, Reply, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { addComment, deleteComment } from "@/lib/actions/engagement";
@@ -99,7 +99,7 @@ function CommentItem({
           <span className="text-sm font-medium">{c.author.name}</span>
         </Link>
         <span className="text-xs text-muted-foreground">
-          {formatDistanceToNowStrict(new Date(c.createdAt), { addSuffix: true })}
+          <RelativeTime date={c.createdAt} />
         </span>
       </div>
       <p className="mt-2 pl-[38px] font-serif text-[16px] leading-relaxed whitespace-pre-line">{c.body}</p>

@@ -18,9 +18,9 @@ export async function loadGoogleFont(family: string, text: string, weight = 400)
 }
 
 export const OG_COLORS = {
-  bg: "#14161d",
+  bg: "#221c18",
   paper: "#f6f2e9",
   ink: "#e9e4d8",
-  muted: "#9aa0ad",
-  brand: "#6fd0ea",
+  muted: "#a89a8c",
+  brand: "#e9a15a",
 };

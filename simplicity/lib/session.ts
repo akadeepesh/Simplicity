@@ -2,10 +2,23 @@ import "server-only";
 import { cache } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
 
+/**
+ * Loaded lazily so a misconfigured auth or database (missing env vars, no
+ * migrations) logs a clear error instead of taking down the root layout.
+ */
 export const getSession = cache(async () => {
-  return auth.api.getSession({ headers: await headers() });
+  const h = await headers();
+  try {
+    const { auth } = await import("@/lib/auth");
+    return await auth.api.getSession({ headers: h });
+  } catch (err) {
+    console.error(
+      "[session] Couldn't read the session. Check DATABASE_URL and BETTER_AUTH_SECRET, and that migrations have run.",
+      err,
+    );
+    return null;
+  }
 });
 
 export async function getViewer() {

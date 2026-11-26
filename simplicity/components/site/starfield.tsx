@@ -27,7 +27,7 @@ export function Starfield({ className }: { className?: string }) {
       aria-hidden
       className={cn("pointer-events-none absolute inset-0 hidden overflow-hidden dark:block", className)}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.3_0.05_250/0.45),transparent_65%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.36_0.06_60/0.35),transparent_65%)]" />
       {STARS.map((s, i) => (
         <span
           key={i}
