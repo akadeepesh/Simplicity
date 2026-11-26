@@ -182,6 +182,7 @@ export function CommentCount({
 
 export function ShareButton({ url, title, text }: { url: string; title: string; text?: string }) {
   const [copied, setCopied] = React.useState(false);
+  const canShare = useCanShare();
 
   async function onClick() {
     const full = new URL(url, window.location.origin).toString();
@@ -201,12 +202,19 @@ export function ShareButton({ url, title, text }: { url: string; title: string; 
 
   return (
     <Button variant="outline" size="sm" onClick={onClick}>
-      {copied ? <Check /> : navigatorShareIcon()}
+      {copied ? <Check /> : canShare ? <Share2 /> : <Link2 />}
       Share
     </Button>
   );
 }
 
-function navigatorShareIcon() {
-  return typeof navigator !== "undefined" && "share" in navigator ? <Share2 /> : <Link2 />;
+const noopSubscribe = () => () => {};
+
+/** False during SSR and hydration, then the real value, so both renders match. */
+function useCanShare() {
+  return React.useSyncExternalStore(
+    noopSubscribe,
+    () => "share" in navigator,
+    () => false,
+  );
 }

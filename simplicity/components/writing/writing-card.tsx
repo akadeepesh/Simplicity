@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { formatDistanceToNowStrict } from "date-fns";
 import type { WritingCard as Card } from "@/lib/queries/writings";
 import { getFormLabel, TYPE_MAP } from "@/lib/writing-types";
 import { UserAvatar } from "@/components/ui/avatar";
+import { RelativeTime } from "@/components/ui/relative-time";
 import { cn } from "@/lib/utils";
 import { BookmarkButton, CommentCount, LikeButton } from "./engagement";
 
@@ -91,12 +91,7 @@ export function WritingCard({
           <span className="truncate">{w.author.name}</span>
         </Link>
         {w.publishedAt ? (
-          <time
-            dateTime={new Date(w.publishedAt).toISOString()}
-            className="shrink-0 text-xs text-muted-foreground"
-          >
-            {formatDistanceToNowStrict(new Date(w.publishedAt), { addSuffix: true })}
-          </time>
+          <RelativeTime date={w.publishedAt} className="shrink-0 text-xs text-muted-foreground" />
         ) : null}
         <div className="ml-auto flex items-center">
           <LikeButton writingId={w.id} initialLiked={w.liked} initialCount={w.likeCount} />
