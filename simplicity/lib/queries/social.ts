@@ -1,6 +1,6 @@
 import "server-only";
 import { and, asc, desc, eq, ilike, or, sql } from "drizzle-orm";
-import { db } from "@/lib/db";
+import { db, outer } from "@/lib/db";
 import {
   collection,
   collectionItem,
@@ -20,11 +20,11 @@ export async function getProfile(username: string, viewerId?: string | null) {
       bio: user.bio,
       website: user.website,
       createdAt: user.createdAt,
-      followers: sql<number>`(select count(*)::int from ${follow} where ${follow.followingId} = ${user.id})`,
-      following: sql<number>`(select count(*)::int from ${follow} where ${follow.followerId} = ${user.id})`,
-      writings: sql<number>`(select count(*)::int from ${writing} where ${writing.authorId} = ${user.id} and ${writing.status} = 'published')`,
+      followers: sql<number>`(select count(*)::int from ${follow} where ${follow.followingId} = ${outer(user.id)})`,
+      following: sql<number>`(select count(*)::int from ${follow} where ${follow.followerId} = ${outer(user.id)})`,
+      writings: sql<number>`(select count(*)::int from ${writing} where ${writing.authorId} = ${outer(user.id)} and ${writing.status} = 'published')`,
       isFollowing: viewerId
-        ? sql<boolean>`exists(select 1 from ${follow} where ${follow.followingId} = ${user.id} and ${follow.followerId} = ${viewerId})`
+        ? sql<boolean>`exists(select 1 from ${follow} where ${follow.followingId} = ${outer(user.id)} and ${follow.followerId} = ${viewerId})`
         : sql<boolean>`false`,
     })
     .from(user)
@@ -76,7 +76,7 @@ export async function getCollections(userId: string, opts: { includePrivate: boo
       description: collection.description,
       isPublic: collection.isPublic,
       updatedAt: collection.updatedAt,
-      count: sql<number>`(select count(*)::int from ${collectionItem} where ${collectionItem.collectionId} = ${collection.id})`,
+      count: sql<number>`(select count(*)::int from ${collectionItem} where ${collectionItem.collectionId} = ${outer(collection.id)})`,
     })
     .from(collection)
     .where(
@@ -93,7 +93,7 @@ export async function getCollectionsFor(viewerId: string, writingId: string) {
     .select({
       id: collection.id,
       name: collection.name,
-      contains: sql<boolean>`exists(select 1 from ${collectionItem} where ${collectionItem.collectionId} = ${collection.id} and ${collectionItem.writingId} = ${writingId})`,
+      contains: sql<boolean>`exists(select 1 from ${collectionItem} where ${collectionItem.collectionId} = ${outer(collection.id)} and ${collectionItem.writingId} = ${writingId})`,
     })
     .from(collection)
     .where(eq(collection.userId, viewerId))

@@ -1,5 +1,6 @@
 import "server-only";
 import { neon } from "@neondatabase/serverless";
+import { getTableName, sql as dsql, type Column } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
 
@@ -13,3 +14,12 @@ const sql = neon(url ?? "postgresql://unset:unset@db.invalid/unset");
 
 export const db = drizzle({ client: sql, schema });
 export { schema };
+
+/**
+ * A table-qualified column reference ("user"."id") for use inside raw
+ * subqueries. Drizzle drops the table name in single-table selects, so a bare
+ * `${user.id}` in a subquery would bind to the inner table's column instead.
+ */
+export function outer(column: Column) {
+  return dsql`${dsql.identifier(getTableName(column.table))}.${dsql.identifier(column.name)}`;
+}
