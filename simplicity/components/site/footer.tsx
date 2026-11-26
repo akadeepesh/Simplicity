@@ -17,7 +17,7 @@ export function Footer() {
           <ul className="space-y-2">
             {WRITING_TYPES.map((t) => (
               <li key={t.value}>
-                <Link className="hover:text-brand" href={`/explore?type=${t.value}`}>
+                <Link className="hover:text-brand" href={`/read?type=${t.value}`}>
                   {t.label}
                 </Link>
               </li>

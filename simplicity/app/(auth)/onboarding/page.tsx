@@ -12,7 +12,7 @@ export default async function OnboardingPage({
 }: {
   searchParams: Promise<{ next?: string }>;
 }) {
-  const { next = "/" } = await searchParams;
+  const { next = "/read" } = await searchParams;
   const viewer = await getViewer();
   if (!viewer) redirect("/sign-in");
   if (viewer.username) redirect(safeRedirect(next));

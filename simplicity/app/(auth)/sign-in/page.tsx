@@ -13,7 +13,7 @@ export default async function SignInPage({
 }: {
   searchParams: Promise<{ next?: string }>;
 }) {
-  const { next = "/" } = await searchParams;
+  const { next = "/read" } = await searchParams;
   if (await getViewer()) redirect(safeRedirect(next));
   return (
     <AuthShell title="Welcome back" subtitle="Sign in to like, save and write.">

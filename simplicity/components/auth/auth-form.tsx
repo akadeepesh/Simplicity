@@ -141,7 +141,7 @@ export function AuthForm({
         {mode === "sign-up" ? "Already have an account? " : "New to Simplicity? "}
         <Link
           className="text-foreground underline underline-offset-4 hover:text-brand"
-          href={`/${mode === "sign-up" ? "sign-in" : "sign-up"}${safeNext !== "/" ? `?next=${encodeURIComponent(safeNext)}` : ""}`}
+          href={`/${mode === "sign-up" ? "sign-in" : "sign-up"}${safeNext !== "/read" ? `?next=${encodeURIComponent(safeNext)}` : ""}`}
         >
           {mode === "sign-up" ? "Sign in" : "Create one"}
         </Link>
