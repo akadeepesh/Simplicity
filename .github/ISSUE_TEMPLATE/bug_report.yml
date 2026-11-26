@@ -1,0 +1,68 @@
+name: Bug report
+description: Something is broken or behaves differently than it should.
+title: "bug: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. Please search [existing issues](https://github.com/akadeepesh/Simplicity/issues) first.
+        **Security problems should not be reported here.** See [SECURITY.md](https://github.com/akadeepesh/Simplicity/blob/main/SECURITY.md).
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where did it happen?
+      options:
+        - Live site (simplicity.akadeepesh.com)
+        - Local development
+        - Self-hosted deployment
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Reading / writing page
+        - Writing studio (editor, drafts, publishing)
+        - Feeds, explore or search
+        - Profiles, follows or collections
+        - Responses (comments)
+        - Sign in / account
+        - Share images
+        - Theme, layout or accessibility
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: A clear description of the bug, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Page URL
+      placeholder: https://simplicity.akadeepesh.com/w/...
+  - type: input
+    id: env
+    attributes:
+      label: Browser and OS
+      placeholder: Firefox 140 on macOS 15
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or logs
+      description: Drag images in, or paste console output. Remove any personal data first.
