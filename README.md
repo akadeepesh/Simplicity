@@ -6,7 +6,7 @@
 
 **A quiet home for poetry, short stories, essays and the small lines in between.**
 
-[Live site](https://simplicity-poetries.vercel.app) · [Features](#features) · [Run it locally](#run-it-locally) · [Architecture](#architecture)
+[Live site](https://simplicity.akadeepesh.com) · [Features](#features) · [Run it locally](#run-it-locally) · [Architecture](#architecture)
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
@@ -46,7 +46,7 @@ Four kinds of writing, each with forms that shape how a piece is presented and d
 - Layouts per type: centred verse, a prose column with drop caps, and display-type cards for micro-writing.
 - Reading settings for text size, serif or sans, and line spacing, remembered across visits.
 - A reading progress bar, estimated reading time, and "more from this author" at the end of each piece.
-- Paper-toned light theme and an ink dark theme with a faint, animated night sky.
+- A warm, paper-toned light theme and a candlelit dark theme with a faint, animated night sky.
 
 ### Discovery without the noise
 
@@ -117,7 +117,7 @@ Fill in `.env.local`:
 | -------------------------------------------- | -------- | ------------------------------------------------------ |
 | `DATABASE_URL`                               | Yes      | Postgres connection string                             |
 | `BETTER_AUTH_SECRET`                         | Yes      | Any long random string                                 |
-| `BETTER_AUTH_URL`, `NEXT_PUBLIC_APP_URL`     | Yes      | `http://localhost:3000` locally                        |
+| `BETTER_AUTH_URL`, `NEXT_PUBLIC_APP_URL`     | Yes      | `http://localhost:3000` locally, your domain in production |
 | `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`   | No       | Callback: `<url>/api/auth/callback/github`             |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`   | No       | Callback: `<url>/api/auth/callback/google`             |
 
@@ -140,7 +140,7 @@ npm run dev          # http://localhost:3000
 
 ## Deploying
 
-The app deploys to Vercel as-is. Set the project's root directory to `simplicity`, add the environment variables above, and run `npm run db:migrate` against your production database once.
+The app deploys to Vercel as-is. Set the project's root directory to `simplicity`, add the environment variables above, and run `npm run db:migrate` against your production database once. If you use a custom domain, set `BETTER_AUTH_URL` and `NEXT_PUBLIC_APP_URL` to it and register the OAuth callbacks on that domain.
 
 ## Contributing
 
