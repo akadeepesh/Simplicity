@@ -16,6 +16,16 @@ updates:
     directory: /simplicity
     patterns: ["*"]
     multi-ecosystem-group: all-dependencies
+    ignore:
+      # typescript-eslint (via eslint-config-next) does not support TS 7 yet
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+      # eslint-plugin-import (via eslint-config-next) peers on eslint <=9
+      - dependency-name: eslint
+        update-types: ["version-update:semver-major"]
+      # keep in step with the Node 22 runtime used in CI
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
