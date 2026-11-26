@@ -91,6 +91,14 @@
 
   --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
   --animate-twinkle: twinkle 4s ease-in-out infinite;
+  --animate-leaf-spin: turn 1.8s cubic-bezier(0.65, 0.05, 0.35, 0.95) infinite;
+  --animate-drift: turn 90s linear infinite;
+
+  @keyframes turn {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 
   @keyframes fade-up {
     from {

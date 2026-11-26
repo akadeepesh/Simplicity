@@ -1,9 +1,10 @@
 "use client";
 import * as React from "react";
-import { Feather, Loader2 } from "lucide-react";
+import { Feather } from "lucide-react";
 import { loadFeedPage } from "@/lib/actions/feed";
 import type { FeedParams, WritingCard as Card } from "@/lib/queries/writings";
 import { cn } from "@/lib/utils";
+import { LeafLoader } from "@/components/site/leaf-loader";
 import { WritingCard } from "./writing-card";
 
 export function FeedList({
@@ -89,7 +90,7 @@ export function FeedList({
         ))}
       </div>
       <div ref={sentinel} className="flex h-16 items-center justify-center">
-        {loading ? <Loader2 className="size-5 animate-spin text-muted-foreground" /> : null}
+        {loading ? <LeafLoader size={18} label="Loading more" /> : null}
         {nextPage === null && items.length > 6 ? (
           <span className="font-serif text-sm text-muted-foreground italic">— fin —</span>
         ) : null}
