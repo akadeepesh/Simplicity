@@ -1,30 +1,23 @@
 version: 2
-updates:
-  - package-ecosystem: npm
-    directory: /simplicity
+
+# Every dependency update (npm + GitHub Actions, major/minor/patch) lands in
+# ONE weekly pull request. Squash-merge it to keep main's history clean.
+multi-ecosystem-groups:
+  all-dependencies:
     schedule:
       interval: weekly
       day: monday
-    open-pull-requests-limit: 5
     labels: ["dependencies"]
     commit-message:
       prefix: "chore(deps)"
-    groups:
-      next-react:
-        patterns: ["next", "eslint-config-next", "react", "react-dom", "@types/react", "@types/react-dom"]
-      tiptap:
-        patterns: ["@tiptap/*"]
-      drizzle:
-        patterns: ["drizzle-orm", "drizzle-kit"]
-      tailwind:
-        patterns: ["tailwindcss", "@tailwindcss/*", "tw-animate-css"]
-      minor-and-patch:
-        update-types: ["minor", "patch"]
+
+updates:
+  - package-ecosystem: npm
+    directory: /simplicity
+    patterns: ["*"]
+    multi-ecosystem-group: all-dependencies
 
   - package-ecosystem: github-actions
     directory: /
-    schedule:
-      interval: monthly
-    labels: ["dependencies"]
-    commit-message:
-      prefix: "chore(ci)"
+    patterns: ["*"]
+    multi-ecosystem-group: all-dependencies
