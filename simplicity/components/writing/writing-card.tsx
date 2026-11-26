@@ -100,7 +100,7 @@ export function WritingCard({
         ) : null}
         <div className="ml-auto flex items-center">
           <LikeButton writingId={w.id} initialLiked={w.liked} initialCount={w.likeCount} />
-          <CommentCount count={w.commentCount} />
+          <CommentCount count={w.commentCount} href={`${href}#comments`} />
           <BookmarkButton writingId={w.id} initialBookmarked={w.bookmarked} />
         </div>
       </footer>
