@@ -145,6 +145,12 @@
     -webkit-tap-highlight-color: transparent;
     scrollbar-gutter: stable;
   }
+  /* The gutter above already reserves the scrollbar's space, so stop Radix's
+     scroll lock from adding its own offset when a dialog or menu opens. */
+  html body[data-scroll-locked] {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "ss01", "cv11";
